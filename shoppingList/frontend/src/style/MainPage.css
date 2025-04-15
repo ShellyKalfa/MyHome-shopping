@@ -4,7 +4,7 @@ h1, p{
 }
 
 h1{
-    font-size: 4vw;
+    font-size: 4rem;
 }
 
 p{
@@ -12,10 +12,12 @@ p{
 }
 
 .MainPage{
+    height: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: row;
     justify-content: center;
+    justify-content: space-around;
 }
 
 .titles{

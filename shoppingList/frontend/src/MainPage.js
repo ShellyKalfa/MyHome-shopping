@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import ShoppingList from "./components/ShoppingList";
+
 import './style/MainPage.css'
 
 
 function MainPage() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://localhost:5000/api/data')
-      .then(response => {
-        setData(response.data);
-      })
-      .catch(error => {
-        console.error('There was an error!', error);
-      });
-  }, []);
 
   return (
     <div className='MainPage'>
@@ -28,9 +19,9 @@ function MainPage() {
             <p>to wolt when you`re done </p>
         </div>
       </div>
-      <div>
-
-      </div>
+      
+              <ShoppingList/> 
+      
     </div>
   );
 }
