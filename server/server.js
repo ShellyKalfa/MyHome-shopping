@@ -16,14 +16,15 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
-    database: "products" // for example
+    database: "users" // for example
 })
 
-app.post('/add_product', (req, res)=>{
-    sql = "INSERT INTO product_details (`product_name`,`weight`) VALUES (?, ?)";
+app.post('/add_user', (req, res)=>{
+    sql = "INSERT INTO user_details (`name`,`email`,`role`) VALUES (?, ?, ?)";
     const values = [
-        req.body.product_name,
-        req.body.weight
+        req.body.name,
+        req.body.email,
+        req.body.role
     ]
     db.query(sql, values, (err, result)=>{
         if(err) return res.json({message: 'Something unexpected' + err})
@@ -32,13 +33,14 @@ app.post('/add_product', (req, res)=>{
 })
 
 
-app.post("/edit_product/:id", (req, res)=>{
-    const barcode = req.params.id
-    const sql = "UPDATE product_details SET `product_name`= ?, `weight`= ? WHERE `barcode`= ?";
+app.post("/edit_user/:id", (req, res)=>{
+    const id = req.params.id
+    const sql = "UPDATE user_details SET `name`= ?, `email`= ?, `role`= ? WHERE `id`= ?";
     const values = [
-        req.body.product_name,
-        req.body.weight,
-        barcode
+        req.body.name,
+        req.body.email,
+        req.body.role,
+        id
     ]
     db.query(sql, values, (err, result)=>{
         if(err) return res.json({message: 'Something unexpected' + err})
@@ -49,9 +51,9 @@ app.post("/edit_product/:id", (req, res)=>{
 
 
 app.delete("/delete/:id", (req, res)=>{
-    const barcode = req.params.id
-    const sql = "DELETE FROM product_details WHERE `barcode`= ?";
-    const values = [barcode]
+    const id = req.params.id
+    const sql = "DELETE FROM user_details WHERE `id`= ?";
+    const values = [id]
     db.query(sql, values, (err, result)=>{
         if(err) return res.json({message: 'Something unexpected' + err})
         return res.json({success: "product updated successfully"})   
@@ -59,18 +61,18 @@ app.delete("/delete/:id", (req, res)=>{
 })
 
 
-app.get('/products', (req, res)=>{
-    const sql = "SELECT * FROM product_details"
+app.get('/users', (req, res)=>{
+    const sql = "SELECT * FROM user_details"
     db.query(sql, (err, result)=>{
         if(err) res.json({message :"server error"});
         return res.json(result);
     });
 });
 
-app.get("/get_product/:id", (req, res)=>{
-    const barcode = req.params.id;
-    const sql = "SELECT * FROM product_details WHERE `barcode`= ?"; 
-    db.query(sql, [barcode], (err, result)=>{
+app.get("/get_user/:id", (req, res)=>{
+    const id = req.params.id;
+    const sql = "SELECT * FROM user_details WHERE `id`= ?"; 
+    db.query(sql, [id], (err, result)=>{
         if(err) res.json({message :"Server error"});
         return res.json(result);
     });

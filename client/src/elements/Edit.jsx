@@ -4,22 +4,22 @@ import axios from "axios"
 
 function Edit() {
     const [data, setData] = useState([])
-    const { barcode } = useParams();
+    const { id } = useParams();
 
     useEffect(()=>{
             axios
-            .get(`/get_product/${barcode}`)
+            .get(`/get_user/${id}`)
             .then((res)=>{
                 setData(res.data)
             })  
             .catch((err)=>console.log(err))
-    }, [barcode])
+    }, [id])
     const navigate = useNavigate();
 
     function handleSubmit(e) {
         e.preventDefault()
 
-        axios.post(`/edit_product/${barcode}`, data[0])
+        axios.post(`/edit_user/${id}`, data[0])
         .then((res)=>{
             navigate("/")
             console.log(res)
@@ -28,18 +28,22 @@ function Edit() {
     }
     return (
         <div className="container-fluid vw-100 vh-100 bg-primary">
-            <h1>Product: {barcode}</h1>
+            <h1>User: {id}</h1>
             <Link to='/' className="btn btn-success">Back</Link>
-            {data.map((product) => {
+            {data.map((user) => {
                 return (
                     <form onSubmit={handleSubmit}>
                         <div className="form-group my-3">
-                            <label htmlFor="product_name">Name</label>
-                            <input value={product.product_name} type="text" name="product_name" required onChange={(e)=> setData([{ ...data[0], product_name: e.target.value}])} />
+                            <label htmlFor="name">Name</label>
+                            <input value={user.name} type="text" name="name" required onChange={(e)=> setData([{ ...data[0], name: e.target.value}])} />
                         </div>
                         <div className="form-group my-3">
-                            <label htmlFor="weight">Weight</label>
-                            <input value={product.weight} type="text" name="weight" required onChange={(e)=> setData([{ ...data[0], weight: e.target.value}])} />
+                            <label htmlFor="email">Email</label>
+                            <input value={user.email} type="text" name="email" required onChange={(e)=> setData([{ ...data[0], email: e.target.value}])} />
+                        </div>
+                        <div className="form-group my-3">
+                            <label htmlFor="role">Weight</label>
+                            <input value={user.role} type="text" name="role" required onChange={(e)=> setData([{ ...data[0], role: e.target.value}])} />
                         </div>
                         <div className="form-group my-3">
                             <button type="submit" className='btn btn-success'>Save</button>

@@ -9,15 +9,15 @@ function Home() {
         if(deleted) {
             setDeleted(false)
         }
-        axios.get('/products')
+        axios.get('/users')
         .then((res)=>{
             setData(res.data)
         })  
         .catch((err)=>console.log(err))
     }, [deleted])
 
-    function handleDelete(barcode) {
-        axios.delete(`delete/${barcode}`)
+    function handleDelete(id) {
+        axios.delete(`delete/${id}`)
         .then((res)=>{
             setDeleted(true)
         })
@@ -25,30 +25,32 @@ function Home() {
     }
     return (
         <div className='container-fluid bg-primary vh-100 vw-100'>
-            <h3>Products</h3>
+            <h3>Users</h3>
             <div className='d-flex justify-content-end'>
-                <Link className='btn btn-success' to='/add_product'>Add Product</Link>
+                <Link className='btn btn-success' to='/add_user'>Add User</Link>
             </div>
             <table>
                 <thead>
                     <tr>
-                        <th>Barcode</th>
-                        <th>Product Name</th>
-                        <th>Weight</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        data.map((product)=>{
+                        data.map((user)=>{
                             return (<tr>
-                                <td>{product.barcode}</td>
-                                <td>{product.product_name}</td>
-                                <td>{product.weight}</td>
+                                <td>{user.id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.role}</td>
                                 <td>
-                                    <Link className='btn btn-success' to={`/get_product/${product.barcode}`}>Read</Link>
-                                    <Link className='btn btn-success' to={`/edit_product/${product.barcode}`}>Edit</Link>
-                                    <button onClick={()=>handleDelete(product.barcode)} className='btn btn-danger'>Delete</button>
+                                    <Link className='btn btn-success' to={`/get_user/${user.id}`}>Read</Link>
+                                    <Link className='btn btn-success' to={`/edit_user/${user.id}`}>Edit</Link>
+                                    <button onClick={()=>handleDelete(user.id)} className='btn btn-danger'>Delete</button>
                                 </td>
                             </tr>)
                         })

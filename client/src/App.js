@@ -11,9 +11,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/add_product' element={<Create />} />
-        <Route path='/edit_product/:barcode' element={<Edit />} />
-        <Route path='/get_product/:barcode' element={<Read />} />
+        <Route path='/add_user' element={<Create />} />
+        <Route path='/edit_user/:id' element={<Edit />} />
+        <Route path='/get_user/:id' element={<Read />} />
       </Routes>
     </BrowserRouter>
   );

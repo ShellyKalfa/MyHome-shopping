@@ -4,34 +4,38 @@ import axios from "axios"
 
 function Read() {
     const [data, setData] = useState([])
-    const { barcode } = useParams();
+    const { id } = useParams();
 
     useEffect(()=>{
             axios
-            .get(`/get_product/${barcode}`)
+            .get(`/get_user/${id}`)
             .then((res)=>{
                 setData(res.data)
             })  
             .catch((err)=>console.log(err))
-    }, [barcode])
+    }, [id])
     return (
         <div className="container-fluid vw-100 vh-100 bg-primary">
-            <h1>Product: {barcode}</h1>
+            <h1>User: {id}</h1>
             <Link to='/' className="btn btn-success">Back</Link>
-            {data.map((product) => {
+            {data.map((user) => {
                 return (
                     <ul className="list-group">
                         <li className="list-group-item">
-                            <b>Barcode: </b>
-                            {product["barcode"]}
+                            <b>ID: </b>
+                            {user["id"]}
                         </li>
                         <li className="list-group-item">
-                            <b>Product Name: </b>
-                            {product["product_name"]}
+                            <b>Name: </b>
+                            {user["name"]}
                         </li>
                         <li className="list-group-item">
-                            <b>Weight: </b>
-                            {product["weight"]}
+                            <b>Email: </b>
+                            {user["email"]}
+                        </li>
+                        <li className="list-group-item">
+                            <b>Role: </b>
+                            {user["role"]}
                         </li>
                     </ul>
                 )
