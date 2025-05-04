@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import ShoppingList from "./components/ShoppingList";
+
+import TempShoppingList from './components/TempShoppingList';
+
 
 import './style/MainPage.css'
 
@@ -18,10 +20,9 @@ function MainPage() {
             <p>Create a shared grocery list and send it </p>
             <p>to wolt when you`re done </p>
         </div>
+        <button className='space top bigButton'> {'Get started >>'}</button>
       </div>
-      
-              <ShoppingList/> 
-      
+              <TempShoppingList/> 
     </div>
   );
 }

@@ -1,0 +1,51 @@
+h2,h3{
+    margin: 0;
+}
+
+input{
+    width: 16vw;
+    height: 3vh;
+    border:solid 2px;
+    border-radius:5px;
+    border-color:#e4dfdc;
+    margin:10px auto;
+ 
+}
+
+button{
+    width: 16vw;
+    height: 3vw;
+    font-size: 1.5em;
+    color: white;
+    background: #e4dfcf;
+    border-radius: 5px;
+}
+
+.top{
+    margin-top: 5vh;
+}
+
+.bordLogin{
+   display: flex;
+   color: #414848;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+
+}
+
+.flexDiv{
+    display: flex;
+    align-items: center;
+    color :#414848;
+
+}
+.bolder{
+    font-weight: bold;
+}
+
+.Link{
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}

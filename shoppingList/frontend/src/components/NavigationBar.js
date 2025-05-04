@@ -12,9 +12,12 @@ export default function NavigationBar() {
     <div className="NavigationBar">
        <img src={logo} alt="My" />
        <div className="nav">
-       <Link to="/home" className="links section-sign-up"><div className='sign-up'>sign-up</div><div>log-in</div></Link>
+       <div  className="links section-sign-up">
+            <Link to="/Signup" className='sign-up Link'>sign-up</Link>
+            <Link to="/Login" className='Link' > log-in</Link>
+       </div>
        <div className="links">my family-list</div>
-       <div className="links">home</div>
+       <Link to="/" className="links Link">home</Link>
        <div className="links familysMenu"><AiOutlineMenu /> family`s </div>
        </div>
     </div>

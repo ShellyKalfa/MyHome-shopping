@@ -11,12 +11,13 @@ h2{
 }
 
 .board{
-    width: 50%;
-    height: 80%;
+    width: 60%;
+    height: 70%;
     background-color: #fefdfb;
     display: flex; 
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     border-radius: 2vw;
     padding:1vw;
     color: #354147;
@@ -28,6 +29,7 @@ h2{
      display: flex;
      flex-direction: column;
      align-items: center;
+     margin-top: 5vh;
      
 
   }
@@ -42,4 +44,13 @@ h2{
 }
 .uncheck{
     color: #414848;
+}
+.bigButton{
+    background-color: #45b081;
+    color: white;
+    width: 90%;
+    height: 5vh;
+    font-size: 1.6em;
+    font-weight: bold;
+    border-radius:10px;
 }
