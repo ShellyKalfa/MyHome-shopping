@@ -16,9 +16,9 @@ export default function NavigationBar() {
             <Link to="/Signup" className='sign-up Link'>sign-up</Link>
             <Link to="/Login" className='Link' > log-in</Link>
        </div>
-       <div className="links">my family-list</div>
-       <Link to="/" className="links Link">home</Link>
-       <div className="links familysMenu"><AiOutlineMenu /> family`s </div>
+       {/*<div className="links">my family-list</div>*/}
+       <Link to="/" className="links Link">family management </Link>
+       <Link to="/CreateFamily" className="links Link familysMenu"><AiOutlineMenu /> my family-list</Link>
        </div>
     </div>
   );

@@ -5,9 +5,11 @@ import TempShoppingList from './components/TempShoppingList';
 
 
 import './style/MainPage.css'
+import { Link } from 'react-router-dom';
 
 
 function MainPage() {
+  const [items,setItems]=useState(["milk","apple","eggs","bread"])
 
   return (
     <div className='MainPage'>
@@ -20,9 +22,13 @@ function MainPage() {
             <p>Create a shared grocery list and send it </p>
             <p>to wolt when you`re done </p>
         </div>
-        <button className='space top bigButton'> {'Get started >>'}</button>
+        <Link to="/Login"  className='space top bigButton'> {'Get started >>'}</Link>
       </div>
-              <TempShoppingList/> 
+      <div className='boardSide'>
+           <div className="boardSize">
+              <TempShoppingList  items={items}/> 
+              </div>
+      </div>
     </div>
   );
 }

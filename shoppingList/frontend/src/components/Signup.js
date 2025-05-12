@@ -13,17 +13,17 @@ export default function Signup() {
        <div>
             <div className='top'>
                 <h3>  Full Name  </h3>
-                <input/>
+                <input className='LogIninput'vvv/>
             </div>
             <div>
                 <h3> Email address</h3>
-                <input/>
+                <input className='LogIninput'/>
             </div>
             <div>
                 <h3> Password </h3>
-                <input/>
+                <input className='LogIninput'vvv/>
             </div>
-            <button> Sign up </button>
+            <button className='LogInbutton'> Sign up </button>
           
        </div>
     </div>);

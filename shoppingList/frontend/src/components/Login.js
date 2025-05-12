@@ -14,16 +14,16 @@ export default function Login() {
        <div>
             <div className='top'>
                 <h3> Email address </h3>
-                <input/>
+                <input className='LogIninput'/>
             </div>
             <div>
                 <h3> Password </h3>
-                <input/>
+                <input className='LogIninput'/>
             </div>
             <div>
                     <h5> Forgot password? </h5>
             </div>
-            <button> Log in </button>
+            <button className='LogInbutton'> Log in </button>
             <div className='flexDiv'>
                     <h5> Don't have an account? </h5>
                     <Link to="/Signup" className='bolder Link'> sign up  </Link>

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import ItemShoppingList from "./ItemShoppingList";
-import '../style/ShoppingList.css'
+import '../style/TempShoppingList.css'
 
 
-export default  function TempShoppingList() {
- const [items,setItems]=useState(["milk","apple","eggs","bread"])
+export default  function TempShoppingList( { items }) {
+ 
 
     return ( 
-    <div className='ShoppingList'>
         <div className='board'> 
             <div>
                 <h2>Shopping List </h2>
@@ -19,6 +18,5 @@ export default  function TempShoppingList() {
              </div>
                 <button className='bigButton'> Send To Wolt </button>
         </div>
-    </div>
     );
 }
