@@ -8,7 +8,7 @@ export default  function TempShoppingList( { items }) {
 
     return ( 
         <div className='board'> 
-            <div>
+            <div className='flex'>
                 <h2>Shopping List </h2>
                 <div className='board-items '>
                         {items.map((item, index) => (
