@@ -47,16 +47,23 @@ export default  function CreateFamily({User}) {
                     })
             }};
     const  handleCreatFamliy= () => {
-        if(User.userId !='' )
+
+        if(User.userId !=''&& nameFamliy !='')
         {
             console.log("shelly1");
-            axios.post(`http://localhost:5000/creatFamliy/:${User.userId}`,{nameFamliy })
+            axios.post(`http://localhost:5000/creatFamliy/${User.userId}`,{nameFamliy })
                     .then(res => {
                         console.log(res.data)
                     if(res.data.success){
-                        console.log(res.data.familyName)
                         if(res.data.familyName!=null){
-                            setFamilys([...familys,res.data.familyName.familyName])
+                             console.log("gggg",res.data);
+                             let {familyId,familyName}=res.data;
+                             let newFamliy={
+                                familyId:familyId,
+                                familyName:familyName
+                             }
+                            setFamilys([...familys,newFamliy])
+                            setNameFamliy('')
                         }
                     }
                     })
@@ -88,8 +95,8 @@ export default  function CreateFamily({User}) {
                             </div>
                             <div className="familys">
                                 {
-                                    familys.map((family, index) => (
-                                        <ItemFamily key={index} family={family.name} /> ))
+                                    familys.map((f, index) => (
+                                        <ItemFamily key={index} family={f.familyName} /> ))
                                 }
                             </div>
                     </div>

@@ -130,7 +130,7 @@ app.post('/memberFamliy/:id', (req, res) => {
 
 
 
-app.post('/creatFamliy/id', (req, res) => {
+app.post('/creatFamliy/:id', (req, res) => {
   const userId = req.params.id;
   const { nameFamliy, role } = req.body;
 
