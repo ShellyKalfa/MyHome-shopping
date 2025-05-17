@@ -49,3 +49,15 @@ h2,h3{
     color: inherit;
     cursor: pointer;
 }
+.Invalid{
+    background: #ffebe9;
+    color: #c00;
+    border: 1px solid #ffddd9;
+    padding: 1vw;
+}
+.none{
+    display: none;
+}
+.Block{
+    display: block;
+}

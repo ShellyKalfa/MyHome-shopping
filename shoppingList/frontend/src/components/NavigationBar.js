@@ -5,20 +5,36 @@ import { AiOutlineMenu } from "react-icons/ai";
 import '../style/NavigationBar.css'
 import logo from'../assets/logo.png';
 
-export default function NavigationBar() {
+export default function NavigationBar({User}) {
   const [data, setData] = useState([]);
+  const [nameUser, setNameUser] = useState('');
+  const [isUser, setIsUser] = useState(false);
+   useEffect(() => {
+    if (User && User.email && User.password && User.userId && User.userName) {
+      setNameUser(User.userName); // Assuming the userName is what you want to display
+      setIsUser(true);
+    } else {
+      setNameUser('');
+      setIsUser(false);
+    }
+  }, [User]);
 
   return (
     <div className="NavigationBar">
-       <img src={logo} alt="My" />
+      <Link to="/"> <img src={logo} alt="My" /></Link>
        <div className="nav">
-       <div  className="links section-sign-up">
-            <Link to="/Signup" className='sign-up Link'>sign-up</Link>
-            <Link to="/Login" className='Link' > log-in</Link>
-       </div>
+        {
+          isUser ? 
+             <div className="links section-sign-up" > WELLCOME: {nameUser}</div>
+          :
+              <div  className="links section-sign-up">
+                    <Link to="/Signup" className='sign-up Link'>Sign-Up</Link>
+                    <Link to="/Login" className='Link' > Log-In</Link>
+              </div>
+       }
        {/*<div className="links">my family-list</div>*/}
-       <Link to="/" className="links Link">family management </Link>
-       <Link to="/CreateFamily" className="links Link familysMenu"><AiOutlineMenu /> my family-list</Link>
+       <Link to="/CreateFamily" className="links Link">Management </Link>
+       <Link to="/ShoppingListFile" className="links Link familysMenu"><AiOutlineMenu /> Family-list</Link>
        </div>
     </div>
   );

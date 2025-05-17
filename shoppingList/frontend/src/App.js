@@ -11,14 +11,15 @@ import ShoppingListFile from "./components/ShoppingListFile";
 import './style/App.css'
 
 const App = () => {
+  const [user,setUser]=useState({});
   return (
     <div className="App">
-      <NavigationBar/>
+      <NavigationBar  User={user}/>
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/Login" element={<Login/>} />
-          <Route path="/Signup" element={<Signup/>} />
-          <Route path="/CreateFamily" element={<CreateFamily/>} />
+          <Route path="/Login" element={<Login  setUser={setUser}/>} />
+          <Route path="/Signup" element={<Signup setUser={setUser}/>} />
+          <Route path="/CreateFamily" element={<CreateFamily  User={user}/>} />
           <Route path="/ShoppingListFile" element={<ShoppingListFile/>} />
         </Routes>
     </div>
