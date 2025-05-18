@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
+const axios = require('axios');
 const e = require('express');
 const app = express();
 
@@ -128,6 +129,20 @@ app.post('/memberFamliy/:id', (req, res) => {
   });
 });
 
+app.post('/search', async (req, res) => {
+  try {
+    const response = await axios.post('https://www.rami-levy.co.il/api/catalog?', req.body, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    res.json(response.data);
+    console.log(response.data);
+  } catch (err) {
+    res.status(500).send(err.message);
+     console.log(err.message);
+  }
+});
 
 
 app.post('/creatFamliy/:id', (req, res) => {
