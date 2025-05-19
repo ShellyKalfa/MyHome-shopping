@@ -29,7 +29,7 @@
     border-radius: 11px;
 }
 
-.ItemFamliy{
+.ItemFamily{
     width: 80%;
     background-color: #fbf6f1;
     border-radius: 10px;
@@ -39,6 +39,10 @@
     justify-content: space-between;
     align-items: center;
     padding: 2vh;
+
+}
+.ItemFamilyChoosen{
+  background-color: #f5deb3;
 
 }
 

@@ -1,17 +1,29 @@
-import { PiUserListFill } from "react-icons/pi";
 
-import { MdEdit } from "react-icons/md";
+//style
+import { PiUserListFill } from "react-icons/pi";
 import { BsTrash } from "react-icons/bs";
 
-export default function ItemFamily({family}) {
-    return (  <div className="ItemFamliy">
-        <div className="iconText">
-                <PiUserListFill />
-                {family}
-        </div>
-        <div>
-            <MdEdit  />
-            <BsTrash />
-         </div>
-    </div>);
+export default function ItemFamily({ family, handleGetFamilyMembers, handleDeleteFamily, choose }) {
+
+    const handleClick = () => {
+        handleGetFamilyMembers(family.familyId);
+    };
+
+    const handleDelete = () => {
+        handleDeleteFamily(family.familyId);
+    };
+    return (
+        <>
+            <div className={choose ? 'ItemFamily ItemFamilyChoosen' : 'ItemFamily'}  >
+                <div>
+                    <div className="iconText" onClick={handleClick} >
+                        <PiUserListFill />
+                        {family.familyName}
+                    </div>
+                </div>
+                <div onClick={handleDelete}>
+                    <BsTrash />
+                </div>
+            </div>
+        </>);
 };

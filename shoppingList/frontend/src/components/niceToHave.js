@@ -13,20 +13,20 @@
 //   }, [isUser])
 
 
-// app.post('/creatFamliy/:id', (req, res) => {
+// app.post('/creatFamily/:id', (req, res) => {
 //   const userId = req.params.id;
-//    const { nameFamliy} = req.body;
+//    const { nameFamily} = req.body;
 //   //  INSERT INTO `family` (`familyId`, `familyName`) VALUES (NULL, 'cccc') 
-//  const insertFamliySql = "INSERT INTO family (familyId, familyName) VALUES (NULL, ?)";
-//  const insertFamliyvalues = [nameFamliy];
+//  const insertFamilySql = "INSERT INTO family (familyId, familyName) VALUES (NULL, ?)";
+//  const insertFamilyvalues = [nameFamily];
 
-//   db.query(insertFamliySql, insertFamliyvalues, (err, data) => {
+//   db.query(insertFamilySql, insertFamilyvalues, (err, data) => {
 //     if (err) {
 //       console.error("Login Failed:", err);
 //       return res.status(500).json("Login Failed");
 //     }
 //     //INSERT INTO `memberFamily` (`userId`, `familyId`, `role`) VALUES ('9', '1', 'manger'); 
-//      const insertmemberFamliySql = "INSERT INTO family (familyId, familyName) VALUES (NULL, ?)";
+//      const insertmemberFamilySql = "INSERT INTO family (familyId, familyName) VALUES (NULL, ?)";
  
 
 //  // const values = [userId];
@@ -44,3 +44,53 @@
 //     }
 //   });
 // });
+
+
+///////////////////////////////////////////
+    // const [item,setItem]=useState("")
+    //  const  handleSignUp = (event) => {
+    //     event.preventDefault();
+    //  axios.post('http://localhost:5000/search', {"aggs": 1,"q": "גבינה",  "store": 331})
+    //       .then(res => { 
+            
+    //         console.log(res.data);
+    //         setItem(res.data.data[0].name);
+
+    //       })
+    //       .catch(err => {console.log(err.response.data)})
+
+     
+    // }
+
+    ////////////////////////?
+
+    // const handleGetUser = () => {
+    //     if (dataUser.email != '' && dataUser.password != '') {
+    //         axios.post('http://localhost:5000/login',
+    //             {
+    //                 email: dataUser.email,
+    //                 password: dataUser.password
+    //             })
+    //             .then(res => {
+    //                 console.log(res.data)
+    //                 if (res.data.success) {
+    //                     console.log(res.data.user)
+                       
+    //                 }
+    //                 else {
+    //                     setIsVisible(true);
+    //                 }
+    //             })
+    //             .catch(err => {
+    //                 console.log(err)
+    //             })
+    //     }
+    // }
+    /////////////////////////////////
+
+
+//  if (!isUser) {
+//         setTimeout(() => navigate('/'), 10000);
+//         return <p>No user found. Redirecting to the main page in 10 seconds...</p>;
+//     }
+

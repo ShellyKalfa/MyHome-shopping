@@ -18,8 +18,10 @@ const App = () => {
 
 
        useEffect(() => {
+        console.log("user",user);
+        
           if (user && user.email && user.password && user.userId && user.userName) {
-            axios.post(`http://localhost:5000/memberFamliy/${user.userId}`,{})
+            axios.post(`http://localhost:5000/Family/UserFamily/${user.userId}`,{})
                     .then(res => {
                         console.log(res.data)
                     if(res.data.success){

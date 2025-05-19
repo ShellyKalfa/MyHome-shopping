@@ -4,12 +4,12 @@ import { BsTrash } from "react-icons/bs";
 
 export default function MemberFamily({MemberFamily}) {
     return (
-         <div className="ItemFamliy">
+         <div className="ItemFamily">
                <div className="iconText">
                      <SlUser />
-                     {MemberFamily}
+                     {MemberFamily.userName}
               </div>
-              <div className="role">Maneger </div>
+              <div className="role">{MemberFamily.role}</div>
                <div>
                               <MdEdit  />
                               <BsTrash />
