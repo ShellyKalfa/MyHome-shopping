@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
-const axios = require('axios');
+
 
 const Roles = {
   MANAGER: "admin",
@@ -67,18 +67,7 @@ router.post('/familyMembers', (req, res) => {
 });
 
 
-router.post('/search', async (req, res) => {
-  try {
-    const response = await axios.post('https://www.rami-levy.co.il/api/catalog?', req.body, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    res.json(response.data);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
+
 
 router.delete('/delteFamily/:familyId', (req, res) => {
 

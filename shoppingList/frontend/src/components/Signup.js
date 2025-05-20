@@ -21,7 +21,7 @@ export default function Signup({ setUser }) {
             // return res.status(400).json({ success: false, message: "All fields are required" });
         }
         console.log("ddd");
-        
+
         axios.post('http://localhost:5000/users/signin', { email, name, password })
             .then(res => {
                 console.log(res.data);

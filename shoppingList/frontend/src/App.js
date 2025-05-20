@@ -18,11 +18,16 @@ const App = () => {
   const [user, setUser] = useState({});
   const [familysApp, setFamilysApp] = useState([])
   const [selectedFamilyId, setSelectedFamilyId] = useState('');
+  const [selectedShoppingId, setSelectedShoppingId] = useState('');
 
 
   const logOut = () => {
     setUser({})
+    setFamilysApp([])
+    setSelectedFamilyId('')
   }
+   useEffect(() => {console.log(selectedShoppingId);
+   },[selectedShoppingId])
 
   useEffect(() => {
     console.log("user", user);
@@ -51,9 +56,9 @@ const App = () => {
         <Route path="/Login" element={<Login setUser={setUser} />} />
         <Route path="/Signup" element={<Signup setUser={setUser} />} />
         <Route path="/CreateFamily" element={<CreateFamily User={user} />} />
-        <Route path="/ShoppingListFile" element={<ShoppingListFile User={user} />} />
+        <Route path="/ShoppingListFile" element={<ShoppingListFile User={user} selectedShoppingId={selectedShoppingId} />} />
       </Routes>
-       <ShoppingListPage selectedFamilyId={selectedFamilyId} />
+      <ShoppingListPage selectedFamilyId={selectedFamilyId} setSelectedShoppingId={setSelectedShoppingId} />
 
     </div>
   );
