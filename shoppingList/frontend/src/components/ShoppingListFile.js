@@ -4,26 +4,26 @@ import axios from 'axios';
 
 
 export default function ShoppingListFile() {
-    const [item,setItem]=useState("")
+    const [itemName,setItemNAme]=useState("")
+    const [itemPrice, setItemPrice] = useState("");
      const  handleSignUp = (event) => {
         event.preventDefault();
-     axios.post('http://localhost:5000/search', {"aggs": 1,"q": "גבינה",  "store": 331})
+     axios.post('http://localhost:5001/search', {"aggs": 1,"q": "גבינה",  "store": 331})
           .then(res => { 
             
             console.log(res.data);
-            setItem(res.data.data[0].name);
+            setItemNAme(res.data.data[0].name);
+            setItemPrice(res.data.data[0].price.price);
 
           })
           .catch(err => {console.log(err.response.data)})
-
      
     }
     return ( 
-<div>
-    <ShoppingList/>
-    <button onClick={handleSignUp}>Sign Up</button>
-    <div> {item}</div>
-</div>
+  <div>
+  <button onClick={handleSignUp}>check product</button>{itemName} - {itemPrice}
+      <ShoppingList/>
+  </div>
 
      )
 }

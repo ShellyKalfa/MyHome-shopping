@@ -6,7 +6,7 @@ function registrion() {
   const [userPassword, setUserPassword] = useState("");
 
 const register=()=>{
-  axios.post('http://localhost:5000/register',{
+  axios.post('http://localhost:5001/register',{
    userName:userNameReg,
    password: userPassword}).then((response)=>{
      console.log(response)

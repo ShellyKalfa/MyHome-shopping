@@ -15,7 +15,7 @@ export default function Login({ setUser }) {
     const navigate = useNavigate();
     const  handleLogIn = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:5000/login', { email, password })
+        axios.post('http://localhost:5001/login', { email, password })
              .then(res => {
                 console.log(res.data)
             if(res.data.success){

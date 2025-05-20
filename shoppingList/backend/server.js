@@ -17,6 +17,94 @@ const db = mysql.createConnection({
     database: 'appShoppingList'
 });
 
+//--------------------------------- ADDED BY IDO -----------------------------------
+db.connect(err => {
+  if (err) throw err;
+  console.log('✅ Connected to MySQL database');
+});
+
+// Get all items form item DB
+app.get('/item', (req, res) => {
+  db.query('SELECT * FROM item', (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+
+// Add a new fruit with quantity
+app.post('/item', (req, res) => {
+  const { itemName, quantity = 1, price = 0 } = req.body; // default quantity to 1 if not provided
+  if (!itemName) return res.status(400).json({ error: 'Fruit itemName is required' });
+  console.log("IDO");
+
+
+  // Check for duplicates (case insensitive)
+  db.query(
+    'SELECT * FROM item WHERE LOWER(itemName) = LOWER(?)',
+    [itemName],
+    (err, results) => {
+      if (err) {console.log(err);
+      return res.status(500).json({ error: err });}
+      if (results.length > 0) {
+        return res.status(400).json({ error: 'Fruit already exists' });
+      }
+
+      // No duplicates found, insert new fruit
+      db.query(
+        'INSERT INTO item (itemName, quantity, price, listId) VALUES (?, ?, ?, 1)',
+        [itemName, quantity, price],
+        (err, result) => {
+          if (err) {console.log(err);return res.status(500).json({ error: err });}
+          res.json({ message: 'Fruit added!', itemId: result.insertItemId });
+        }
+      );
+    }
+  );
+});
+
+
+// Delete a fruit by itemId
+app.delete('/item/:itemId', (req, res) => {
+  const { itemId } = req.params;
+  db.query('DELETE FROM item WHERE itemId = ?', [itemId], (err) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json({ message: 'item deleted!' });
+  });
+});
+
+// Update fruit completed status by itemId
+app.patch('/item/:itemId', (req, res) => {  
+  const { itemId } = req.params;
+  const { completed } = req.body;
+
+  // Update the completed status for the fruit with the given itemId
+  db.query('UPDATE item SET completed = ? WHERE itemId = ?', [completed, itemId], (err, result) => {
+    if (err) return res.status(500).json({ error: err });
+    if (result.affectedRows === 0) return res.status(404).json({ error: 'Fruit not found' });
+    res.json({ message: 'Fruit updated successfully!' });
+  });
+});
+
+// Receive number selection from dropdown
+app.patch('/item/:itemId/quantity', (req, res) => {
+  const { itemId } = req.params;
+  const { quantity } = req.body;
+
+  if (typeof quantity !== 'number') {
+    return res.status(400).json({ error: 'Invalid quantity' });
+  }
+
+  db.query('UPDATE item SET quantity = ? WHERE itemId = ?', [quantity, itemId], (err, result) => {
+    if (err) return res.status(500).json({ error: err });
+    if (result.affectedRows === 0) return res.status(404).json({ error: 'Fruit not found' });
+    res.json({ message: 'Quantity updated' });
+  });
+});
+
+
+//--------------------------------- ADDED BY IDO FINISHED-----------------------------------
+
+
 app.get('/users', (req, res) => {
   const sql = "SELECT * FROM users";
 
@@ -183,6 +271,6 @@ app.post('/creatFamliy/:id', (req, res) => {
 
 
 
-app.listen(5000, () => {
-    console.log("Server running at http://localhost:5000");
+app.listen(5001, () => {
+    console.log("Server running at http://localhost:5001");
 });

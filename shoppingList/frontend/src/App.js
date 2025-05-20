@@ -19,7 +19,7 @@ const App = () => {
 
        useEffect(() => {
           if (user && user.email && user.password && user.userId && user.userName) {
-            axios.post(`http://localhost:5000/memberFamliy/${user.userId}`,{})
+            axios.post(`http://localhost:5001/memberFamliy/${user.userId}`,{})
                     .then(res => {
                         console.log(res.data)
                     if(res.data.success){

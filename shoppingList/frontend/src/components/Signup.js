@@ -21,7 +21,7 @@ export default function Signup({ setUser }) {
         if (!name || !email || !password) {
         // return res.status(400).json({ success: false, message: "All fields are required" });
     }
-        axios.post('http://localhost:5000/signin', { email, name ,password })
+        axios.post('http://localhost:5001/signin', { email, name ,password })
            .then(res => {
        console.log(res.data);
     if (res.data.success) {
@@ -48,7 +48,7 @@ export default function Signup({ setUser }) {
   const  handleGetUser= () => {
     if(dataUser.email!=''&&dataUser.password !='')
     {
-        axios.post('http://localhost:5000/login', 
+        axios.post('http://localhost:5001/login', 
             { email: dataUser.email, 
               password: dataUser.password  })
                 .then(res => {

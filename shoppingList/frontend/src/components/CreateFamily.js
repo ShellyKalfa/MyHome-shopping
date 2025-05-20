@@ -32,7 +32,7 @@ export default  function CreateFamily({User}) {
         if(User.userId !='' )
         {
             console.log("shelly1");
-            axios.post(`http://localhost:5000/memberFamliy/${User.userId}`,{})
+            axios.post(`http://localhost:5001/memberFamliy/${User.userId}`,{})
                     .then(res => {
                         console.log(res.data)
                     if(res.data.success){
@@ -51,7 +51,7 @@ export default  function CreateFamily({User}) {
         if(User.userId !=''&& nameFamliy !='')
         {
             console.log("shelly1");
-            axios.post(`http://localhost:5000/creatFamliy/${User.userId}`,{nameFamliy })
+            axios.post(`http://localhost:5001/creatFamliy/${User.userId}`,{nameFamliy })
                     .then(res => {
                         console.log(res.data)
                     if(res.data.success){
