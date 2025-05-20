@@ -5,7 +5,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import '../style/NavigationBar.css'
 import logo from'../assets/logo.png';
 
-export default function NavigationBar({User}) {
+export default function NavigationBar({User,familysApp}) {
   const [data, setData] = useState([]);
   const [nameUser, setNameUser] = useState('');
   const [isUser, setIsUser] = useState(false);
@@ -34,7 +34,21 @@ export default function NavigationBar({User}) {
        }
        {/*<div className="links">my family-list</div>*/}
        <Link to="/CreateFamily" className="links Link">Management </Link>
-       <Link to="/ShoppingListFile" className="links Link familysMenu"><AiOutlineMenu /> Family-list</Link>
+       <Link to="/ShoppingListFile" className="links Link familysMenu">
+       <div>
+       <AiOutlineMenu /> Family-list
+       </div>
+       <div>
+        {console.log("sdads",familysApp)}
+        <select>
+            {
+              familysApp.map((f, index) => (
+                                                      <option key={index} > {f.familyName}</option>))
+            }
+     </select>
+       </div>
+       
+       </Link>
        </div>
     </div>
   );
