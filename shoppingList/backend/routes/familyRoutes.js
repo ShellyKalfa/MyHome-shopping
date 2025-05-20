@@ -36,7 +36,7 @@ router.post('/UserFamily/:id', (req, res) => {
 router.post('/familyMembers', (req, res) => {
   const { familyId } = req.body;
   const sql = `
-    SELECT  u.userName,mf.role
+    SELECT  u.userName,mf.role ,mf.userId 
     FROM memberFamily mf 
     JOIN family f ON mf.familyId = f.familyId 
     JOIN users u ON mf.userId = u.userId
@@ -157,9 +157,65 @@ router.post('/addFamilyMembers', (req, res) => {
         return res.status(500).json({ success: false, message: "Insert failed" });
       }
 
-      return res.status(201).json({ success: true, message: "Member added to family", userName, role });
+      return res.status(201).json({ success: true, message: "Member added to family", userId, userName, role });
     });
   });
+});
+
+
+router.delete('/deleteFamilyMember/:familyId', (req, res) => {
+  const { familyId } = req.params;
+  const { userId } = req.body;
+
+  const sql = "SELECT * FROM memberFamily WHERE familyId = ?";
+  db.query(sql, [familyId], (err, data) => {
+    if (err) {
+      console.error("User lookup failed:", err);
+      return res.status(500).json({ success: false, message: "Database error" });
+    }
+
+    const managerFamily = data.filter(member => member.userId != userId);
+    console.log("noww",data);
+    console.log("noww",managerFamily.some(member => member.role === "manager"));
+    console.log("noww",managerFamily);
+    console.log("noww",userId);
+    
+    if (!managerFamily.some(member => member.role === "manager")) {
+      const deleteFamilySql = 'DELETE FROM family WHERE familyId = ?';
+      db.query(deleteFamilySql, [familyId], (err, result) => {
+        if (err) {
+          return res.status(500).json({ success: false, message: 'Failed to delete family' });
+        }
+        return res.status(200).json({ success: true, message: 'Family deleted successfully' });
+      });
+    } else {
+      const deleteMemberSql = 'DELETE FROM memberFamily WHERE userId = ? AND familyId = ?';
+      db.query(deleteMemberSql, [userId, familyId], (err, result) => {
+        if (err) {
+          return res.status(500).json({ success: false, message: 'Failed to delete family member' });
+        }
+        return res.status(200).json({ success: true, message: 'Family member deleted successfully' });
+      });
+    }
+  });
+});
+
+router.post('/updateFamilyMembers/:familyId', (req, res) => {
+  console.log("Request received to add family member");
+   const { familyId } = req.params;
+  const { userId } = req.body;
+  const updateSql = "UPDATE memberFamily SET role = ? WHERE userId = ? AND familyId = ?";
+ console.log("noww",userId);
+
+   db.query(updateSql, ["manager",userId, familyId], (err, result) => {
+        if (err) {
+          return res.status(500).json({ success: false, message: 'Failed to update  family member' });
+        }
+        return res.status(200).json({ success: true, message: 'Family member update  successfully' });
+      });
+
+
+
 });
 
 
@@ -168,4 +224,8 @@ router.post('/addFamilyMembers', (req, res) => {
 
 
 
-  module.exports = router;
+
+
+
+
+module.exports = router;

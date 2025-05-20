@@ -5,7 +5,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import '../style/NavigationBar.css'
 import logo from'../assets/logo.png';
 
-export default function NavigationBar({User,familysApp}) {
+export default function NavigationBar({User,familysApp,logOut}) {
   const [data, setData] = useState([]);
   const [nameUser, setNameUser] = useState('');
   const [isUser, setIsUser] = useState(false);
@@ -24,8 +24,11 @@ export default function NavigationBar({User,familysApp}) {
       <Link to="/"> <img src={logo} alt="My" /></Link>
        <div className="nav">
         {
-          isUser ? 
+          isUser ? <>
              <div className="links section-sign-up" > WELLCOME: {nameUser}</div>
+              <div className="links section-sign-up" onClick={logOut()} > logOUT</div>
+              <div className="links section-sign-up" onClick={logOut()} > logOUT</div>
+              </>
           :
               <div  className="links section-sign-up">
                     <Link to="/Signup" className='sign-up Link'>Sign-Up</Link>
