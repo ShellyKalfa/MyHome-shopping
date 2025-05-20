@@ -42,7 +42,7 @@ h2{
 
   }
 
-.item{
+.ItemShoppingList{
     width: 100%;
     display: flex; 
     flex-direction: row;
@@ -51,10 +51,31 @@ h2{
     align-content:center;
     justify-content: space-between;
 }
+.amountItem{
+
+    font-size: 1rem;
+    text-align: center;
+    /* color: wheat;
+    border-radius: 3vw; */
+     grid-column:2;
+    grid-row: 2;
+}
+.circle{
+    grid-column:1;
+    /* grid-row: 1 /2; */
+    grid-row-start: 1;
+    grid-row-end: 3;
+    display: flex;
+    align-items: center;
+
+}
+.itemText{
+    grid-column:2;
+    grid-row: 1;
+}
+
 .listItem{
-    display: flex; 
-    flex-direction: row;
-    align-content: center;
+    display: grid; 
 }
 
 .uncheck{

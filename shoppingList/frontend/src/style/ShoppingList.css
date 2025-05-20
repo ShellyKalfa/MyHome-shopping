@@ -53,6 +53,11 @@
     border: solid #e4dfcf;
     border-radius: 5px;
 }
+/* .itemAmont{
+    display: flex;
+    flex-direction: column;
+
+} */
 
 .selectInput{
     background-color: #e4dfcf;
