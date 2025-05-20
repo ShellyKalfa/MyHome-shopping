@@ -1,0 +1,18 @@
+.ShoppingListPage{
+  display: block;
+  position: absolute;
+  top: 11vh;
+  right: 0;
+  width: 30vw;
+  height: 80vh;
+  z-index: 1;
+  background-color: wheat;
+
+}
+
+.none{
+    display: none;
+}
+.Block{
+    display: block;
+}

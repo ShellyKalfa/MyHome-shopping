@@ -122,7 +122,7 @@ export default function CreateFamily({ User }) {
         if (userId === User.userId) {
             const confirmDeleteFamily = window.confirm('You are the manager. Would you like to delete this family?');
             if (confirmDeleteFamily) {
-                // handleDeleteFamily(selectedFamilyId);
+                handleDeleteFamily(selectedFamilyId);
                 return;
             }
         }

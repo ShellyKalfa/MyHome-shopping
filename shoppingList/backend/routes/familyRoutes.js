@@ -3,6 +3,11 @@ const router = express.Router();
 const db = require('../db');
 const axios = require('axios');
 
+const Roles = {
+  MANAGER: "admin",
+  CHILD: "user"
+}
+
 
 router.post('/UserFamily/:id', (req, res) => {
   const userId = req.params.id;
