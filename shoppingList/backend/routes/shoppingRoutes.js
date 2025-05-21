@@ -57,7 +57,8 @@ router.delete('/item/:itemId', (req, res) => {
 });
 
 // Add a new fruit with quantity
-router.post('/item', (req, res) => {
+router.post('/item/:itemId', (req, res) => {
+  const listId = req.params.listId;
   const { itemName, quantity = 1, price = 0 } = req.body; // default quantity to 1 if not provided
   if (!itemName) return res.status(400).json({ error: 'Fruit itemName is required' });
   console.log("IDO");
@@ -65,7 +66,7 @@ router.post('/item', (req, res) => {
 
   // Check for duplicates (case insensitive)
   db.query(
-    'SELECT * FROM item WHERE LOWER(itemName) = LOWER(?)',
+    'SELECT * FROM item WHERE LOWER(itemName) = LOWER(?) AND listId = ?',
     [itemName],
     (err, results) => {
       if (err) {console.log(err);
