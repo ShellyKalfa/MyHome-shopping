@@ -1,70 +1,98 @@
-
-
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../style/Login.css'
-
-
+import '../style/Login.css';
 
 export default function Login({ setUser }) {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [isVisible, setIsVisible] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
+    const [, setIsVisible] = useState(false);
     const navigate = useNavigate();
-    const handleLogIn = (event) => {
+
+    const EMAIL_TEMPLATE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const handleLogin = (event) => {
+
         event.preventDefault();
+        setError('');
+
+        // Validation
+        if (!email || !password) {
+            setError('Please fill in both fields.');
+            return;
+        }
+
+        if (!EMAIL_TEMPLATE.test(email)) {
+            setError('Invalid email format.');
+            return;
+        }
+
+        // Send login request
         axios.post('http://localhost:5000/users/login', { email, password })
             .then(res => {
-                console.log(res.data)
-                if (res.data.success) {
-                    console.log(res.data.user)
-                    setUser(res.data.user)
+                if (res.data.success && res.data.user) {
+                    setUser(res.data.user);
                     navigate('/CreateFamily');
-                }
-                else {
+
+                } else {
+                    setError('Invalid email or password.');
                     setIsVisible(true);
                 }
+
             })
             .catch(err => {
-                if (err.response && err.response.data && err.response.data.success === false) {
-                    console.log("Server responded with an error:", err.response.data.message);
-                    setIsVisible(true);
+                if (err.response?.data?.success === false) {
+                    setError(err.response.data.message || 'Login failed.');
                 } else {
-                    // Fallback error
-                    console.log("Unexpected error:", err.message);
-                    setIsVisible(true);
+                    setError('Unexpected error. Please try again later.');
                 }
+                setIsVisible(true);
             });
-    }
+    };
 
-
-    return (<div className="bordLogin top">
-
-        <h2> Log in to contiue </h2><h2>your shopping </h2>
-        <div>
-            <form onSubmit={handleLogIn}>
-                <div className='top'>
-                    <h3> Email address </h3>
-                    <input className='LogIninput' onChange={e => setEmail(e.target.value)} />
+    return (
+        <div className="bordLogin top">
+            <h2>Log in to continue</h2>
+            <h2>your shopping</h2>
+            <form onSubmit={handleLogin}>
+                <div className="top">
+                    <h3>Email address</h3>
+                    <input
+                        className="LogInInput"
+                        value={email}
+                        onChange={(e) => { setEmail(e.target.value); setError('');}}
+                    />
                 </div>
-                <div>
-                    <h3> Password </h3>
-                    <input className='LogIninput' onChange={e => setPassword(e.target.value)} />
-                </div>
-                <div>
-                    <div className={isVisible ? 'Block' : 'none'}>
-                        <h5 className='Invalid'> Invalid Email address or Password </h5>
+                <div className="top">
+                    <h3>Password</h3>
+                    <div style={{ position: 'relative', width: '100%' }}>
+                        <input
+                            className="LogInInput"
+                            type={showPassword ? 'text' : 'password'}
+                            value={password}
+                            onChange={(e) => {setPassword(e.target.value); setError('');}}
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(prev => !prev)}
+                            className="hidePasswordBottom"
+                        >
+                            {showPassword ? 'Hide' : 'Show'}
+                        </button>
                     </div>
-                    <h5> Forgot password? </h5>
                 </div>
-                <button className='LogInbutton' type="submit" > Log in </button>
-                <div className='flexDiv'>
-                    <h5> Don't have an account? </h5>
-                    <Link to="/Signup" className='bolder Link'> Sign up  </Link>
+                {error && (<p style={{ color: 'red', whiteSpace: 'pre-line', fontSize: '1.2rem' }}> {error} </p>)}
+                <div className="top">
+                    <h5>Forgot password?</h5>
+                </div>
+                <button className="LogInbutton" type="submit">Log in</button>
+                <div className="flexDiv top">
+                    <h3>Don't have an account?</h3>
+                    <Link to="/Signup" style={{color: "Blue"}} className="bolder Link">Sign up</Link>
                 </div>
             </form>
         </div>
-    </div>);
-};
+    );
+}
