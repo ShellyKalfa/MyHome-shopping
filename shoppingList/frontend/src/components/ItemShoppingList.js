@@ -1,28 +1,26 @@
 import { ImRadioUnchecked } from "react-icons/im";
-import { MdCheckCircle,MdEdit } from "react-icons/md";
+import { MdCheckCircle, MdEdit } from "react-icons/md";
 import { BsTrash } from "react-icons/bs";
 import '../style/TempShoppingList.css'
 
 export default function ItemShoppingList({ item }) {
-    return( 
-    <div className="ItemShoppingList">
-        <div className="listItem">
+    return (
+        <div className="ItemShoppingList">
+            <div className="listItem">
                 {/* <ImRadioUnchecked/> */}
                 <div className="circle">
-                   <MdCheckCircle />
+                    <MdCheckCircle />
                 </div>
-               
-                
-                <div className="itemText">{item}</div>
-                <div className="amountItem"> amount: 2</div>
-              
-         </div>
-           
-         <div>
-                <MdEdit  />
+                <div className="itemText">{item.itemName}</div>
+                <div className="amountItem"> amount:{item.quantity}</div>
+                <div className="priceItem"> price:{item.price}</div>
+            </div>
+            
+            <div>
+                <MdEdit />
                 <BsTrash />
-         </div>
-    </div>
-        );
-  }
+            </div>
+        </div>
+    );
+}
 

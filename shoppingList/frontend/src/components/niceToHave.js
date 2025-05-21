@@ -94,3 +94,12 @@
 //         return <p>No user found. Redirecting to the main page in 10 seconds...</p>;
 //     }
 
+/////////////////////////////////////////////////////
+
+    //   <select className="selectInput">
+    //                 <option value="" disabled selected hidden>Choose category...</option>
+    //                 <option>Dairy</option>
+    //                 <option>bakery</option>
+    //                 <option>meat</option>
+    //                 <option>vegetables</option>
+    //             </select>

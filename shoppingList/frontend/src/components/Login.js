@@ -14,6 +14,7 @@ export default function Login({ setUser }) {
     const EMAIL_TEMPLATE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const handleLogin = (event) => {
+
         event.preventDefault();
         setError('');
 
@@ -34,10 +35,12 @@ export default function Login({ setUser }) {
                 if (res.data.success && res.data.user) {
                     setUser(res.data.user);
                     navigate('/CreateFamily');
+
                 } else {
                     setError('Invalid email or password.');
                     setIsVisible(true);
                 }
+
             })
             .catch(err => {
                 if (err.response?.data?.success === false) {

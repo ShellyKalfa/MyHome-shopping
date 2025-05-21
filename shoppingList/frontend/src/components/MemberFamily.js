@@ -1,14 +1,14 @@
 import { SlUser } from "react-icons/sl";
-import { MdManageAccounts  } from "react-icons/md";
+import { MdManageAccounts } from "react-icons/md";
 import { BsTrash } from "react-icons/bs";
 
-export default function MemberFamily({ MemberFamily, handleDeleteFamilyMember, handleUpdateFamilyMember,manager }) {
+export default function MemberFamily({ MemberFamily, handleDeleteFamilyMember, handleUpdateFamilyMember, manager }) {
       const handleDelete = () => {
             handleDeleteFamilyMember(MemberFamily.userId);
       };
-      const handleUpdate= () => {
-            console.log("MemberFamily.userId",MemberFamily.userId);
-            
+      const handleUpdate = () => {
+            console.log("MemberFamily.userId", MemberFamily.userId);
+
             handleUpdateFamilyMember(MemberFamily.userId);
       };
 
@@ -22,8 +22,8 @@ export default function MemberFamily({ MemberFamily, handleDeleteFamilyMember, h
                   {manager ?
                         <div>
 
-                              { MemberFamily.role== "manager"?<></>:<MdManageAccounts onClick={handleUpdate}  />}
+                              {MemberFamily.role == "manager" ? <></> : <MdManageAccounts onClick={handleUpdate} />}
                               <BsTrash onClick={handleDelete} />
-                        </div>:<></>}
-         </div>);
+                        </div> : <></>}
+            </div>);
 };

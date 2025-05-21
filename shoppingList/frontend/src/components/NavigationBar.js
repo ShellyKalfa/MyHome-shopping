@@ -12,8 +12,8 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
 
   const selectedFamilyId = (familyId) => {
     setSelectedFamilyId(familyId)
-    console.log("familyId",familyId);
-    
+    console.log("familyId", familyId);
+
 
   }
 
@@ -51,7 +51,7 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
         {console.log("sdads", familysApp)}
         <select>
           {
-            familysApp.map((f, index) => (<option key={index} onClick={()=>selectedFamilyId (f.familyId) } > {f.familyName}</option> ))
+            familysApp.map((f, index) => (<option key={index} onClick={() => selectedFamilyId(f.familyId)} > {f.familyName}</option>))
           }
         </select>
         <div>
@@ -59,8 +59,6 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
             <div>
               <AiOutlineMenu /> Family-list
             </div>
-
-
           </Link>
         </div>
       </div>
