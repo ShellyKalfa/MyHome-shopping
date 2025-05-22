@@ -32,18 +32,7 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
     <div className="NavigationBar">
       <Link to="/"> <img src={logo} alt="My" /></Link>
       <div className="nav">
-        {
-          isUser ? <>
-            <div className="links section-sign-up" > WELLCOME: {nameUser}</div>
-            <div className="links section-sign-up" onClick={logOut} > logOUT</div>
 
-          </>
-            :
-            <div className="links section-sign-up">
-              <Link to="/Signup" className='sign-up Link'>Sign-Up</Link>
-              <Link to="/Login" className='Link' > Log-In</Link>
-            </div>
-        }
         {/*<div className="links">my family-list</div>*/}
         <Link to="/CreateFamily" className="links Link">Management </Link>
 
@@ -61,6 +50,18 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
             </div>
           </Link>
         </div>
+        {
+          isUser ? <div>
+              <div className="links section-sign-up" > WELLCOME: {nameUser}</div>
+              <div className="links section-sign-up" onClick={logOut} > logOUT</div>
+
+            </div>
+            :
+            <div className="links section-sign-up">
+              <Link to="/Signup" className='sign-up Link'>Sign-Up</Link>
+              <Link to="/Login" className='Link' > Log-In</Link>
+            </div>
+        }
       </div>
     </div>
   );

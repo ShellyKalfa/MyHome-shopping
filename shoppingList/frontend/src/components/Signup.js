@@ -16,7 +16,7 @@ export default function Signup({ setUser }) {
     const [displayPassword, setDisplayPassword] = useState('');
     const [, setTimers] = useState([]);
     const [, setIsVisible] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(true);
     const navigate = useNavigate();
 
     const PASSWORD_LENGTH = 8;
