@@ -34,6 +34,30 @@ router.post('/shoppingFamily/:familyId', (req, res) => {
     });
 });
 
+router.post('/createShoppingFamily/:selectedFamilyId', (req, res) => {
+  const selectedFamilyId = req.params.selectedFamilyId;
+  const {ShoppingFamilyName } = req.body;
+  console.log("selectedFamilyId",selectedFamilyId)
+  console.log("ShoppingFamilyName",ShoppingFamilyName)
+    const insertShoppingListSql = "INSERT INTO shoppingList (listId, familyId, listName) VALUES (NULL, ?, ?)";
+    const insertShoppingListValues = [ selectedFamilyId,ShoppingFamilyName]; // default role
+
+    db.query(insertShoppingListSql, insertShoppingListValues, (err2,result) => {
+      if (err2) {
+        console.error("Member Insert Failed:", err2);
+        return res.status(500).json({ success: false, message: "Member insert failed" });
+      }
+      const ShoppingListId = result.insertId;
+
+      return res.json({
+        success: true,
+        message: "shoppingList created successfully",
+        ShoppingListId,
+        ShoppingFamilyName
+      });
+    });
+});
+
 
 //--------------------------------- ADDED BY IDO -----------------------------------
 
@@ -57,28 +81,28 @@ router.delete('/item/:itemId', (req, res) => {
 });
 
 // Add a new fruit with quantity
-router.post('/item/:itemId', (req, res) => {
+router.post('/item/:listId', (req, res) => {
   const listId = req.params.listId;
   const { itemName, quantity = 1, price = 0 } = req.body; // default quantity to 1 if not provided
   if (!itemName) return res.status(400).json({ error: 'Fruit itemName is required' });
-  console.log("IDO");
-
-
+  console.log("listId",listId)
   // Check for duplicates (case insensitive)
   db.query(
     'SELECT * FROM item WHERE LOWER(itemName) = LOWER(?) AND listId = ?',
-    [itemName],
+    [itemName, listId],
     (err, results) => {
-      if (err) {console.log(err);
-      return res.status(500).json({ error: err });}
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ error: err });
+      }
       if (results.length > 0) {
         return res.status(400).json({ error: 'Fruit already exists' });
       }
 
       // No duplicates found, insert new fruit
       db.query(
-        'INSERT INTO item (itemName, quantity, price, listId) VALUES (?, ?, ?, 1)',
-        [itemName, quantity, price],
+        'INSERT INTO item (itemName, quantity, price, listId) VALUES (?, ?, ?,?)',
+        [itemName, quantity, price,listId],
         (err, result) => {
           if (err) {console.log(err);return res.status(500).json({ error: err });}
           res.json({ message: 'Fruit added!', itemId: result.insertItemId });
@@ -95,7 +119,7 @@ router.post('/search', async (req, res) => {
     
     const response = await axios.post('https://www.rami-levy.co.il/api/catalog?', req.body, {
       headers: {
-        'Content-Type': 'routerlication/json'
+        'Content-Type': 'application/json'
       }
     });
     res.json(response.data);

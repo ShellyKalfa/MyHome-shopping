@@ -82,6 +82,7 @@ h2{
 .itemText{
     grid-column:2;
     grid-row: 1;
+    direction: rtl;
 }
 
 .listItem{

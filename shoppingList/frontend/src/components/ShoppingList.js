@@ -16,7 +16,9 @@ export default function ShoppingList({ selectedShoppingId }) {
 useEffect(() => {
    setListId(selectedShoppingId)
    }, [selectedShoppingId])
-
+  useEffect(() => {
+    console.log(items)
+  }, [items])
 
 
    /**
@@ -33,6 +35,8 @@ useEffect(() => {
       .catch((err) => console.error("Error loading items:", err));
   }, [listId])
 
+
+
   return (
     <div className="shoppingListBord">
       {/* <h1>ShoppingList</h1> */}
@@ -41,7 +45,7 @@ useEffect(() => {
                 items={items} 
                 listId={listId}/>
       <div className="boardSizeShoppingList">
-        <TempShoppingList items={items} isTemp={false} />
+        <TempShoppingList items={items} isTemp={false} setItems={setItems} />
       </div>
     </div>
 

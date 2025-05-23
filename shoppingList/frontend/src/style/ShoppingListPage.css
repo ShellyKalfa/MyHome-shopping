@@ -6,13 +6,21 @@
   width: 30vw;
   height: 80vh;
   z-index: 1;
+  padding: 1.5vw;
+  border-radius: 4vw;
   background-color: wheat;
-
 }
+
+.textBox{
+    margin-bottom: 4vh;
+}
+
+
 
 .none{
     display: none;
 }
+
 .Block{
     display: block;
 }
@@ -27,5 +35,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 2vh;
+}
+
+.Chosen{
+    background-color: #ffeebd;
 
 }

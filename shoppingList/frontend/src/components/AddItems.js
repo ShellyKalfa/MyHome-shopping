@@ -18,6 +18,7 @@ function AddItem({ items, setItems, listId }) {
      */
     const handleAPI = (event) => {
         event.preventDefault();
+        console.log("itemTyping",itemTyping)
         axios.post(`${API_BASE}/search`, {
             aggs: 1,
             q: itemTyping,
@@ -26,7 +27,7 @@ function AddItem({ items, setItems, listId }) {
             .then(res => {
                 console.log(res.data);
                 setItemNameAPI(res.data.data[0].name);
-                setItemPriceAPI(res.data.data[0].price);
+                setItemPriceAPI(res.data.data[0].price.price);
             })
             .catch(err => {
                 console.log(err.response.data);
@@ -38,6 +39,8 @@ function AddItem({ items, setItems, listId }) {
  */
     const addItem = () => {
         const trimmed = itemTyping.trim().toLowerCase();
+
+
         if (trimmed === "") return;
 
         // Check for duplicates locally
@@ -76,24 +79,6 @@ function AddItem({ items, setItems, listId }) {
     };
 
 
-    /**
-     * Deletes an item from the backend and updates the local state.
-     *
-     * @param {number} itemId - The ID of the item to delete.
-     */
-    const deleteItem = (itemId) => {
-        fetch(`${API_BASE}/item/${itemId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((res) => res.json())
-            .then(() => {
-                setItems(items.filter((item) => item.itemId !== itemId));
-            })
-            .catch((err) => console.error("Error deleting item:", err));
-    };
 
     /**
      * Toggles the completed state of an item and updates the backend.
@@ -185,7 +170,7 @@ function AddItem({ items, setItems, listId }) {
             </div>
             <div className="topButton">
                 <input className="itemAmount" placeholder=" amount of items... " />
-                <button className="buttonAddItems"> save  </button>
+                <button className="buttonAddItems" onClick={addItem}> save  </button>
                 <button className="buttonAddItems"> cancel  </button>
             </div>
             <div className="topButton">
