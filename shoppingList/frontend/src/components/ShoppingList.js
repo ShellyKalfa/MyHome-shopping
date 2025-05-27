@@ -33,6 +33,8 @@ export default function ShoppingList({ selectedShoppingId }) {
       .catch((err) => console.error("Error loading items:", err));
   }, [listId])
 
+
+
   return (
     <div className="shoppingListBord">
       {/* <h1>ShoppingList</h1> */}

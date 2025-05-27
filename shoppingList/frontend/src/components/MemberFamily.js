@@ -1,6 +1,10 @@
 import { SlUser } from "react-icons/sl";
 import { MdManageAccounts } from "react-icons/md";
 import { BsTrash } from "react-icons/bs";
+const Roles = {
+  MANAGER: "admin",
+  CHILD: "user"
+}
 
 export default function MemberFamily({ MemberFamily, handleDeleteFamilyMember, handleUpdateFamilyMember, manager }) {
       const handleDelete = () => {
@@ -18,12 +22,15 @@ export default function MemberFamily({ MemberFamily, handleDeleteFamilyMember, h
                         <SlUser />
                         {MemberFamily.userName}
                   </div>
+              {console.log(MemberFamily.role == Roles.MANAGER )}
                   <div className="role">{MemberFamily.role}</div>
-                  {manager ?
+                  {/*{manager ?*/}
                         <div>
 
-                              {MemberFamily.role == "manager" ? <></> : <MdManageAccounts onClick={handleUpdate} />}
-                              <BsTrash onClick={handleDelete} />
-                        </div> : <></>}
+                              {MemberFamily.role == Roles.MANAGER ? <></> :
+                                <MdManageAccounts onClick={handleUpdate} />}
+                               <BsTrash onClick={handleDelete} />
+                        </div>
+                    {/*: <></>}*/}
             </div>);
 };

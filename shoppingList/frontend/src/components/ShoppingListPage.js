@@ -2,6 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+// API
+import {
+    createShoppingFamily,
+    getShoppingFamily
+
+} from '../api/shopping';
+
+// Components
+import ItemShoppingListPage from './ItemShoppingListPage';
+
 // Styles
 import '../style/ShoppingListPage.css';
 import { BsJournalPlus } from "react-icons/bs";
@@ -13,9 +23,9 @@ import {
 } from '../api/family';
 
 
-export default function ShoppingListPage({ selectedFamilyId, setSelectedShoppingId }) {
+export default function ShoppingListPage({ user,selectedFamilyId,selectedShoppingId ,setSelectedShoppingId }) {
     const [shoppingFamily, setShoppingFamily] = useState([])
-    const [newShoppingFamily, setNewShoppingFamily] = useState('')
+    const [newShoppingFamilyName, setNewShoppingFamilyName] = useState('')
     const [close, setClose] = useState(true)
     const navigate = useNavigate();
     const handleSelectedShoppingId = (ShoppingId) => {
@@ -25,45 +35,38 @@ export default function ShoppingListPage({ selectedFamilyId, setSelectedShopping
     }
 
     useEffect(() => {
-        console.log("shoppingFamily", shoppingFamily);
-
-    }, [shoppingFamily]);
-
-    useEffect(() => {
         console.log("user", selectedFamilyId);
-
         if (selectedFamilyId) {
-            axios.post(`http://localhost:5000/Shopping/shoppingFamily/${selectedFamilyId}`, {})
-                .then(res => {
-                    console.log(res.data)
-                    if (res.data.success) {
-                        console.log(res.data.data)
-                        if (res.data.data != null) {
-                            setShoppingFamily(res.data.data)
-                            setClose(false)
-                        } else {
-                            setShoppingFamily([])
-                            setClose(false)
-                        }
-                    }
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+            getShoppingFamily(selectedFamilyId)
+              .then(res => {
+                  console.log(res.data);
+                  if (res.data.success) {
+                      if (res.data.data != null) {
+                          setShoppingFamily(res.data.data);
+                          setClose(false);
+                      } else {
+                          setShoppingFamily([]);
+                          setClose(false);
+                      }
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
         }
     }, [selectedFamilyId]);
 
-    const handleCreateFamily = async () => {
-        if (!newShoppingFamily.trim()) return;
+
+    const handleCreateShoppingFamily = async () => {
+        if (!newShoppingFamilyName.trim()) return;
 
         try {
-            const res = await createShoppingList(selectedFamilyId, newShoppingFamily);
+            const res = await createShoppingFamily(selectedFamilyId, newShoppingFamilyName);
+            console.log(res.data)
             if (res.data.success) {
-                console.log(res.data);
-                
-                const { listId, listName } = res.data.data;
-                setShoppingFamily(prev => [...prev, { listId, listName }]);
-                setNewShoppingFamily('');
+                const { ShoppingListId, ShoppingFamilyName } = res.data;
+                setShoppingFamily(prev => [...prev, { listId:ShoppingListId, listName:ShoppingFamilyName }]);
+                setNewShoppingFamilyName('');
             }
         } catch (error) {
             console.error('Error creating family:', error);
@@ -72,18 +75,17 @@ export default function ShoppingListPage({ selectedFamilyId, setSelectedShopping
 
 
 
-    return (<div className={`ShoppingListPage ${!close ? 'Block' : 'none'}`}>
+    return (<div className={`ShoppingListPage ${!close && user ? 'Block' : 'none'}`}>
         <AiOutlineClose onClick={() => setClose(true)} />
-            <h3 className='textCenter'>צור רשימת קניות למשפחה</h3>
-        <div className='addFamilyDiv'>
+        <div className='addFamilyDiv textBox'>
             <input
                 className='itemInput'
-                value={newShoppingFamily}
-                onChange={e => setNewShoppingFamily(e.target.value)}
+                value={newShoppingFamilyName}
+                onChange={e => setNewShoppingFamilyName(e.target.value)}
                 placeholder='Enter shopping list name...'
             />
             <div className="addFamily"
-                onClick={handleCreateFamily}
+            onClick={handleCreateShoppingFamily}
             >
                 <div>Add shopping list</div>
                 <BsJournalPlus />
@@ -93,7 +95,11 @@ export default function ShoppingListPage({ selectedFamilyId, setSelectedShopping
         {!close ? (
             <div>
                 {shoppingFamily.map((shopping, index) => (
-                    <div className='ItemFamily' key={index} listName={shopping} on onClick={() => handleSelectedShoppingId(shopping.listId)} > {shopping.listName}</div>
+                 < ItemShoppingListPage key={index}
+                                        shopping={shopping}
+                                        handleSelectedShoppingId={handleSelectedShoppingId}
+                                        choose={selectedShoppingId === shopping.listId} />
+
                 ))}
             </div>
         ) : (

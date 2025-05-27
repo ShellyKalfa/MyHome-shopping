@@ -18,6 +18,7 @@ function AddItem({ items, setItems, listId }) {
      */
     const handleAPI = (event) => {
         event.preventDefault();
+        console.log("itemTyping",itemTyping)
         axios.post(`${API_BASE}/search`, {
             aggs: 1,
             q: itemTyping,
@@ -26,7 +27,7 @@ function AddItem({ items, setItems, listId }) {
             .then(res => {
                 console.log(res.data);
                 setItemNameAPI(res.data.data[0].name);
-                setItemPriceAPI(res.data.data[0].price);
+                setItemPriceAPI(res.data.data[0].price.price);
             })
             .catch(err => {
                 console.log(err.response.data);
@@ -38,6 +39,8 @@ function AddItem({ items, setItems, listId }) {
  */
     const addItem = () => {
         const trimmed = itemTyping.trim().toLowerCase();
+
+
         if (trimmed === "") return;
 
         // Check for duplicates locally
@@ -76,9 +79,42 @@ function AddItem({ items, setItems, listId }) {
     };
 
 
-   
 
-   
+    /**
+     * Toggles the completed state of an item and updates the backend.
+     *
+     * @param {number} id - The ID of the item to toggle.
+     */
+    const handleCheckboxChange = async (id) => {
+        const updatedItems = items.map(f =>
+            f.itemId === id
+                ? { ...f, completed: f.completed === 0 ? 1 : 0 }
+                : f
+        );
+
+        setItems(updatedItems);
+
+        const updatedItem = updatedItems.find(f => f.itemId === id);
+        console.log(`Updated item: ${updatedItem.name}, completed: ${updatedItem.completed}`);
+
+        try {
+            await fetch(`http://localhost:5001/item/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ completed: updatedItem.completed })
+            })
+                .then(res => res.json())
+                .then(() => {
+                    // Refresh item list from backend
+                    fetch("http://localhost:5001/item")
+                        .then(res => res.json())
+                        .then(data => setItems(data))
+                        .catch(err => console.error("Failed to reload items list:", err));
+                });
+        } catch (error) {
+            console.error('Failed to update checkbox state:', error);
+        }
+    };
     /**
     * Updates the quantity of an item and syncs the change with the backend.
     *
