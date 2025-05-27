@@ -33,7 +33,7 @@ export default function ShoppingListPage({ user,selectedFamilyId,selectedShoppin
         navigate('/ShoppingListFile', { replace: true });
 
     }
-
+ useEffect(() => {},[user])
     useEffect(() => {
         console.log("user", selectedFamilyId);
         if (selectedFamilyId) {

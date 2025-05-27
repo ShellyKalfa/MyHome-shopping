@@ -17,18 +17,21 @@ function MainPage() {
       itemName: "חלב",
       listId: 3,
       price: 7.1,
+      completed:true,
       quantity: 1
     },{
       itemId: 2,
       itemName: "גבינה",
       listId: 3,
-      price: 7.1,
+      price: 21.9,
+      completed:true,
       quantity: 1
     }, {
       itemId: 1,
       itemName: "לחם",
       listId: 3,
-      price: 7.1,
+      price: 7.9,
+      completed:true,
       quantity: 1
     }])
 

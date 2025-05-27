@@ -35,6 +35,19 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
       <div className="nav">
 
         {/*<div className="links">my family-list</div>*/}
+        {
+          isUser ? <div className="welcomeFlex">
+              <div className="links section-sign-up welcome" ><div> WELCOME:  </div> <div>{nameUser}</div></div>
+              <div className="links section-sign-up welcome" onClick={logOut} ><IoIosLogOut />
+                logOut</div>
+
+            </div>
+            :
+            <div className="links section-sign-up">
+              <Link to="/Signup" className='Link sign-up '>Sign-Up</Link>
+              <Link to="/Login" className='Link ' > Log-In</Link>
+            </div>
+        }
         <Link to="/CreateFamily" className="links Link">מרכז הפיקוד של המשפחה </Link>
 
 
@@ -54,19 +67,7 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
             </div>
           </Link>
         </div>
-        {
-          isUser ? <div className="welcomeFlex">
-              <div className="links section-sign-up welcome" ><div> WELCOME:  </div> <div>{nameUser}</div></div>
-              <div className="links section-sign-up welcome" onClick={logOut} ><IoIosLogOut />
-                logOut</div>
-
-            </div>
-            :
-            <div className="links section-sign-up">
-              <Link to="/Signup" className='Link'>Sign-Up</Link>
-              <Link to="/Login" className='Link sign-up ' > Log-In</Link>
-            </div>
-        }
+        
       </div>
     </div>
   );

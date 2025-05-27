@@ -18,10 +18,10 @@ export default function ItemShoppingList({ item, deleteItem }) {
     return (
         <div className="ItemShoppingList">
             <div >
-                {completed ? <MdCheckCircle /> : <ImRadioUnchecked />}
+                {item.completed ? <MdCheckCircle /> : <ImRadioUnchecked />}
             </div>
 
-            <div className="circle">
+            <div className="listItem">
                 <div className="itemText" dir="auto">{item.itemName}</div>
                 <div className="amountItem"> amount:{item.quantity}</div>
                 <div className="priceItem"> price:{item.price}</div>
