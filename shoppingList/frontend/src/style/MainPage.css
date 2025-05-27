@@ -1,0 +1,59 @@
+h1, p{
+    padding: 0%;
+    margin: 0%;
+}
+
+h1{
+    font-size: 4rem;
+}
+
+p{
+    font-size: 2vw; 
+}
+
+.MainPage{
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    justify-content: center;
+    justify-content: space-around;
+    margin: 0px 5px ;
+}
+
+.boardSize{
+    width: 50%;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.boardSide{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+   
+}
+
+.titles{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    color: #414848;
+}
+.countener{
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.top{
+    margin-top: 5vh;
+}
+.space{
+   
+    width: 40%;
+}

@@ -1,0 +1,80 @@
+h2,h3{
+    margin: 0;
+}
+
+.LogInInput {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-size: 1.1rem;
+}
+
+.LogInbutton{
+    width: 16vw;
+    height: 3vw;
+    font-size: 1.5em;
+    color: white;
+    background: #90ee90;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.top{
+    margin-top: 8px;
+}
+
+.bordLogin{
+   display: flex;
+   color: #414848;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.flexDiv{
+    display: flex;
+    align-items: center;
+    color :#414848;
+
+}
+.bolder{
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.Link{
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.hidePasswordBottom{
+    background: none;
+    border: none;
+    color: #001F8A;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0;
+    margin-left: 8px;
+    text-decoration: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.Invalid{
+    background: #ffebe9;
+    color: #c00;
+    border: 1px solid #ffddd9;
+    padding: 1vw;
+}
+
+.none{
+    display: none;
+}
+
+.Block{
+    display: block;
+}

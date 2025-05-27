@@ -1,0 +1,113 @@
+h2{
+    font-size: 3rem;
+}
+
+.ShoppingList{
+    width: 100%;
+    height: 100%;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+}
+
+.flex{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.board{
+    width: 100%;
+    height: 80%;
+    background-color: #fefdfb;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 2vw;
+    padding:1vw;
+    color: #354147;
+
+}
+
+.board-items {
+     width: 70%; 
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     margin-top: 5vh;
+     
+
+  }
+
+.ItemShoppingList{
+    width: 100%;
+    display: flex; 
+    flex-direction: row;
+    font-size: 2rem;
+    gap:10px;
+    align-content:center;
+    justify-content: space-between;
+    margin-bottom: 3vh;
+    text-align: center;
+}
+
+.amountItem{
+
+    font-size: 1rem;
+    text-align: center;
+    /* color: wheat;
+    border-radius: 3vw; */
+     grid-column:2;
+    grid-row: 2;
+}
+
+.priceItem{
+
+    font-size: 1rem;
+    text-align: center;
+    /* color: wheat;
+    border-radius: 3vw; */
+     grid-column:2;
+    grid-row: 3;
+}
+
+.circle{
+    grid-column:1;
+    /* grid-row: 1 /2; */
+    grid-row-start: 1;
+    grid-row-end: 3;
+    display: flex;
+    align-items: center;
+
+}
+
+.itemText{
+    grid-column:2;
+    grid-row: 1;
+    direction: rtl;
+}
+
+.listItem{
+    display: grid; 
+}
+
+.uncheck{
+    color: #414848;
+}
+
+.bigButton{
+    background-color: #45b081;
+    color: white;
+    width: 90%;
+    height: 5vh;
+    font-size: 1.6em;
+    font-weight: bold;
+    border-radius:10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
