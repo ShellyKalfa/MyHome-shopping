@@ -12,6 +12,7 @@ import ShoppingListFile from "./components/ShoppingListFile";
 import ShoppingListPage from "./components/ShoppingListPage";
 
 import './style/App.css'
+import Typing from "./components/Typing";
 
 const App = () => {
 
@@ -53,9 +54,10 @@ const App = () => {
       <NavigationBar User={user} familysApp={familysApp} logOut={logOut} setSelectedFamilyId={setSelectedFamilyId} />
       <Routes>
         <Route path="/" element={<MainPage />} />
+        {/* <Route path="/" element={<Typing />} /> */}
         <Route path="/Login" element={<Login setUser={setUser} />} />
         <Route path="/Signup" element={<Signup setUser={setUser} />} />
-        <Route path="/CreateFamily" element={<CreateFamily User={user} />} />
+        <Route path="/CreateFamily" element={<CreateFamily User={user} setFamilysApp={setFamilysApp} />} />
         <Route path="/ShoppingListFile" element={<ShoppingListFile User={user} selectedShoppingId={selectedShoppingId} />} />
       </Routes>
       <ShoppingListPage selectedFamilyId={selectedFamilyId} setSelectedShoppingId={setSelectedShoppingId} />

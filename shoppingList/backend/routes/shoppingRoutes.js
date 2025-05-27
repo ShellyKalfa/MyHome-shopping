@@ -7,44 +7,67 @@ const axios = require('axios');
 
 
 router.post('/shoppingFamily/:familyId', (req, res) => {
-    const familyId = req.params.familyId;
-    const sql = `
+  const familyId = req.params.familyId;
+  const sql = `
     SELECT sl.listName,sl.listId 
     FROM shoppingList sl 
     JOIN family f ON sl.familyId = f.familyId 
     WHERE f.familyId= ?`;
 
-    db.query(sql, [familyId], (err, data) => {
-        if (err) {
-            console.error("Login Failed:", err);
-            return res.status(500).json("Login Failed");
-        }
+  db.query(sql, [familyId], (err, data) => {
+    if (err) {
+      console.error("Login Failed:", err);
+      return res.status(500).json("Login Failed");
+    }
 
-        if (data.length >= 0) {
-            console.log(`✅ Login successful for member ID: ${familyId}`, data[0]);
-            if (data.length > 0) {
-                return res.json({ success: true, data: data });
-            }
-            else {
-                return res.json({ success: true, data: null });
-            }
-        } else {
-            return res.status(401).json({ success: false, message: "Invalid credentials" });
-        }
-    });
+    if (data.length >= 0) {
+      console.log(`✅ Login successful for member ID: ${familyId}`, data[0]);
+      if (data.length > 0) {
+        return res.json({ success: true, data: data });
+      }
+      else {
+        return res.json({ success: true, data: null });
+      }
+    } else {
+      return res.status(401).json({ success: false, message: "Invalid credentials" });
+    }
+  });
 });
+///createShoppingList/${selectedFamilyId}`
+
+router.post('/createShoppingList/:selectedFamilyId', (req, res) => {
+  const familyId = req.params.selectedFamilyId;
+  const { newShoppingFamily } = req.body;
+  console.log("familyId ,newShoppingFamily",familyId,newShoppingFamily);
+  
+  const insertMemberFamilySql = "INSERT INTO shoppingList (listId,familyId, listName, createdAt) VALUES (NULL,?, ?,current_timestamp())";
+  const insertMemberFamilyValues = [familyId, newShoppingFamily];
+
+  db.query(insertMemberFamilySql, insertMemberFamilyValues, (err2,response) => {
+    if (err2) {
+      console.error("Member Insert Failed:", err2);
+      return res.status(500).json({ success: false, message: "Member insert failed" });
+    }
+     console.log(response.insertId)
+    return res.json({success:true,data:{
+     listId: response.insertId,
+    listName:newShoppingFamily
+    }});
+  });
+});
+
 
 
 //--------------------------------- ADDED BY IDO -----------------------------------
 
 // gat items
 router.get('/item/:listId', (req, res) => {
-    const listId = req.params.listId;
-    const sql = `SELECT * FROM item WHERE listId  = ?`
-    db.query(sql, [listId], (err, results) => {
-        if (err) return res.status(500).json({ error: err });
-        res.json(results);
-    });
+  const listId = req.params.listId;
+  const sql = `SELECT * FROM item WHERE listId  = ?`
+  db.query(sql, [listId], (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
 });
 
 // Delete a item by itemId
@@ -67,20 +90,22 @@ router.post('/item/:itemId', (req, res) => {
   // Check for duplicates (case insensitive)
   db.query(
     'SELECT * FROM item WHERE LOWER(itemName) = LOWER(?) AND listId = ?',
-    [itemName],
+    [itemName, listId],
     (err, results) => {
-      if (err) {console.log(err);
-      return res.status(500).json({ error: err });}
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ error: err });
+      }
       if (results.length > 0) {
         return res.status(400).json({ error: 'Fruit already exists' });
       }
 
       // No duplicates found, insert new fruit
       db.query(
-        'INSERT INTO item (itemName, quantity, price, listId) VALUES (?, ?, ?, 1)',
-        [itemName, quantity, price],
+        'INSERT INTO item (itemName, quantity, price, listId) VALUES (?, ?, ?, ?)',
+        [itemName, quantity, price, listId],
         (err, result) => {
-          if (err) {console.log(err);return res.status(500).json({ error: err });}
+          if (err) { console.log(err); return res.status(500).json({ error: err }); }
           res.json({ message: 'Fruit added!', itemId: result.insertItemId });
         }
       );
@@ -91,8 +116,8 @@ router.post('/item/:itemId', (req, res) => {
 router.post('/search', async (req, res) => {
   try {
 
-    console.log("req.body",req.body);
-    
+    console.log("req.body", req.body);
+
     const response = await axios.post('https://www.rami-levy.co.il/api/catalog?', req.body, {
       headers: {
         'Content-Type': 'routerlication/json'
@@ -105,7 +130,7 @@ router.post('/search', async (req, res) => {
 });
 
 // Update fruit completed status by itemId
-router.patch('/item/:itemId', (req, res) => {  
+router.patch('/item/:itemId', (req, res) => {
   const { itemId } = req.params;
   const { completed } = req.body;
 

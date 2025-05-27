@@ -76,60 +76,9 @@ function AddItem({ items, setItems, listId }) {
     };
 
 
-    /**
-     * Deletes an item from the backend and updates the local state.
-     *
-     * @param {number} itemId - The ID of the item to delete.
-     */
-    const deleteItem = (itemId) => {
-        fetch(`${API_BASE}/item/${itemId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((res) => res.json())
-            .then(() => {
-                setItems(items.filter((item) => item.itemId !== itemId));
-            })
-            .catch((err) => console.error("Error deleting item:", err));
-    };
+   
 
-    /**
-     * Toggles the completed state of an item and updates the backend.
-     *
-     * @param {number} id - The ID of the item to toggle.
-     */
-    const handleCheckboxChange = async (id) => {
-        const updatedItems = items.map(f =>
-            f.itemId === id
-                ? { ...f, completed: f.completed === 0 ? 1 : 0 }
-                : f
-        );
-
-        setItems(updatedItems);
-
-        const updatedItem = updatedItems.find(f => f.itemId === id);
-        console.log(`Updated item: ${updatedItem.name}, completed: ${updatedItem.completed}`);
-
-        try {
-            await fetch(`http://localhost:5001/item/${id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ completed: updatedItem.completed })
-            })
-                .then(res => res.json())
-                .then(() => {
-                    // Refresh item list from backend
-                    fetch("http://localhost:5001/item")
-                        .then(res => res.json())
-                        .then(data => setItems(data))
-                        .catch(err => console.error("Failed to reload items list:", err));
-                });
-        } catch (error) {
-            console.error('Failed to update checkbox state:', error);
-        }
-    };
+   
     /**
     * Updates the quantity of an item and syncs the change with the backend.
     *
@@ -185,7 +134,7 @@ function AddItem({ items, setItems, listId }) {
             </div>
             <div className="topButton">
                 <input className="itemAmount" placeholder=" amount of items... " />
-                <button className="buttonAddItems"> save  </button>
+                <button className="buttonAddItems" onClick={addItem}> save  </button>
                 <button className="buttonAddItems"> cancel  </button>
             </div>
             <div className="topButton">

@@ -17,6 +17,7 @@ export default function Login({ setUser }) {
 
         event.preventDefault();
         setError('');
+        console.log("email, password",email, password);
 
         // Validation
         if (!email || !password) {
@@ -28,7 +29,8 @@ export default function Login({ setUser }) {
             setError('Invalid email format.');
             return;
         }
-
+        
+        
         // Send login request
         axios.post('http://localhost:5000/users/login', { email, password })
             .then(res => {

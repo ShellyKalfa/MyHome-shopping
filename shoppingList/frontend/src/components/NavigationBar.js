@@ -45,7 +45,7 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
             </div>
         }
         {/*<div className="links">my family-list</div>*/}
-        <Link to="/CreateFamily" className="links Link">Management </Link>
+        <Link to="/CreateFamily" className="links Link">מרכז הפיקוד של המשפחה </Link>
 
 
         {console.log("sdads", familysApp)}
@@ -57,7 +57,8 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
         <div>
           <Link to="/ShoppingListFile" className="links Link familysMenu">
             <div>
-              <AiOutlineMenu /> Family-list
+                      מאגר הקניות המשפחתי 🗂️            
+                        {/* <AiOutlineMenu />  */}
             </div>
           </Link>
         </div>

@@ -21,7 +21,7 @@ import {
 // Styles
 import '../style/CreateFamily.css';
 
-export default function CreateFamily({ User }) {
+export default function CreateFamily({ User ,setFamilysApp }) {
     const [families, setFamilies] = useState([]);
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyId, setSelectedFamilyId] = useState('');
@@ -38,6 +38,10 @@ export default function CreateFamily({ User }) {
 
         loadUserFamilies();
     }, [User]);
+
+    useEffect(() => {
+     setFamilysApp(families)
+    }, [families]);
 
     const loadUserFamilies = async () => {
         try {
@@ -70,6 +74,7 @@ export default function CreateFamily({ User }) {
             const res = await getFamilyMembers(familyId);
             if (res.data.success && Array.isArray(res.data.data)) {
                 setFamilyMembers(res.data.data);
+                
                 setSelectedFamilyId(familyId);
             }
         } catch (error) {
