@@ -11,12 +11,11 @@
   background-color: wheat;
   border-radius: 3vw;
   padding: 2vh;
+}
 
 .textBox{
     margin-bottom: 4vh;
 }
-
-
 
 .none{
     display: none;

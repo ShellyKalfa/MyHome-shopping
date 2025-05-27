@@ -52,7 +52,7 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
                       מאגר הקניות המשפחתי 🗂️            
                         {/* <AiOutlineMenu />  */}
             </div>
-          {/*</Link>*/}
+          </Link>
         </div>
         {
           isUser ? <div className="welcomeFlex">
