@@ -159,6 +159,24 @@ router.patch('/item/:itemId/quantity', (req, res) => {
 
 
 //--------------------------------- ADDED BY IDO FINISHED-----------------------------------
+//Autocomplete route
+router.get('/autocomplete/:listId/:query', (req, res) => {
+  const { listId, query } = req.params;
 
+  const sql = `
+    SELECT DISTINCT itemName 
+    FROM item 
+    WHERE listId = ? AND itemName LIKE ? 
+    LIMIT 10
+  `;
+
+  db.query(sql, [listId, `${query}%`], (err, data) => {
+    if (err) {
+      console.error("Autocomplete error:", err);
+      return res.status(500).json({ success: false, message: "Server error" });
+    }
+    return res.json({ success: true, matches: data.map(row => row.itemName) });
+  });
+});
 
 module.exports = router;

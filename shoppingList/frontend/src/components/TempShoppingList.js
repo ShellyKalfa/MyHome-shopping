@@ -29,13 +29,27 @@ export default function TempShoppingList({ items,isTemp,setItems }) {
       })
       .catch((err) => console.error("Error deleting item:", err));
   };
+
+const updateItem = (id, newData) => {
+    setItems(prevItems =>
+        prevItems.map(item =>
+            item.itemId === id ? { ...item, ...newData } : item
+        )
+    );
+};
+
+
     return (
         <div className='board'>
             <div className='flex'>
                 <h2 className='textCenter'> {isTemp ? <Typing text={['רשימת קניות ','כדורגל עם חברים','ערב תה עם הבנות','ערב זוגי בבית']}/> :' רשימת קניות '}</h2>
                 <div className='board-items '>
                     {items.map((item, index) => (
-                        <ItemShoppingList key={index} item={item} deleteItem={deleteItem} />
+                        <ItemShoppingList 
+                        key={index} 
+                        item={item} 
+                        deleteItem={deleteItem}
+                        updateItem={updateItem} />
                     ))}
                 </div>
             </div>

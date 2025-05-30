@@ -9,6 +9,8 @@ function AddItem({ items, setItems, listId }) {
     const [itemTyping, setItemTyping] = useState("");
     // State to track the input value for a new item
     const [newItem, setNewItem] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
+
 
     /**
      * Fetches item details (name and price) from the Rami Levi API based on the typed item name.
@@ -37,46 +39,62 @@ function AddItem({ items, setItems, listId }) {
  * Adds a new item to the backend and updates the local state.
  * Prevents duplicates and ensures the price is properly parsed.
  */
-    const addItem = () => {
-        const trimmed = itemTyping.trim().toLowerCase();
+const addItem = async () => {
+    const trimmed = itemTyping.trim().toLowerCase();
+    if (trimmed === "") return;
 
+    if (items.some(item => item.itemName.toLowerCase() === trimmed)) {
+        alert("This item already exists!");
+        return;
+    }
 
-        if (trimmed === "") return;
+    try {
+        const response = await axios.post(`${API_BASE}/search`, {
+            aggs: 1,
+            q: trimmed,
+            store: 331
+        });
 
-        // Check for duplicates locally
-        if (items.some(item => item.itemName.toLowerCase() === trimmed)) {
-            alert("This item already exists!");
+        const result = response.data?.data?.[0];
+        if (!result) {
+            alert("No result found for this product.");
             return;
         }
 
-        fetch(`${API_BASE}/item/${listId}`, {
+        const nameFromAPI = result.name;
+        const priceFromAPI = parseFloat(result.price.price);
+
+        const res = await fetch(`${API_BASE}/item/${listId}`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                itemName: itemNameAPI,
+                itemName: nameFromAPI,
                 quantity: 1,
-                price: parseFloat(itemPriceAPI)
+                price: priceFromAPI
             }),
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    return res.json().then(err => { throw new Error(err.error); });
-                }
-                return res.json();
-            })
-            .then((data) => {
-                setItems([...items, {
-                    itemId: data.itemId,
-                    itemName: itemNameAPI,
-                    price: parseFloat(itemPriceAPI)
-                }]);
-                setNewItem("");
-            })
-            .catch((err) => {
-                alert("Error adding item: " + err.message);
-                console.error("Error adding item:", err);
-            });
-    };
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            throw new Error(err.error);
+        }
+
+        const data = await res.json();
+
+        setItems([...items, {
+            itemId: data.itemId,
+            itemName: nameFromAPI,
+            price: priceFromAPI
+        }]);
+
+        setNewItem("");
+        setItemTyping("");
+        setSuggestions([]);
+    } catch (err) {
+        alert("Error adding item: " + err.message);
+        console.error("Error adding item:", err);
+    }
+};
 
 
 
@@ -152,6 +170,30 @@ function AddItem({ items, setItems, listId }) {
         }
     };
 
+   useEffect(() => {
+    if (!itemTyping) {
+        setSuggestions([]);
+        return;
+    }
+
+    const timeoutId = setTimeout(() => {
+        axios.post(`${API_BASE}/search`, {
+            aggs: 1,
+            q: itemTyping,
+            store: 331
+        })
+        .then(res => {
+            if (res.data && res.data.data) {
+                const results = res.data.data.map(product => product.name);
+                setSuggestions(results.slice(0, 10)); // עד 10 הצעות
+            }
+        })
+        .catch(err => console.error("Autocomplete from API error", err));
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+}, [itemTyping]);
+
 
 
     return (
@@ -164,6 +206,19 @@ function AddItem({ items, setItems, listId }) {
                     onChange={(e) => setItemTyping(e.target.value)}
                     placeholder="Item name..."
                     dir="rtl" />
+
+                        {suggestions.length > 0 && (
+        <ul className="autocomplete-list">
+            {suggestions.map((s, idx) => (
+                <li key={idx} onClick={() => {
+                    setItemTyping(s);
+                    setSuggestions([]);
+                }}>
+                    {s}
+                </li>
+            ))}
+        </ul>
+    )}
                 <button onClick={handleAPI}>Check product name and price</button>
 
 
