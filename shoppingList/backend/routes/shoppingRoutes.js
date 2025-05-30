@@ -62,6 +62,15 @@ router.post('/createShoppingFamily/:selectedFamilyId', (req, res) => {
 //--------------------------------- ADDED BY IDO -----------------------------------
 
 // gat items
+router.get('/item', (req, res) => {
+  const sql = `SELECT * FROM item`
+  db.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+
+// gat items by id 
 router.get('/item/:listId', (req, res) => {
   const listId = req.params.listId;
   const sql = `SELECT * FROM item WHERE listId  = ?`

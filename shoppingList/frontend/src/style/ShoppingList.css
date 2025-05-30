@@ -3,7 +3,7 @@
 .shoppingListBord{
     display: flex;
     justify-content: center;
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: center;
 }
 
@@ -34,7 +34,7 @@
 }
 
 .boardSizeShoppingList{
-    width: 30vw;
+    width: 60vw;
     height: 70vh;
 
 }

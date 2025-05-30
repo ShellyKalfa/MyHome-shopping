@@ -169,7 +169,17 @@ function AddItem({ items, setItems, listId }) {
 
             </div>
             <div className="topButton">
-                <input className="itemAmount" placeholder=" amount of items... " />
+                <select className="itemAmount" > 
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    
+                </select >
                 <button className="buttonAddItems" onClick={addItem}> save  </button>
                 <button className="buttonAddItems"> cancel  </button>
             </div>
