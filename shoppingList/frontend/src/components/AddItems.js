@@ -10,7 +10,7 @@ function AddItem({ items, setItems, listId }) {
     // State to track the input value for a new item
     const [newItem, setNewItem] = useState("");
     const [suggestions, setSuggestions] = useState([]);
-
+const [selectedFromSuggestions, setSelectedFromSuggestions] = useState(false);
 
     /**
      * Fetches item details (name and price) from the Rami Levi API based on the typed item name.
@@ -171,8 +171,9 @@ const addItem = async () => {
     };
 
    useEffect(() => {
-    if (!itemTyping) {
+    if (!itemTyping || selectedFromSuggestions) {
         setSuggestions([]);
+        setSelectedFromSuggestions(false);
         return;
     }
 
@@ -213,6 +214,7 @@ const addItem = async () => {
                 <li key={idx} onClick={() => {
                     setItemTyping(s);
                     setSuggestions([]);
+                    setSelectedFromSuggestions(true); 
                 }}>
                     {s}
                 </li>
