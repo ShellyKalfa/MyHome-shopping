@@ -1,31 +1,31 @@
-.ShoppingListPage{
-  display: block;
-  position: absolute;
-  top: 11vh;
-  right: 0;
-  width: 30vw;
-  height: 80vh;
-  z-index: 1;
-  padding: 1.5vw;
-  border-radius: 4vw;
-  background-color: wheat;
-  border-radius: 3vw;
-  padding: 2vh;
+.ShoppingListPage {
+    display: block;
+    position: absolute;
+    top: 11vh;
+    right: 0;
+    width: 30vw;
+    height: 80vh;
+    z-index: 1;
+    padding: 1.5vw;
+    border-radius: 4vw;
+    background-color: wheat;
+    border-radius: 3vw;
+    padding: 2vh;
 }
 
-.textBox{
+.textBox {
     margin-bottom: 4vh;
 }
 
-.none{
+.none {
     display: none;
 }
 
-.Block{
+.Block {
     display: block;
 }
 
-.ItemFamily{
+.ItemFamily {
     width: 80%;
     background-color: #fbf6f1;
     border-radius: 10px;
@@ -37,7 +37,11 @@
     padding: 2vh;
 }
 
-.Chosen{
+.Chosen {
     background-color: #ffeebd;
+}
 
+.familyNameDiv {
+    display: flex;
+    justify-content: center;
 }

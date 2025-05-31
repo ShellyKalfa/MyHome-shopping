@@ -23,10 +23,12 @@ import {
 } from '../api/family';
 
 
-export default function ShoppingListPage({ user,selectedFamilyId,selectedShoppingId ,setSelectedShoppingId }) {
+export default function ShoppingListPage({ user,familysApp,selectedFamilyId,selectedShoppingId ,setSelectedShoppingId }) {
     const [shoppingFamily, setShoppingFamily] = useState([])
     const [newShoppingFamilyName, setNewShoppingFamilyName] = useState('')
     const [close, setClose] = useState(true)
+    const selectedFamily = familysApp.find(family => family.familyId === selectedFamilyId);
+    const selectedFamilyName = selectedFamily ? selectedFamily.familyName : '';
     const navigate = useNavigate();
     const handleSelectedShoppingId = (ShoppingId) => {
         setSelectedShoppingId(ShoppingId)
@@ -77,6 +79,7 @@ export default function ShoppingListPage({ user,selectedFamilyId,selectedShoppin
 
     return (<div className={`ShoppingListPage ${!close && user ? 'Block' : 'none'}`}>
         <AiOutlineClose onClick={() => setClose(true)} />
+         <div className='familyNameDiv' >  <p>{selectedFamilyName}</p></div> 
         <div className='addFamilyDiv textBox'>
             <input
                 className='itemInput'

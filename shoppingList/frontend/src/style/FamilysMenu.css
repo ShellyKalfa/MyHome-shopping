@@ -1,0 +1,46 @@
+.familysMenu {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.menuTrigger {
+  padding: 10px;
+  border-radius: 6px;
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.menuTrigger.active {
+  font-weight: bold;
+   background-color: #f5f5f5;
+  /* background-color: #e0e0e0; */
+}
+
+.dropdownMenu {
+  position: absolute;
+  width: 100%;
+  top: 80%;
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: 0px;
+  border-radius: 0px 6px 6px 6px;
+  margin-top: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.dropdownItem {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  background-color: #f5f5f5;
+}

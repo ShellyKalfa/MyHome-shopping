@@ -34,7 +34,7 @@ export default function TempShoppingList({ items,isTemp,setItems }) {
     return (
         <div className='board'>
             <div className='flex'>
-                <h2 className='textCenter'> {isTemp ? <Typing text={['רשימת קניות ','כדורגל עם חברים','ערב תה עם הבנות','ערב זוגי בבית']}/> :' רשימת קניות '}</h2>
+                <h2 className='textCenter'> {isTemp ? <Typing text={['רשימת קניות', 'כדורגל עם חברים', 'ערב תה עם הבנות', 'ערב זוגי בבית']} /> :' רשימת קניות '}</h2>
                 <div className='board-items '>
                     {items.map((item, index) => (
                         <ItemShoppingList key={index} item={item} deleteItem={deleteItem} />
