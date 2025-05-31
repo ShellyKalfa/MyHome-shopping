@@ -11,6 +11,11 @@ const API_BASE = 'http://localhost:5000';
 
 
 export default function ItemShoppingList({ item, deleteItem }) {
+    const [newItem, setNewItem] = useState(item.itemName)
+    const [isEdit,setIsEdit]=useState(false)
+    const onEdit=()=>{
+        
+    }
     const onDelete = () => {
         deleteItem(item.itemId)
     }
@@ -22,13 +27,19 @@ export default function ItemShoppingList({ item, deleteItem }) {
             </div>
 
             <div className="listItem">
-                <div className="itemText" dir="auto">{item.itemName}</div>
+                <div className="itemText" dir="auto">{isEdit ? item.itemName : 
+                    <input
+                    value={newItem}
+                    onChange={(e) => setNewItem(e.target.value)}
+                    placeholder="Enter item name"
+                />}
+                </div>
                 <div className="amountItem"> amount:{item.quantity}</div>
                 <div className="priceItem"> price:{item.price}</div>
             </div>
 
             <div>
-                <MdEdit />
+                <MdEdit  onClick={setIsEdit(true)}/>
                 <div onClick={onDelete}>  <BsTrash />  </div>
 
             </div>

@@ -9,7 +9,7 @@ import Typing from './Typing';
 const API_BASE = 'http://localhost:5000';
 
 export default function TempShoppingList({ items,isTemp,setItems }) {
-
+ 
 
   /**
    * Deletes an item from the backend and updates the local state.
@@ -29,6 +29,8 @@ export default function TempShoppingList({ items,isTemp,setItems }) {
       })
       .catch((err) => console.error("Error deleting item:", err));
   };
+
+
     return (
         <div className='board'>
             <div className='flex'>
