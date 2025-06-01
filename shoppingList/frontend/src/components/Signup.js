@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
 import '../style/Login.css'
-
+import { GoogleLogin } from '@react-oauth/google';
 
 
 export default function Signup({ setUser }) {
@@ -22,11 +21,16 @@ export default function Signup({ setUser }) {
     const PASSWORD_LENGTH = 8;
     const EMAIL_TEMPLATE = /^[^\s@]+@[^\s@]+\.com$/;
 
+
     const handlePasswordChange = (e) => {
         const value = e.target.value;
         const newChar = value[value.length - 1];
 
         setPassword(value);
+        if (value.length === 0) {
+            setDisplayPassword('');
+            return;
+        }
         const masked = '•'.repeat(value.length - 1) + newChar;
         setDisplayPassword(masked);
 
@@ -92,7 +96,6 @@ export default function Signup({ setUser }) {
             });
     };
 
-
     return (
         <div className="bordLogin top">
             <h2>Sign up to</h2>
@@ -149,6 +152,21 @@ export default function Signup({ setUser }) {
                         Log in
                     </Link>
                 </div>
+                <div className='separator'>
+                    <div className="line"></div>
+                    <span>or</span>
+                    <div className="line"></div>
+                </div>
+                <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                        console.log("Google login success:", credentialResponse);
+                        // TODO: Send `credentialResponse.credential` to your backend if needed
+                    }}
+                    onError={() => {
+                        console.log("Login Failed");
+                        setError("Google login failed");
+                    }}
+                />
             </form>
         </div>
     );

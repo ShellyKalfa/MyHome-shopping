@@ -2,6 +2,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import '../style/Login.css';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 export default function Login({ setUser }) {
     const [email, setEmail] = useState('');
@@ -89,6 +91,35 @@ export default function Login({ setUser }) {
                     <h3>Don't have an account?</h3>
                     <Link to="/Signup" style={{color: "Blue"}} className="bolder Link">Sign up</Link>
                 </div>
+                <div className='separator'>
+                    <div className="line"></div>
+                    <span>or</span>
+                    <div className="line"></div>
+                </div>
+                <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                        const decoded = jwtDecode(credentialResponse.credential);
+
+                        axios.post('http://localhost:5000/users/google-login', {
+                            email: decoded.email,
+                            name: decoded.name
+                        })
+                            .then(res => {
+                                if (res.data.success && res.data.user) {
+                                    setUser(res.data.user);
+                                    navigate('/CreateFamily');
+                                } else {
+                                    setError('Google login failed.');
+                                }
+                            })
+                            .catch(() => {
+                                setError('Server error. Please try again later.');
+                            });
+                    }}
+                    onError={() => {
+                        setError("Google login failed.");
+                    }}
+                />
             </form>
         </div>
     );
