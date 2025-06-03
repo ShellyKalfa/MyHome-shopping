@@ -26,12 +26,6 @@ const App = () => {
     setFamilysApp([])
     setSelectedFamilyId('')
   }
-  useEffect(() => {
-    console.log("selectedShoppingId", selectedShoppingId);
-  }, [selectedShoppingId])
-  useEffect(() => {
-    console.log(familysApp);
-  }, [familysApp])
 
   useEffect(() => {
     console.log("user", user);
