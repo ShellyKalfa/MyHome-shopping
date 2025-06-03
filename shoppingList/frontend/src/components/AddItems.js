@@ -8,10 +8,7 @@ function AddItem({ items, setItems, listId }) {
     const [itemPriceAPI, setItemPriceAPI] = useState("");
     const [itemTyping, setItemTyping] = useState("");
     // State to track the input value for a new item
-    const [newItem, setNewItem] = useState("");
     const [suggestions, setSuggestions] = useState([]);
-    const [selectedFromSuggestions, setSelectedFromSuggestions] = useState(false);
-    
 
     /**
      * Fetches item details (name and price) from the Rami Levi API based on the typed item name.
@@ -50,28 +47,13 @@ const addItem = async () => {
     }
 
     try {
-        const response = await axios.post(`${API_BASE}/search`, {
-            aggs: 1,
-            q: trimmed,
-            store: 331
-        });
-
-        const result = response.data?.data?.[0];
-        if (!result) {
-            alert("No result found for this product.");
-            return;
-        }
-
-        const nameFromAPI = result.name;
-        const priceFromAPI = parseFloat(result.price.price);
-
         const res = await fetch(`${API_BASE}/item/${listId}`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                itemName: nameFromAPI,
+                itemName: itemNameAPI,
                 quantity: 1,
-                price: priceFromAPI
+                price: itemPriceAPI
             }),
         });
 
@@ -84,11 +66,10 @@ const addItem = async () => {
 
         setItems([...items, {
             itemId: data.itemId,
-            itemName: nameFromAPI,
-            price: priceFromAPI
+            itemName: itemNameAPI,
+            price: itemPriceAPI
         }]);
 
-        setNewItem("");
         setItemTyping("");
         setSuggestions([]);
     } catch (err) {
@@ -186,7 +167,12 @@ const addItem = async () => {
         })
         .then(res => {
             if (res.data && res.data.data) {
-                const results = res.data.data.map(product => product.name);
+                const results = res.data.data.map(product => 
+                    ({"productName" : product.name,
+                     "productPrice" : product.price.price,
+                     "productCatgory" : product.department.name 
+                    }));
+               console.log(results);
                 setSuggestions(results.slice(0, 10)); 
             }
         })
@@ -195,6 +181,15 @@ const addItem = async () => {
     else{
         setSuggestions([])
         }
+    }
+
+
+    const handleOnClick = (s)=>{
+            setItemNameAPI(s.productName);
+            setItemPriceAPI(parseFloat(s.productPrice));
+            setItemTyping(s.productName);
+            setSuggestions([]);
+
     }
 
     return (
@@ -212,11 +207,9 @@ const addItem = async () => {
         <ul className="autocomplete-list">
             {suggestions.map((s, idx) => (
                 <li key={idx} onClick={() => {
-                    setItemTyping(s);
-                    setSuggestions([]);
-                    setSelectedFromSuggestions(true); 
+                    handleOnClick(s);
                 }}>
-                    {s}
+                    {s.productName}
                 </li>
             ))}
         </ul>
@@ -229,14 +222,6 @@ const addItem = async () => {
                 <button className="buttonAddItems" onClick={addItem}> save  </button>
                 <button className="buttonAddItems"> cancel  </button>
             </div>
-            <div className="topButton">
-                <label className="itemAmount"  >
-                    {itemPriceAPI ? `${itemNameAPI} - ${itemPriceAPI}₪` : "check the price"}
-                </label>
-
-                <button className="buttonAddItems" onClick={handleAPI}> check price  </button>
-            </div>
-
         </div>);
 }
 
