@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
       console.error("Fetch users failed:", err);
       return res.status(500).json({ success: false, message: "Server error" });
     }
+    
 
     return res.json({ success: true, users: data });
   });

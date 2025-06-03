@@ -8,77 +8,53 @@ function AddItem({ items, setItems, listId }) {
     const [itemPriceAPI, setItemPriceAPI] = useState("");
     const [itemTyping, setItemTyping] = useState("");
     // State to track the input value for a new item
-    const [newItem, setNewItem] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
 
-    /**
-     * Fetches item details (name and price) from the Rami Levi API based on the typed item name.
-     * Updates local state with the name and parsed price.
-     *
-     * @param {Event} event - The form submission event.
-     */
-    const handleAPI = (event) => {
-        event.preventDefault();
-        console.log("itemTyping",itemTyping)
-        axios.post(`${API_BASE}/search`, {
-            aggs: 1,
-            q: itemTyping,
-            store: 331
-        })
-            .then(res => {
-                console.log(res.data);
-                setItemNameAPI(res.data.data[0].name);
-                setItemPriceAPI(res.data.data[0].price.price);
-            })
-            .catch(err => {
-                console.log(err.response.data);
-            });
-    };
+
     /**
  * Adds a new item to the backend and updates the local state.
  * Prevents duplicates and ensures the price is properly parsed.
  */
-    const addItem = () => {
+    const addItem = async () => {
         const trimmed = itemTyping.trim().toLowerCase();
-
-
         if (trimmed === "") return;
 
-        // Check for duplicates locally
         if (items.some(item => item.itemName.toLowerCase() === trimmed)) {
             alert("This item already exists!");
             return;
         }
-
-        fetch(`${API_BASE}/item/${listId}`, {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                itemName: itemNameAPI,
-                quantity: 1,
-                price: parseFloat(itemPriceAPI)
-            }),
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    return res.json().then(err => { throw new Error(err.error); });
-                }
-                return res.json();
-            })
-            .then((data) => {
-                setItems([...items, {
-                    itemId: data.itemId,
+        try {
+            const res = await fetch(`${API_BASE}/item/${listId}`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
                     itemName: itemNameAPI,
-                    price: parseFloat(itemPriceAPI)
-                }]);
-                setNewItem("");
-            })
-            .catch((err) => {
-                alert("Error adding item: " + err.message);
-                console.error("Error adding item:", err);
+                    quantity: 1,
+                    price: itemPriceAPI
+                }),
             });
+
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.error);
+            }
+
+            const data = await res.json();
+            console.log("data", data);
+            
+            setItems([...items, {
+                itemId: data.itemId,
+                itemName: itemNameAPI,
+                price: itemPriceAPI
+            }]);
+
+            setItemTyping("");
+            setSuggestions([]);
+        } catch (err) {
+            alert("Error adding item: " + err.message);
+            console.error("Error adding item:", err);
+        }
     };
-
-
 
     /**
      * Toggles the completed state of an item and updates the backend.
@@ -95,7 +71,6 @@ function AddItem({ items, setItems, listId }) {
         setItems(updatedItems);
 
         const updatedItem = updatedItems.find(f => f.itemId === id);
-        console.log(`Updated item: ${updatedItem.name}, completed: ${updatedItem.completed}`);
 
         try {
             await fetch(`http://localhost:5001/item/${id}`, {
@@ -115,6 +90,7 @@ function AddItem({ items, setItems, listId }) {
             console.error('Failed to update checkbox state:', error);
         }
     };
+
     /**
     * Updates the quantity of an item and syncs the change with the backend.
     *
@@ -131,7 +107,6 @@ function AddItem({ items, setItems, listId }) {
         setItems(updatedItems);
 
         const updatedItem = updatedItems.find(f => f.itemId === id);
-        console.log(`Updated item: ${updatedItem.name}, quantity: ${updatedItem.quantity}`);
 
         try {
             await fetch(`http://localhost:5001/item/${id}/quantity`, {
@@ -153,6 +128,48 @@ function AddItem({ items, setItems, listId }) {
     };
 
 
+       /**
+     * Fetches item details (name and price) from the Rami Levi API based on the typed item name.
+     * Updates local state with the name and parsed price.
+     * as auto complition
+     * @param {Event} event - The form submission event.
+     */
+
+    const handleChange = (event) => {
+        event.preventDefault();
+        let text = event.target.value;
+        setItemTyping(text)
+        if (text.length > 1) {
+            axios.post(`${API_BASE}/search`, {
+                aggs: 1,
+                q: text,
+                store: 331
+            })
+                .then(res => {
+                    if (res.data && res.data.data) {
+                        const results = res.data.data.map(product =>
+                        ({
+                            "productName": product.name,
+                            "productPrice": product.price.price,
+                            "productCatgory": product.department.name
+                        }));
+                        setSuggestions(results.slice(0, 10));
+                    }
+                })
+                .catch(err => console.error("Autocomplete from API error", err));
+        }
+        else {
+            setSuggestions([])
+        }
+    }
+
+
+    const handleOnClick = (product) => {
+        setItemNameAPI(product.productName);
+        setItemPriceAPI(parseFloat(product.productPrice));
+        setItemTyping(product.productName);
+        setSuggestions([]);
+    }
 
     return (
 
@@ -161,10 +178,21 @@ function AddItem({ items, setItems, listId }) {
             <div className="topButton">
                 <input className="itemInput"
                     value={itemTyping}
-                    onChange={(e) => setItemTyping(e.target.value)}
+                    onChange={(event) => handleChange(event)}
                     placeholder="Item name..."
                     dir="rtl" />
-                <button onClick={handleAPI}>Check product name and price</button>
+
+                {(suggestions.length > 0 && itemTyping.length > 1) ? (
+                    <ul className="autocomplete-list">
+                        {suggestions.map((product, idx) => (
+                            <li key={idx} onClick={() => {
+                                handleOnClick(product);
+                            }}>
+                                {product.productName}
+                            </li>
+                        ))}
+                    </ul>
+                ) : <></>}
 
 
             </div>
@@ -182,13 +210,6 @@ function AddItem({ items, setItems, listId }) {
                 </select >
                 <button className="buttonAddItems" onClick={addItem}> save  </button>
                 <button className="buttonAddItems"> cancel  </button>
-            </div>
-            <div className="topButton">
-                <label className="itemAmount"  >
-                    {itemPriceAPI ? `${itemNameAPI} - ${itemPriceAPI}₪` : "check the price"}
-                </label>
-
-                <button className="buttonAddItems" onClick={handleAPI}> check price  </button>
             </div>
 
         </div>);
