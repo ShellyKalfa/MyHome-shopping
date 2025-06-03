@@ -54,7 +54,7 @@ export default function ShoppingListPage({ user,selectedFamilyId,selectedShoppin
                   console.log(err);
               });
         }
-    }, [selectedFamilyId]);
+    }, [selectedFamilyId ,user]);
 
 
     const handleCreateShoppingFamily = async () => {

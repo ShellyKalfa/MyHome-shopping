@@ -35,7 +35,7 @@ export default function ItemShoppingList({ item, deleteItem,updateItem }) {
             </div>
 
             <div className="listItem">
-                <div className="itemText" dir="auto">{item.itemName}</div>
+                <div className={`itemText ${item.completed? 'crossText' : ''}`}dir="auto">{item.itemName}</div> 
                 <div className="amountItem"> amount:{item.quantity}</div>
                 <div className="priceItem"> price:{item.price}</div>
             </div>
