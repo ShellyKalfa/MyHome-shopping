@@ -26,10 +26,12 @@ const App = () => {
     setFamilysApp([])
     setSelectedFamilyId('')
   }
-   useEffect(() => {console.log("selectedShoppingId",selectedShoppingId);
-   },[selectedShoppingId])
-  useEffect(() => {console.log(familysApp);
-  },[familysApp])
+  useEffect(() => {
+    console.log("selectedShoppingId", selectedShoppingId);
+  }, [selectedShoppingId])
+  useEffect(() => {
+    console.log(familysApp);
+  }, [familysApp])
 
   useEffect(() => {
     console.log("user", user);
@@ -57,14 +59,14 @@ const App = () => {
         <Route path="/" element={<MainPage />} />
         <Route path="/Login" element={<Login setUser={setUser} />} />
         <Route path="/Signup" element={<Signup setUser={setUser} />} />
-        <Route path="/CreateFamily" element={<CreateFamily User={user} setFamilysApp={setFamilysApp}/>} />
+        <Route path="/CreateFamily" element={<CreateFamily User={user} setFamilysApp={setFamilysApp} />} />
         <Route path="/ShoppingListFile" element={<ShoppingListFile User={user} selectedShoppingId={selectedShoppingId} />} />
       </Routes>
       <ShoppingListPage user={user}
-                        familysApp={familysApp}
-                        selectedFamilyId={selectedFamilyId}
-                        selectedShoppingId={selectedShoppingId}
-                        setSelectedShoppingId={setSelectedShoppingId} />
+        familysApp={familysApp}
+        selectedFamilyId={selectedFamilyId}
+        selectedShoppingId={selectedShoppingId}
+        setSelectedShoppingId={setSelectedShoppingId} />
 
     </div>
   );

@@ -19,11 +19,11 @@ import { AiOutlineClose } from "react-icons/ai";
 
 // API
 import {
-   createShoppingList
+    createShoppingList
 } from '../api/family';
 
 
-export default function ShoppingListPage({ user,familysApp,selectedFamilyId,selectedShoppingId ,setSelectedShoppingId }) {
+export default function ShoppingListPage({ user, familysApp, selectedFamilyId, selectedShoppingId, setSelectedShoppingId }) {
     const [shoppingFamily, setShoppingFamily] = useState([])
     const [newShoppingFamilyName, setNewShoppingFamilyName] = useState('')
     const [close, setClose] = useState(true)
@@ -35,26 +35,26 @@ export default function ShoppingListPage({ user,familysApp,selectedFamilyId,sele
         navigate('/ShoppingListFile', { replace: true });
 
     }
- useEffect(() => {},[user])
+    useEffect(() => { }, [user])
     useEffect(() => {
         console.log("user", selectedFamilyId);
         if (selectedFamilyId) {
             getShoppingFamily(selectedFamilyId)
-              .then(res => {
-                  console.log(res.data);
-                  if (res.data.success) {
-                      if (res.data.data != null) {
-                          setShoppingFamily(res.data.data);
-                          setClose(false);
-                      } else {
-                          setShoppingFamily([]);
-                          setClose(false);
-                      }
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
+                .then(res => {
+                    console.log(res.data);
+                    if (res.data.success) {
+                        if (res.data.data != null) {
+                            setShoppingFamily(res.data.data);
+                            setClose(false);
+                        } else {
+                            setShoppingFamily([]);
+                            setClose(false);
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
     }, [selectedFamilyId]);
 
@@ -67,7 +67,7 @@ export default function ShoppingListPage({ user,familysApp,selectedFamilyId,sele
             console.log(res.data)
             if (res.data.success) {
                 const { ShoppingListId, ShoppingFamilyName } = res.data;
-                setShoppingFamily(prev => [...prev, { listId:ShoppingListId, listName:ShoppingFamilyName }]);
+                setShoppingFamily(prev => [...prev, { listId: ShoppingListId, listName: ShoppingFamilyName }]);
                 setNewShoppingFamilyName('');
             }
         } catch (error) {
@@ -79,7 +79,7 @@ export default function ShoppingListPage({ user,familysApp,selectedFamilyId,sele
 
     return (<div className={`ShoppingListPage ${!close && user ? 'Block' : 'none'}`}>
         <AiOutlineClose onClick={() => setClose(true)} />
-         <div className='familyNameDiv' >  <p>{selectedFamilyName}</p></div> 
+        <div className='familyNameDiv' >  <p>{selectedFamilyName}</p></div>
         <div className='addFamilyDiv textBox'>
             <input
                 className='itemInput'
@@ -88,7 +88,7 @@ export default function ShoppingListPage({ user,familysApp,selectedFamilyId,sele
                 placeholder='Enter shopping list name...'
             />
             <div className="addFamily"
-            onClick={handleCreateShoppingFamily}
+                onClick={handleCreateShoppingFamily}
             >
                 <div>Add shopping list</div>
                 <BsJournalPlus />
@@ -98,10 +98,10 @@ export default function ShoppingListPage({ user,familysApp,selectedFamilyId,sele
         {!close ? (
             <div>
                 {shoppingFamily.map((shopping, index) => (
-                 < ItemShoppingListPage key={index}
-                                        shopping={shopping}
-                                        handleSelectedShoppingId={handleSelectedShoppingId}
-                                        choose={selectedShoppingId === shopping.listId} />
+                    < ItemShoppingListPage key={index}
+                        shopping={shopping}
+                        handleSelectedShoppingId={handleSelectedShoppingId}
+                        choose={selectedShoppingId === shopping.listId} />
 
                 ))}
             </div>

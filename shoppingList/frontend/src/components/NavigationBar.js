@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-
 import FamilyMenu from './FamilyMenu';
 import '../style/NavigationBar.css'
 import logo from '../assets/logo.png';
-
 import { IoIosLogOut } from "react-icons/io";
 
 export default function NavigationBar({ User, familysApp, logOut, setSelectedFamilyId }) {
@@ -36,8 +34,6 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
       <Link to="/"> <img src={logo} alt="My" /></Link>
       <div className="nav">
 
-        {/*<div className="links">my family-list</div>*/}
-        {console.log(familysApp)}
         {
           isUser ? <div className="welcomeFlex">
             <div className="links section-sign-up welcome" ><div> WELCOME:  </div> <div>{nameUser}</div></div>
@@ -52,10 +48,10 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
             </div>
         }
         <Link to="/CreateFamily"
-              className={`links Link ${location.pathname === "/CreateFamily" ? "active" : ""}`}>מרכז הפיקוד של המשפחה </Link>
-    
-          <FamilyMenu familysApp={familysApp}  selectedFamilyId={selectedFamilyId} />
-       
+          className={`links Link ${location.pathname === "/CreateFamily" ? "active" : ""}`}>מרכז הפיקוד של המשפחה </Link>
+
+        <FamilyMenu familysApp={familysApp} selectedFamilyId={selectedFamilyId} />
+
 
       </div>
     </div>

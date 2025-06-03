@@ -23,7 +23,6 @@ export default  function Typing({text}) {
 
   return (
     <div >
-      {console.log("cc")}
       <span ref={el} />
     </div>
   );
