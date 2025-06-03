@@ -7,6 +7,7 @@ function AddItem({ items, setItems, listId }) {
     const [itemNameAPI, setItemNameAPI] = useState("");
     const [itemPriceAPI, setItemPriceAPI] = useState("");
     const [itemTyping, setItemTyping] = useState("");
+    const [quantityTyping, setQuantityTyping] = useState("");
     // State to track the input value for a new item
     const [suggestions, setSuggestions] = useState([]);
 
@@ -23,13 +24,26 @@ function AddItem({ items, setItems, listId }) {
             alert("This item already exists!");
             return;
         }
+        if(itemPriceAPI.length < 1  || itemNameAPI < 2){
+            alert("choose an item!");
+            return;
+        }
+        
+console.log("quantity", quantityTyping );
+
+
+        if (!quantityTyping || isNaN(quantityTyping) || parseInt(quantityTyping) <= 0 ||  parseFloat(quantityTyping) % 1 != 0){
+            alert("Not valid number!")
+            return;
+        }
+          
         try {
             const res = await fetch(`${API_BASE}/item/${listId}`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     itemName: itemNameAPI,
-                    quantity: 1,
+                    quantity: quantityTyping,
                     price: itemPriceAPI
                 }),
             });
@@ -40,15 +54,16 @@ function AddItem({ items, setItems, listId }) {
             }
 
             const data = await res.json();
-            console.log("data", data);
             
             setItems([...items, {
                 itemId: data.itemId,
                 itemName: itemNameAPI,
+                quantity: quantityTyping,
                 price: itemPriceAPI
             }]);
 
             setItemTyping("");
+            setQuantityTyping("1");
             setSuggestions([]);
         } catch (err) {
             alert("Error adding item: " + err.message);
@@ -164,6 +179,9 @@ function AddItem({ items, setItems, listId }) {
     }
 
 
+ 
+
+
     const handleOnClick = (product) => {
         setItemNameAPI(product.productName);
         setItemPriceAPI(parseFloat(product.productPrice));
@@ -194,10 +212,18 @@ function AddItem({ items, setItems, listId }) {
                     </ul>
                 ) : <></>}
 
-
             </div>
+
             <div className="topButton">
-              <input type="number" className="itemAmount" min="1" max="5"></input>
+                <input className="quantityInput"
+                    value={quantityTyping}
+                    onChange={(event) => setQuantityTyping(event.target.value)}
+                    placeholder="quantity name..."/>
+            </div>
+
+
+
+            <div className="topButton">
                 <button className="buttonAddItems" onClick={addItem}> save  </button>
                 <button className="buttonAddItems"> cancel  </button>
             </div>

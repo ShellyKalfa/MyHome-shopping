@@ -60,7 +60,6 @@ router.post('/createShoppingFamily/:selectedFamilyId', (req, res) => {
 
 
 //--------------------------------- ADDED BY IDO -----------------------------------
-
 // gat items
 router.get('/item', (req, res) => {
   const sql = `SELECT * FROM item`
@@ -70,7 +69,7 @@ router.get('/item', (req, res) => {
   });
 });
 
-// gat items by id 
+// gat items
 router.get('/item/:listId', (req, res) => {
   const listId = req.params.listId;
   const sql = `SELECT * FROM item WHERE listId  = ?`
@@ -114,7 +113,6 @@ router.post('/item/:listId', (req, res) => {
         [itemName, quantity, price,listId],
         (err, result) => {
           if (err) { console.log(err); return res.status(500).json({ error: err }); }
-          
           res.json({ message: 'Fruit added!', itemId: result.insertId });
         }
       );
@@ -169,5 +167,60 @@ router.patch('/item/:itemId/quantity', (req, res) => {
 
 
 //--------------------------------- ADDED BY IDO FINISHED-----------------------------------
+//update
+router.patch('/update/:itemId', (req, res) => {
+  const { itemId } = req.params;
+  const { itemName = null, quantity = null, price = null } = req.body;
+
+  const values = [];
+  const updates = [];
+
+  // Validate quantity
+  if (quantity !== null && (!Number.isInteger(quantity) || quantity < 0)) {
+    return res.status(400).json({ error: 'Invalid quantity (must be a non-negative integer)' });
+  }
+
+  // Dynamically build the query parts
+  if (itemName !== null) {
+    updates.push('itemName = ?');
+    values.push(itemName);
+  }
+  if (quantity !== null) {
+    updates.push('quantity = ?');
+    values.push(quantity);
+  }
+  if (price !== null) {
+    updates.push('price = ?');
+    values.push(price);
+  }
+
+  // If nothing to update
+  if (updates.length === 0) {
+    return res.status(400).json({ error: 'No fields to update' });
+  }
+
+  const sql = `UPDATE item SET ${updates.join(', ')} WHERE itemId = ?`;
+  values.push(itemId); // For WHERE clause
+
+  // Log the final query and values
+  console.log('SQL:', sql);
+  console.log('Values:', values);
+
+  // Run the query
+  db.query(sql, values, (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+     console.log('result.affectedRows', result.affectedRows);
+
+    res.json({ message: 'Item updated', affectedRows: result.affectedRows });
+  });
+});
+
+
+  // db.query('UPDATE item SET quantity = ? WHERE itemId = ?', [quantity, itemId], (err, result) => {
+  //   if (err) return res.status(500).json({ error: err });
+  //   if (result.affectedRows === 0) return res.status(404).json({ error: 'Fruit not found' });
+  //   res.json({ message: 'Quantity updated' });
+  // });
+
 
 module.exports = router;
