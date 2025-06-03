@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
 
-import { ImRadioUnchecked } from "react-icons/im";
+import { ImRadioUnchecked,ImCheckmark  } from "react-icons/im";
 import { MdCheckCircle, MdEdit } from "react-icons/md";
 import { BsTrash } from "react-icons/bs";
 import '../style/TempShoppingList.css';
@@ -12,6 +12,14 @@ const API_BASE = 'http://localhost:5000/Shopping';
 
 
 export default function ItemShoppingList({ item, deleteItem,updateItem }) {
+    const [newItem, setNewItem] = useState(item.itemName)
+    const [isEdit,setIsEdit]=useState(false)
+    const onEdit=()=>{
+        setIsEdit(true)
+    }
+    const onSave=()=>{
+        setIsEdit(false)
+    }
     const onDelete = () => {
         deleteItem(item.itemId)
     }
@@ -35,13 +43,20 @@ export default function ItemShoppingList({ item, deleteItem,updateItem }) {
             </div>
 
             <div className="listItem">
-                <div className={`itemText ${item.completed? 'crossText' : ''}`}dir="auto">{item.itemName}</div> 
+                <div className={`itemText ${item.completed? 'crossText' : ''}`}d dir="auto">{isEdit ? 
+                    <input
+                    value={newItem}
+                    onChange={(e) => setNewItem(e.target.value)}
+                    placeholder="Enter item name"
+                />:
+                item.itemName  }
+                </div>
                 <div className="amountItem"> amount:{item.quantity}</div>
                 <div className="priceItem"> price:{item.price}</div>
             </div>
 
             <div>
-                <MdEdit />
+             {  isEdit ? <ImCheckmark  onClick={onSave}/> :<MdEdit  onClick={onEdit}/>}
                 <div onClick={onDelete}>  <BsTrash />  </div>
 
             </div>

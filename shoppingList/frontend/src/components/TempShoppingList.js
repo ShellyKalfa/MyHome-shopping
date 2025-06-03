@@ -10,7 +10,6 @@ const API_BASE = 'http://localhost:5000';
 
 export default function TempShoppingList({ items,isTemp,setItems }) {
 
-
   /**
    * Deletes an item from the backend and updates the local state.
    *
@@ -45,7 +44,7 @@ const updateItem = (id, newData) => {
     return (
         <div className='board'>
             <div className='flex'>
-                <h2 className='textCenter'> {isTemp ? <Typing text={['רשימת קניות ','כדורגל עם חברים','ערב תה עם הבנות','ערב זוגי בבית']}/> :' רשימת קניות '}</h2>
+                <h2 className='textCenter'> {isTemp ? <Typing text={['רשימת קניות', 'כדורגל עם חברים', 'ערב תה עם הבנות', 'ערב זוגי בבית']} /> :' רשימת קניות '}</h2>
                 <div className='board-items '>
                     {items.map((item, index) => (
                         <ItemShoppingList 

@@ -29,6 +29,11 @@
     color: #201f20;
 }
 
+.Link.active {
+  border-bottom: 2px solid black; /* The line indicating the current route */
+  font-weight: bold;
+}
+
 .familysMenu{
     display: flex;
     flex-direction: row;
