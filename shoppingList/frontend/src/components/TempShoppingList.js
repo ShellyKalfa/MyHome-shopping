@@ -25,6 +25,9 @@ export default function TempShoppingList({ items,isTemp,setItems }) {
     })
       .then((res) => res.json())
       .then(() => {
+
+        console.log("items",items);
+        console.log("filter",items.filter((item) => item.itemId !== itemId));
         setItems(items.filter((item) => item.itemId !== itemId));
       })
       .catch((err) => console.error("Error deleting item:", err));

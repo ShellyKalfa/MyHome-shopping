@@ -10,30 +10,7 @@ function AddItem({ items, setItems, listId }) {
     // State to track the input value for a new item
     const [suggestions, setSuggestions] = useState([]);
 
-    /**
-     * Fetches item details (name and price) from the Rami Levi API based on the typed item name.
-     * Updates local state with the name and parsed price.
-     *
-     * @param {Event} event - The form submission event.
-     */
-    const handleAPI = (event) => {
-        event.preventDefault();
-        console.log("itemTyping", itemTyping)
-        axios.post(`${API_BASE}/search`, {
-            aggs: 1,
-            q: itemTyping,
-            store: 331
-        })
-            .then(res => {
-                console.log(res.data);
-                setItemNameAPI(res.data.data[0].name);
-                setItemPriceAPI(res.data.data[0].price.price);
-            })
-            .catch(err => {
-                console.log(err.response.data);
-            });
-    };
-    
+
     /**
  * Adds a new item to the backend and updates the local state.
  * Prevents duplicates and ensures the price is properly parsed.
@@ -63,7 +40,8 @@ function AddItem({ items, setItems, listId }) {
             }
 
             const data = await res.json();
-
+            console.log("data", data);
+            
             setItems([...items, {
                 itemId: data.itemId,
                 itemName: itemNameAPI,
@@ -93,7 +71,6 @@ function AddItem({ items, setItems, listId }) {
         setItems(updatedItems);
 
         const updatedItem = updatedItems.find(f => f.itemId === id);
-        console.log(`Updated item: ${updatedItem.name}, completed: ${updatedItem.completed}`);
 
         try {
             await fetch(`http://localhost:5001/item/${id}`, {
@@ -130,7 +107,6 @@ function AddItem({ items, setItems, listId }) {
         setItems(updatedItems);
 
         const updatedItem = updatedItems.find(f => f.itemId === id);
-        console.log(`Updated item: ${updatedItem.name}, quantity: ${updatedItem.quantity}`);
 
         try {
             await fetch(`http://localhost:5001/item/${id}/quantity`, {
@@ -151,6 +127,14 @@ function AddItem({ items, setItems, listId }) {
         }
     };
 
+
+       /**
+     * Fetches item details (name and price) from the Rami Levi API based on the typed item name.
+     * Updates local state with the name and parsed price.
+     * as auto complition
+     * @param {Event} event - The form submission event.
+     */
+
     const handleChange = (event) => {
         event.preventDefault();
         let text = event.target.value;
@@ -169,7 +153,6 @@ function AddItem({ items, setItems, listId }) {
                             "productPrice": product.price.price,
                             "productCatgory": product.department.name
                         }));
-                        console.log(results);
                         setSuggestions(results.slice(0, 10));
                     }
                 })

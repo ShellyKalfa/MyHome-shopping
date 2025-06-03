@@ -105,7 +105,8 @@ router.post('/item/:listId', (req, res) => {
         [itemName, quantity, price,listId],
         (err, result) => {
           if (err) { console.log(err); return res.status(500).json({ error: err }); }
-          res.json({ message: 'Fruit added!', itemId: result.insertItemId });
+          
+          res.json({ message: 'Fruit added!', itemId: result.insertId });
         }
       );
     }
