@@ -103,3 +103,30 @@
     //                 <option>meat</option>
     //                 <option>vegetables</option>
     //             </select>
+
+//////////////////////////liron
+
+//    useEffect(() => {
+//     if (!itemTyping || selectedFromSuggestions) {
+//         setSuggestions([]);
+//         setSelectedFromSuggestions(false);
+//         return;
+//     }
+
+//     const timeoutId = setTimeout(() => {
+//         axios.post(`${API_BASE}/search`, {
+//             aggs: 1,
+//             q: itemTyping,
+//             store: 331
+//         })
+//         .then(res => {
+//             if (res.data && res.data.data) {
+//                 const results = res.data.data.map(product => product.name);
+//                 setSuggestions(results.slice(0, 10)); 
+//             }
+//         })
+//         .catch(err => console.error("Autocomplete from API error", err));
+//     }, 300);
+
+//     return () => clearTimeout(timeoutId);
+// }, [itemTyping]);

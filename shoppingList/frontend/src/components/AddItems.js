@@ -10,7 +10,8 @@ function AddItem({ items, setItems, listId }) {
     // State to track the input value for a new item
     const [newItem, setNewItem] = useState("");
     const [suggestions, setSuggestions] = useState([]);
-const [selectedFromSuggestions, setSelectedFromSuggestions] = useState(false);
+    const [selectedFromSuggestions, setSelectedFromSuggestions] = useState(false);
+    
 
     /**
      * Fetches item details (name and price) from the Rami Levi API based on the typed item name.
@@ -170,32 +171,31 @@ const addItem = async () => {
         }
     };
 
-   useEffect(() => {
-    if (!itemTyping || selectedFromSuggestions) {
-        setSuggestions([]);
-        setSelectedFromSuggestions(false);
-        return;
-    }
 
-    const timeoutId = setTimeout(() => {
+
+
+    const handleChange = (event)=>{
+        event.preventDefault();
+        let text = event.target.value;
+        setItemTyping(text)
+        if(text.length > 1){
         axios.post(`${API_BASE}/search`, {
             aggs: 1,
-            q: itemTyping,
+            q: text,
             store: 331
         })
         .then(res => {
             if (res.data && res.data.data) {
                 const results = res.data.data.map(product => product.name);
-                setSuggestions(results.slice(0, 10)); // עד 10 הצעות
+                setSuggestions(results.slice(0, 10)); 
             }
         })
         .catch(err => console.error("Autocomplete from API error", err));
-    }, 300);
-
-    return () => clearTimeout(timeoutId);
-}, [itemTyping]);
-
-
+    }   
+    else{
+        setSuggestions([])
+        }
+    }
 
     return (
 
@@ -204,11 +204,11 @@ const addItem = async () => {
             <div className="topButton">
                 <input className="itemInput"
                     value={itemTyping}
-                    onChange={(e) => setItemTyping(e.target.value)}
+                    onChange={(event) => handleChange(event)}
                     placeholder="Item name..."
                     dir="rtl" />
 
-                        {suggestions.length > 0 && (
+                        {(suggestions.length > 0 && itemTyping.length >1) ?  (
         <ul className="autocomplete-list">
             {suggestions.map((s, idx) => (
                 <li key={idx} onClick={() => {
@@ -220,8 +220,7 @@ const addItem = async () => {
                 </li>
             ))}
         </ul>
-    )}
-                <button onClick={handleAPI}>Check product name and price</button>
+    ):<></>}
 
 
             </div>
