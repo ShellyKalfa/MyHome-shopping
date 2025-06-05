@@ -33,4 +33,8 @@ export const updateFamilyMember = (familyId, userId) =>
         axios.post(`${API_BASE}/Family/updateFamilyMembers/${familyId}`, 
        { userId }
     );}
+///////////ShoppingList//////////////
 
+
+export const createShoppingList = (selectedFamilyId, newShoppingFamily) =>
+    axios.post(`${API_BASE}/Shopping/createShoppingList/${selectedFamilyId}`, { newShoppingFamily });

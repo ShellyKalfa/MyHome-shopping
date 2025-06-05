@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
-const axios = require('axios');
+
 
 const Roles = {
   MANAGER: "admin",
@@ -67,18 +67,7 @@ router.post('/familyMembers', (req, res) => {
 });
 
 
-router.post('/search', async (req, res) => {
-  try {
-    const response = await axios.post('https://www.rami-levy.co.il/api/catalog?', req.body, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    res.json(response.data);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
+
 
 router.delete('/delteFamily/:familyId', (req, res) => {
 
@@ -110,7 +99,7 @@ router.post('/creatFamily/:id', (req, res) => {
     const familyId = result.insertId;
 
     const insertMemberFamilySql = "INSERT INTO memberFamily (userId, familyId, role) VALUES (?, ?, ?)";
-    const insertMemberFamilyValues = [userId, familyId, role || 'manager']; // default role
+    const insertMemberFamilyValues = [userId, familyId, role || Roles.MANAGER]; // default role
 
     db.query(insertMemberFamilySql, insertMemberFamilyValues, (err2) => {
       if (err2) {
@@ -124,7 +113,7 @@ router.post('/creatFamily/:id', (req, res) => {
         familyId,
         familyName: nameFamily,
         userId,
-        role: role || 'manager'
+        role: role || Roles.MANAGER
       });
     });
   });
@@ -135,7 +124,7 @@ router.post('/creatFamily/:id', (req, res) => {
 router.post('/addFamilyMembers', (req, res) => {
   console.log("Request received to add family member");
 
-  const { email, familyId, role = 'child' } = req.body;
+  const { email, familyId, role = Roles.CHILD } = req.body;
 
   if (!email || !familyId) {
     return res.status(400).json({ success: false, message: "Email and familyId are required" });
@@ -180,12 +169,8 @@ router.delete('/deleteFamilyMember/:familyId', (req, res) => {
     }
 
     const managerFamily = data.filter(member => member.userId != userId);
-    console.log("noww",data);
-    console.log("noww",managerFamily.some(member => member.role === "manager"));
-    console.log("noww",managerFamily);
-    console.log("noww",userId);
-    
-    if (!managerFamily.some(member => member.role === "manager")) {
+
+    if (!managerFamily.some(member => member.role === Roles.MANAGER)) {
       const deleteFamilySql = 'DELETE FROM family WHERE familyId = ?';
       db.query(deleteFamilySql, [familyId], (err, result) => {
         if (err) {
@@ -212,7 +197,7 @@ router.post('/updateFamilyMembers/:familyId', (req, res) => {
   const updateSql = "UPDATE memberFamily SET role = ? WHERE userId = ? AND familyId = ?";
  console.log("noww",userId);
 
-   db.query(updateSql, ["manager",userId, familyId], (err, result) => {
+   db.query(updateSql, [Roles.MANAGER,userId, familyId], (err, result) => {
         if (err) {
           return res.status(500).json({ success: false, message: 'Failed to update  family member' });
         }

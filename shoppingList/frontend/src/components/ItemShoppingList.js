@@ -1,28 +1,37 @@
-import { ImRadioUnchecked } from "react-icons/im";
-import { MdCheckCircle,MdEdit } from "react-icons/md";
-import { BsTrash } from "react-icons/bs";
-import '../style/TempShoppingList.css'
+import React, { useState } from "react";
+import axios from 'axios';
 
-export default function ItemShoppingList({ item }) {
-    return( 
-    <div className="ItemShoppingList">
-        <div className="listItem">
-                {/* <ImRadioUnchecked/> */}
-                <div className="circle">
-                   <MdCheckCircle />
-                </div>
-               
-                
-                <div className="itemText">{item}</div>
-                <div className="amountItem"> amount: 2</div>
-              
-         </div>
-           
-         <div>
-                <MdEdit  />
-                <BsTrash />
-         </div>
-    </div>
-        );
-  }
+import { ImRadioUnchecked } from "react-icons/im";
+import { MdCheckCircle, MdEdit } from "react-icons/md";
+import { BsTrash } from "react-icons/bs";
+import '../style/TempShoppingList.css';
+
+
+
+
+export default function ItemShoppingList({ item, deleteItem }) {
+    const onDelete = () => {
+        deleteItem(item.itemId)
+    }
+
+    return (
+        <div className="ItemShoppingList">
+            <div >
+                {item.completed ? <MdCheckCircle /> : <ImRadioUnchecked />}
+            </div>
+
+            <div className="listItem">
+                <div className={`itemText ${item.completed? 'crossText' : ''}`}dir="auto">{item.itemName}</div> 
+                <div className="amountItem"> amount:{item.quantity}</div>
+                <div className="priceItem"> price:{item.price}</div>
+            </div>
+
+            <div>
+                <MdEdit />
+                <div onClick={onDelete}>  <BsTrash />  </div>
+
+            </div>
+        </div >
+    )
+};
 

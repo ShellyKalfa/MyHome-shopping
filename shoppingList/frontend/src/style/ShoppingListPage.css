@@ -6,13 +6,38 @@
   width: 30vw;
   height: 80vh;
   z-index: 1;
+  padding: 1.5vw;
+  border-radius: 4vw;
   background-color: wheat;
+  border-radius: 3vw;
+  padding: 2vh;
+}
 
+.textBox{
+    margin-bottom: 4vh;
 }
 
 .none{
     display: none;
 }
+
 .Block{
     display: block;
+}
+
+.ItemFamily{
+    width: 80%;
+    background-color: #fbf6f1;
+    border-radius: 10px;
+    height: 2vh;
+    margin-top: 1vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2vh;
+}
+
+.Chosen{
+    background-color: #ffeebd;
+
 }

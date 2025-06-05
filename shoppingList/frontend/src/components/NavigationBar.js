@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { AiOutlineMenu } from "react-icons/ai";
+
 import '../style/NavigationBar.css'
 import logo from '../assets/logo.png';
+import { AiOutlineMenu } from "react-icons/ai";
+import { IoIosLogOut } from "react-icons/io";
 
 export default function NavigationBar({ User, familysApp, logOut, setSelectedFamilyId }) {
   const [data, setData] = useState([]);
   const [nameUser, setNameUser] = useState('');
   const [isUser, setIsUser] = useState(false);
 
-  const selectedFamilyId = (familyId) => {
-    setSelectedFamilyId(familyId)
-    console.log("familyId",familyId);
-    
-
-  }
+  const selectedFamilyId = (event) => {
+    const familyId = event.target.value;
+    setSelectedFamilyId(familyId);
+    console.log("familyId", familyId);
+  };
 
 
   useEffect(() => {
@@ -32,37 +33,41 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
     <div className="NavigationBar">
       <Link to="/"> <img src={logo} alt="My" /></Link>
       <div className="nav">
-        {
-          isUser ? <>
-            <div className="links section-sign-up" > WELLCOME: {nameUser}</div>
-            <div className="links section-sign-up" onClick={logOut} > logOUT</div>
 
-          </>
+        {/*<div className="links">my family-list</div>*/}
+        {
+          isUser ? <div className="welcomeFlex">
+              <div className="links section-sign-up welcome" ><div> WELCOME:  </div> <div>{nameUser}</div></div>
+              <div className="links section-sign-up welcome" onClick={logOut} ><IoIosLogOut />
+                logOut</div>
+
+            </div>
             :
             <div className="links section-sign-up">
-              <Link to="/Signup" className='sign-up Link'>Sign-Up</Link>
-              <Link to="/Login" className='Link' > Log-In</Link>
+              <Link to="/Signup" className='Link sign-up '>Sign-Up</Link>
+              <Link to="/Login" className='Link ' > Log-In</Link>
             </div>
         }
-        {/*<div className="links">my family-list</div>*/}
-        <Link to="/CreateFamily" className="links Link">Management </Link>
+        <Link to="/CreateFamily" className="links Link">מרכז הפיקוד של המשפחה </Link>
 
 
         {console.log("sdads", familysApp)}
-        <select>
-          {
-            familysApp.map((f, index) => (<option key={index} onClick={()=>selectedFamilyId (f.familyId) } > {f.familyName}</option> ))
-          }
+        <select onChange={selectedFamilyId}>
+          {familysApp.map((f, index) => (
+            <option key={index} value={f.familyId}>
+              {f.familyName}
+            </option>
+          ))}
         </select>
         <div>
           <Link to="/ShoppingListFile" className="links Link familysMenu">
             <div>
-              <AiOutlineMenu /> Family-list
+                      מאגר הקניות המשפחתי 🗂️            
+                        {/* <AiOutlineMenu />  */}
             </div>
-
-
           </Link>
         </div>
+        
       </div>
     </div>
   );

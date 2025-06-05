@@ -16,8 +16,10 @@ export default function Login({ setUser }) {
     const EMAIL_TEMPLATE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const handleLogin = (event) => {
+
         event.preventDefault();
         setError('');
+        console.log("email, password",email, password);
 
         // Validation
         if (!email || !password) {
@@ -29,17 +31,20 @@ export default function Login({ setUser }) {
             setError('Invalid email format.');
             return;
         }
-
+        
+        
         // Send login request
         axios.post('http://localhost:5000/users/login', { email, password })
             .then(res => {
                 if (res.data.success && res.data.user) {
                     setUser(res.data.user);
                     navigate('/CreateFamily');
+
                 } else {
                     setError('Invalid email or password.');
                     setIsVisible(true);
                 }
+
             })
             .catch(err => {
                 if (err.response?.data?.success === false) {
