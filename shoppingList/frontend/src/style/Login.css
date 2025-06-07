@@ -9,6 +9,49 @@ h2,h3{
     box-sizing: border-box;
     font-size: 1.1rem;
 }
+.separator {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #777;
+    font-size: 15px;
+    margin: 1px auto 10px auto;
+    width: 60%;
+}
+.line{
+     width: 150px;
+     height: 1px;
+     background: #b5b5b5;
+ }
+
+.google-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 400px;
+    height: 30px;
+    margin: 0 auto;
+    background-color: white;
+    transition: box-shadow 0.2s ease;
+}
+
+.google-button span{
+    font-size: 20px;
+    font-weight: bold;
+    color: #0e0247;
+    width: 300px;
+}
+
+.google-button img {
+    width: 30px;
+    height: 30px;
+}
+
 
 .LogInbutton{
     width: 16vw;
