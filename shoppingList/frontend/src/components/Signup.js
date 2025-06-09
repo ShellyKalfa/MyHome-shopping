@@ -179,7 +179,6 @@ export default function Signup({ setUser }) {
                         setError("Google login failed.");
                     }}
                 />
-
             </form>
         </div>
     );
