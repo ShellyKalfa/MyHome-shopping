@@ -159,14 +159,27 @@ export default function Signup({ setUser }) {
                 </div>
                 <GoogleLogin
                     onSuccess={(credentialResponse) => {
-                        console.log("Google login success:", credentialResponse);
-                        // TODO: Send `credentialResponse.credential` to your backend if needed
+                        axios.post('http://localhost:5000/users/google-login', {
+                            token: credentialResponse.credential
+                        })
+                            .then(res => {
+                                if (res.data.success && res.data.user) {
+                                    setUser(res.data.user);
+                                    navigate('/CreateFamily');
+                                } else {
+                                    setError('Google login failed.');
+                                }
+                            })
+                            .catch(() => {
+                                setError('Server error. Please try again later.');
+                            });
                     }}
+
                     onError={() => {
-                        console.log("Login Failed");
-                        setError("Google login failed");
+                        setError("Google login failed.");
                     }}
                 />
+
             </form>
         </div>
     );

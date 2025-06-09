@@ -81,10 +81,50 @@ router.post('/signin', async (req, res) => {
   });
 });
 
+// google Auto2.0 login
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client("460664212191-bnf64k7d5lok2kckohjdtafsr1egf7mf.apps.googleusercontent.com");
 
+router.post('/google-login', (req, res) => {
+  const { email, name } = req.body;
 
+  if (!email || !name) {
+    return res.status(400).json({ success: false, message: 'Missing email or name' });
+  }
 
+  // Check if user already exists
+  const checkSql = "SELECT * FROM users WHERE email = ?";
+  db.query(checkSql, [email], (err, results) => {
+    if (err) {
+      console.error("Database error during Google login:", err);
+      return res.status(500).json({ success: false, message: "Database error" });
+    }
 
+    if (results.length > 0) {
+      // User exists – return user
+      return res.json({ success: true, user: results[0] });
+    }
+
+    // User does not exist – create a new one
+    const insertSql = "INSERT INTO users (userName, email, password) VALUES (?, ?, ?)";
+    const values = [name, email, "GOOGLE_AUTH"];
+
+    db.query(insertSql, values, (err, insertRes) => {
+      if (err) {
+        console.error("Error inserting Google user:", err);
+        return res.status(500).json({ success: false, message: "User creation failed" });
+      }
+
+      const newUser = {
+        idUser: insertRes.insertId,
+        userName: name,
+        email: email,
+        password: "GOOGLE_AUTH"
+      };
+      return res.json({ success: true, user: newUser });
+    });
+  });
+});
 
 
 
