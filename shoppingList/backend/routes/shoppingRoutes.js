@@ -60,7 +60,6 @@ router.post('/createShoppingFamily/:selectedFamilyId', (req, res) => {
 
 
 //--------------------------------- ADDED BY IDO -----------------------------------
-
 // gat items
 router.get('/item', (req, res) => {
   const sql = `SELECT * FROM item`
@@ -70,7 +69,7 @@ router.get('/item', (req, res) => {
   });
 });
 
-// gat items by id 
+// gat items
 router.get('/item/:listId', (req, res) => {
   const listId = req.params.listId;
   const sql = `SELECT * FROM item WHERE listId  = ?`
@@ -114,7 +113,6 @@ router.post('/item/:listId', (req, res) => {
         [itemName, quantity, price,listId],
         (err, result) => {
           if (err) { console.log(err); return res.status(500).json({ error: err }); }
-          
           res.json({ message: 'Fruit added!', itemId: result.insertId });
         }
       );
@@ -211,5 +209,6 @@ db.query(
 
 
 //--------------------------------- ADDED BY IDO FINISHED-----------------------------------
+
 
 module.exports = router;
