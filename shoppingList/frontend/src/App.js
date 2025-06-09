@@ -25,6 +25,7 @@ const App = () => {
     setUser({})
     setFamilysApp([])
     setSelectedFamilyId('')
+    setSelectedShoppingId('')
   }
 
   useEffect(() => {

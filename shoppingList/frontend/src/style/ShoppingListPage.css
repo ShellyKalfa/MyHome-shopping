@@ -3,13 +3,13 @@
     position: absolute;
     top: 11vh;
     right: 0;
-    width: 30vw;
+    width: 25vw;
     height: 80vh;
     z-index: 1;
     padding: 1.5vw;
     border-radius: 4vw;
     background-color: wheat;
-    border-radius: 3vw;
+    border-radius: 2vw 0 0 2vw;;
     padding: 2vh;
 }
 
@@ -44,4 +44,20 @@
 .familyNameDiv {
     display: flex;
     justify-content: center;
+}
+
+
+.ShoppingListButton {
+    display: flex;
+    position: absolute;
+    top: 11vh;
+    right: 0;
+    width: 5w;
+    height: 2vh;
+    z-index: 1;
+    padding: 1.5vw;
+    background-color: wheat;
+    /* border-radius: 2vw 0 0 2vw;; */
+    padding: 2vh;
+    align-items: center;
 }
