@@ -28,17 +28,18 @@ export default function ShoppingListPage({ user, familysApp, selectedFamilyId, s
     const [newShoppingFamilyName, setNewShoppingFamilyName] = useState('')
     const [close, setClose] = useState(true)
     const selectedFamily = familysApp.find(family => family.familyId === selectedFamilyId);
-    const selectedFamilyName = selectedFamily ? selectedFamily.familyName : '';
+    const [selectedFamilyName, setSelectedFamilyName] = useState(selectedFamily ? selectedFamily.familyName : '')
     const navigate = useNavigate();
     const handleSelectedShoppingId = (ShoppingId) => {
         setSelectedShoppingId(ShoppingId)
+        setClose(true)
         navigate('/ShoppingListFile', { replace: true });
 
     }
-    useEffect(() => { }, [user])
+
     useEffect(() => {
-        console.log("user", selectedFamilyId);
         if (selectedFamilyId) {
+
             getShoppingFamily(selectedFamilyId)
                 .then(res => {
                     console.log(res.data);
@@ -50,13 +51,19 @@ export default function ShoppingListPage({ user, familysApp, selectedFamilyId, s
                             setShoppingFamily([]);
                             setClose(false);
                         }
+                        let selectedFamily = familysApp.find(family => family.familyId === selectedFamilyId);
+                        setSelectedFamilyName(selectedFamily ? selectedFamily.familyName : '')
                     }
                 })
                 .catch(err => {
                     console.log(err);
                 });
         }
-    }, [selectedFamilyId ,user]);
+        else {
+            setSelectedFamilyName('');
+            setClose(true);
+        }
+    }, [selectedFamilyId, user]);
 
 
     const handleCreateShoppingFamily = async () => {
@@ -77,40 +84,52 @@ export default function ShoppingListPage({ user, familysApp, selectedFamilyId, s
 
 
 
-    return (<div className={`ShoppingListPage ${!close && user ? 'Block' : 'none'}`}>
-        <AiOutlineClose onClick={() => setClose(true)} />
-        <div className='familyNameDiv' >  <p>{selectedFamilyName}</p></div>
-        <div className='addFamilyDiv textBox'>
-            <input
-                className='itemInput'
-                value={newShoppingFamilyName}
-                onChange={e => setNewShoppingFamilyName(e.target.value)}
-                placeholder='Enter shopping list name...'
-            />
-            <div className="addFamily"
-                onClick={handleCreateShoppingFamily}
-            >
-                <div>Add shopping list</div>
-                <BsJournalPlus />
-            </div>
+    return (
+        <div className={user && (!close || selectedFamilyName !== '') ? 'Block' : 'none'}>
+            {!close ?
+                <div className={`ShoppingListPage ${!close && user ? 'Block' : 'none'}`}>
+                    <AiOutlineClose onClick={() => setClose(true)} />
+                    <div className='familyNameDiv' >  <p>{selectedFamilyName}</p></div>
+                    <div className='addFamilyDiv textBox'>
+                        <input
+                            className='itemInput'
+                            value={newShoppingFamilyName}
+                            onChange={e => setNewShoppingFamilyName(e.target.value)}
+                            placeholder='Enter shopping list name...'
+                        />
+                        <div className="addFamily"
+                            onClick={handleCreateShoppingFamily}>
+                            <div>Add shopping list</div>
+                            <BsJournalPlus />
+                        </div>
+                    </div>
+
+                    {!close ? (
+                        <div>
+                            {shoppingFamily.map((shopping, index) => (
+                                < ItemShoppingListPage key={index}
+                                    shopping={shopping}
+                                    handleSelectedShoppingId={handleSelectedShoppingId}
+                                    choose={selectedShoppingId === shopping.listId} />
+
+                            ))}
+                        </div>
+                    ) : (
+                        <div></div>
+                    )
+                    }
+                </div>
+                :
+                <div className={selectedFamilyName !== '' ? 'Block' : 'none'}>
+                    <div className='ShoppingListButton' onClick={() => setClose(false)} >
+                        {'<<   '}{selectedFamilyName}
+                    </div>
+                </div>
+            }
         </div>
 
-        {!close ? (
-            <div>
-                {shoppingFamily.map((shopping, index) => (
-                    < ItemShoppingListPage key={index}
-                        shopping={shopping}
-                        handleSelectedShoppingId={handleSelectedShoppingId}
-                        choose={selectedShoppingId === shopping.listId} />
 
-                ))}
-            </div>
-        ) : (
-            <div></div>
-        )
-        }
-
-    </div>);
+    );
 
 
 };
