@@ -69,7 +69,7 @@ export default function Signup({ setUser }) {
 
         // Send to backend
         axios
-            .post('http://localhost:5000/users/signin', {
+            .post('http://localhost:5000/users/signup', {
                 email,
                 name: fullName,
                 password,
