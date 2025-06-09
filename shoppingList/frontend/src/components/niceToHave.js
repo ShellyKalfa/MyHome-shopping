@@ -130,3 +130,60 @@
 
 //     return () => clearTimeout(timeoutId);
 // }, [itemTyping]);
+
+
+// //update
+// router.patch('/update/:itemId', (req, res) => {
+//   const { itemId } = req.params;
+//   const { itemName = null, quantity = null, price = null } = req.body;
+
+//   const values = [];
+//   const updates = [];
+
+//   // Validate quantity
+//   if (quantity !== null && (!Number.isInteger(quantity) || quantity < 0)) {
+//     return res.status(400).json({ error: 'Invalid quantity (must be a non-negative integer)' });
+//   }
+
+//   // Dynamically build the query parts
+//   if (itemName !== null) {
+//     updates.push('itemName = ?');
+//     values.push(itemName);
+//   }
+//   if (quantity !== null) {
+//     updates.push('quantity = ?');
+//     values.push(quantity);
+//   }
+//   if (price !== null) {
+//     updates.push('price = ?');
+//     values.push(price);
+//   }
+
+//   // If nothing to update
+//   if (updates.length === 0) {
+//     return res.status(400).json({ error: 'No fields to update' });
+//   }
+
+//   const sql = `UPDATE item SET ${updates.join(', ')} WHERE itemId = ?`;
+//   values.push(itemId); // For WHERE clause
+
+//   // Log the final query and values
+//   console.log('SQL:', sql);
+//   console.log('Values:', values);
+
+//   // Run the query
+//   db.query(sql, values, (err, result) => {
+//     if (err) return res.status(500).json({ error: err.message });
+//      console.log('result.affectedRows', result.affectedRows);
+
+//     res.json({ message: 'Item updated', affectedRows: result.affectedRows });
+//   });
+// });
+
+
+//   // db.query('UPDATE item SET quantity = ? WHERE itemId = ?', [quantity, itemId], (err, result) => {
+//   //   if (err) return res.status(500).json({ error: err });
+//   //   if (result.affectedRows === 0) return res.status(404).json({ error: 'Fruit not found' });
+//   //   res.json({ message: 'Quantity updated' });
+//   // });
+
