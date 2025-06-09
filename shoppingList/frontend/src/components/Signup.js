@@ -178,6 +178,7 @@ export default function Signup({ setUser }) {
                     onError={() => {
                         setError("Google login failed.");
                     }}
+
                 />
             </form>
         </div>
