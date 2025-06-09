@@ -61,3 +61,27 @@
     padding: 2vh;
     align-items: center;
 }
+
+.onHandButton {
+    background-color: #28b481;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: transform 0.1s ease, background-color 0.2s ease;
+}
+
+/* אפקט ריחוף */
+.onHandButton:hover {
+    background-color: #28b480;
+}
+
+/* אפקט לחיצה */
+.onHandButton:active {
+    transform: scale(0.96);
+    background-color: #3e9143;
+}
