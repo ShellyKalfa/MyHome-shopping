@@ -194,10 +194,10 @@ function AddItem({ items, setItems, listId }) {
                     </ul>
                 ) : <></>}
 
+              <input type="number" className="itemAmount" min="1" max="5"></input>
 
             </div>
             <div className="topButton">
-              <input type="number" className="itemAmount" min="1" max="5"></input>
                 <button className="buttonAddItems" onClick={addItem}> save  </button>
                 <button className="buttonAddItems"> cancel  </button>
             </div>
