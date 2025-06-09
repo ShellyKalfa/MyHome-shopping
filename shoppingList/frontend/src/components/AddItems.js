@@ -73,7 +73,7 @@ function AddItem({ items, setItems, listId }) {
         const updatedItem = updatedItems.find(f => f.itemId === id);
 
         try {
-            await fetch(`http://localhost:5001/item/${id}`, {
+            await fetch(`http://localhost:5000/item/${id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ completed: updatedItem.completed })
@@ -81,7 +81,7 @@ function AddItem({ items, setItems, listId }) {
                 .then(res => res.json())
                 .then(() => {
                     // Refresh item list from backend
-                    fetch("http://localhost:5001/item")
+                    fetch("http://localhost:5000/item")
                         .then(res => res.json())
                         .then(data => setItems(data))
                         .catch(err => console.error("Failed to reload items list:", err));
@@ -109,7 +109,7 @@ function AddItem({ items, setItems, listId }) {
         const updatedItem = updatedItems.find(f => f.itemId === id);
 
         try {
-            await fetch(`http://localhost:5001/item/${id}/quantity`, {
+            await fetch(`http://localhost:5000/item/${id}/quantity`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ quantity: updatedItem.quantity })
@@ -117,7 +117,7 @@ function AddItem({ items, setItems, listId }) {
                 .then(res => res.json())
                 .then(() => {
                     // Refresh item list from backend
-                    fetch("http://localhost:5001/item")
+                    fetch("http://localhost:5000/item")
                         .then(res => res.json())
                         .then(data => setItems(data))
                         .catch(err => console.error("Failed to reload items list:", err));
