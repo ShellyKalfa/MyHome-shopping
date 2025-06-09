@@ -41,9 +41,11 @@ function AddItem({ items, setItems, listId }) {
 
             const data = await res.json();
             console.log("data", data);
-            
+            console.log("items:", items);
+
             setItems([...items, {
                 itemId: data.itemId,
+                listId: listId,
                 itemName: itemNameAPI,
                 price: itemPriceAPI
             }]);
