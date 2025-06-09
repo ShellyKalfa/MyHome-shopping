@@ -79,6 +79,9 @@ export default function ItemShoppingList({ item, deleteItem,updateItem }) {
             setSuggestions([])
         }
     }
+/**
+ * Sends a PATCH request to update the item's name and price on the server.
+ */
 
 const renameItem = async () => {
   const newName = newItem?.trim(); // use `newItem`, not `itemTyping`
@@ -91,7 +94,7 @@ const renameItem = async () => {
       body: JSON.stringify({
         name: newName,
         price: itemPriceAPI ?? item.price,
-        listId: item.listId   // ✅ send listId
+        listId: item.listId   
       })
     });
 
