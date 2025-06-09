@@ -147,7 +147,7 @@ router.patch('/item/:itemId', (req, res) => {
   db.query('UPDATE item SET completed = ? WHERE itemId = ?', [completed, itemId], (err, result) => {
     if (err) return res.status(500).json({ error: err });
     if (result.affectedRows === 0) return res.status(404).json({ error: 'Fruit not found' });
-    res.json({ message: 'Fruit updated successfully!' });
+    res.json({ message: 'Item check box updated successfully!' });
   });
 });
 
@@ -166,6 +166,48 @@ router.patch('/item/:itemId/quantity', (req, res) => {
     res.json({ message: 'Quantity updated' });
   });
 });
+
+
+//--------------------------------- NEW -----------------------------------
+
+// Update item name and price by itemId (with duplicate name check)
+router.patch('/item/:itemId/name', (req, res) => {
+const { itemId } = req.params;
+const { name, price, listId } = req.body;
+
+if (!name || name.trim() === '') {
+  return res.status(400).json({ error: 'New name is required' });
+}
+const trimmedName = name.trim();
+
+// Check if another item with the same name exists in the same list
+db.query(
+  'SELECT * FROM item WHERE LOWER(itemName) = LOWER(?) AND itemId != ? AND listId = ?',
+  [trimmedName.toLowerCase(), itemId, listId],
+  (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+
+    if (results.length > 0) {
+      return res.status(400).json({ error: 'An item with that name already exists in this list' });
+    }
+
+    // Update the item
+    db.query(
+      'UPDATE item SET itemName = ?, price = ? WHERE itemId = ? AND listId = ?',
+      [trimmedName, price, itemId, listId],
+      (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (result.affectedRows === 0) {
+          return res.status(404).json({ error: 'Item not found' });
+        }
+        res.json({ message: 'Item name and price updated successfully!' });
+      }
+    );
+  }
+);
+  
+});
+
 
 
 //--------------------------------- ADDED BY IDO FINISHED-----------------------------------
