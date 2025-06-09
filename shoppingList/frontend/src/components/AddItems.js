@@ -7,7 +7,7 @@ function AddItem({ items, setItems, listId }) {
     const [itemNameAPI, setItemNameAPI] = useState("");
     const [itemPriceAPI, setItemPriceAPI] = useState("");
     const [itemTyping, setItemTyping] = useState("");
-    const [quantityTyping, setQuantityTyping] = useState("");
+    const [quantityTyping, setQuantityTyping] = useState("1");
     // State to track the input value for a new item
     const [suggestions, setSuggestions] = useState([]);
 
