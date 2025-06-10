@@ -5,7 +5,7 @@ import PhonePopup from "./PhonePopup";
 
 const API_BASE = 'http://localhost:5000/Whatsapp';
 
-export default function WhatsAppSend(user) {
+export default function WhatsAppSend(user,isTemp) {
     const [showPopup, setShowPopup] = useState(false);
     const [tempPhone, setTempPhone] = useState('');
 
@@ -26,6 +26,9 @@ export default function WhatsAppSend(user) {
         }
     };
     const handleClick = () => {
+        if(!isTemp){
+            return;
+        }
         if (!user?.phone) {
             setShowPopup(true);
         } else {
