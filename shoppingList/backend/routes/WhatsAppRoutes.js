@@ -23,7 +23,7 @@ client.on('message', msg => {
     if (msg.body === '!ping') {
         msg.reply('pong');
     }
-    console.log('Received message:', msg.body);
+   // console.log('Received message:', msg.body);
 });
 
 client.initialize();

@@ -26,7 +26,7 @@ export default function WhatsAppSend(user,isTemp) {
         }
     };
     const handleClick = () => {
-        if(!isTemp){
+        if(!isTemp || user){
             return;
         }
         if (!user?.phone) {
