@@ -91,7 +91,7 @@ router.delete('/item/:itemId', (req, res) => {
 // Add a new fruit with quantity
 router.post('/item/:listId', (req, res) => {
   const listId = req.params.listId;
-  const { itemName, quantity = 1, price = 0 } = req.body; // default quantity to 1 if not provided
+  const { itemName, quantity = 1, price = 0 ,image} = req.body; // default quantity to 1 if not provided
   if (!itemName) return res.status(400).json({ error: 'Fruit itemName is required' });
   console.log("listId",listId)
   // Check for duplicates (case insensitive)
@@ -109,8 +109,8 @@ router.post('/item/:listId', (req, res) => {
 
       // No duplicates found, insert new fruit
       db.query(
-        'INSERT INTO item (itemName, quantity, price, listId) VALUES (?, ?, ?,?)',
-        [itemName, quantity, price,listId],
+        'INSERT INTO item (itemName, quantity, price, listId, image) VALUES (?, ?, ?,?,?)',
+        [itemName, quantity, price,listId,image],
         (err, result) => {
           if (err) { console.log(err); return res.status(500).json({ error: err }); }
           res.json({ message: 'Fruit added!', itemId: result.insertId });

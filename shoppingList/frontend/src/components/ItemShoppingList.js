@@ -164,9 +164,9 @@ const renameItem = async () => {
 
 
                 </div>
-                    <img
-                    src="https://img.rami-levy.co.il/product/7290004131074/small.jpg"
-                    alt="חלב 3% מהדרין"
+                 <img
+                    src={`https://img.rami-levy.co.il${item.image}`}
+                    alt="FAILD"
                     style={{ width: '100px', height: 'auto' }}
                 />
 

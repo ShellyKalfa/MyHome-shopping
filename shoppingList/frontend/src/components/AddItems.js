@@ -10,6 +10,7 @@ function AddItem({ items, setItems, listId }) {
     const [quantityTyping, setQuantityTyping] = useState("1");
     // State to track the input value for a new item
     const [suggestions, setSuggestions] = useState([]);
+    const [image, setImage] = useState("");
 
 
     /**
@@ -44,7 +45,9 @@ console.log("quantity", quantityTyping );
                 body: JSON.stringify({
                     itemName: itemNameAPI,
                     quantity: quantityTyping,
-                    price: itemPriceAPI
+                    price: itemPriceAPI,
+                    image: image
+
                 }),
             });
 
@@ -59,7 +62,8 @@ console.log("quantity", quantityTyping );
                 itemId: data.itemId,
                 itemName: itemNameAPI,
                 quantity: quantityTyping,
-                price: itemPriceAPI
+                price: itemPriceAPI,
+                image: image
             }]);
 
             setItemTyping("");
@@ -187,6 +191,7 @@ console.log("quantity", quantityTyping );
         setItemNameAPI(product.productName);
         setItemPriceAPI(parseFloat(product.productPrice));
         setItemTyping(product.productName);
+        setImage(product.productImage);
         setSuggestions([]);
     }
 
@@ -211,10 +216,10 @@ console.log("quantity", quantityTyping );
                         }
                                 {product.productName}
                                  <img
-  src={`https://img.rami-levy.co.il${product.productImage}`}
-  alt="חלב 3% מהדרין"
-  style={{ width: '100px', height: 'auto' }}
-/>
+                                    src={`https://img.rami-levy.co.il${product.productImage}`}
+                                    alt="חלב 3% מהדרין"
+                                    style={{ width: '100px', height: 'auto' }}
+                                />
                             </li>
                         ))}
                     </ul>
@@ -227,6 +232,13 @@ console.log("quantity", quantityTyping );
                     value={quantityTyping}
                     onChange={(event) => setQuantityTyping(event.target.value)}
                     placeholder="quantity name..."/>
+                    {image == "" ?<></>:   
+                    <img
+                                    src={`https://img.rami-levy.co.il${image}`}
+                                    alt="חלב 3% מהדרין"
+                                    style={{ width: '100px', height: 'auto' }}
+                                />
+                                }
             </div>
 
 

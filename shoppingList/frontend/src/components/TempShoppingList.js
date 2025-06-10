@@ -45,7 +45,7 @@ const updateItem = (id, newData) => {
         <div className='board'>
             <div className='flex'>
                 <h2 className='textCenter'> {isTemp ? <Typing text={['רשימת קניות', 'כדורגל עם חברים', 'ערב תה עם הבנות', 'ערב זוגי בבית']} /> :' רשימת קניות '}</h2>
-                <div className='board-items '>
+                <div className='board-items scrollable'>
                     {items.map((item, index) => (
                         <ItemShoppingList 
                         key={index} 
