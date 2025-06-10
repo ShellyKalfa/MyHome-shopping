@@ -59,7 +59,7 @@ const updateItem = (id, newData) => {
                 </div>
             </div>
             {/*<button className='bigButton'> Send To Wolt </button>*/}
-            <WhatsAppSend isTemp={isTemp} />
+            <WhatsAppSend isTemp={isTemp} items={items} />
         </div>
     );
 }
