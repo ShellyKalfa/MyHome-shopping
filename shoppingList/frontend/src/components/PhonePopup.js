@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import '../style/PhonePopup.css'
+
 export default function PhonePopup({ onSubmit, onCancel }) {
     const [phone, setPhone] = useState('');
 
@@ -12,17 +14,7 @@ export default function PhonePopup({ onSubmit, onCancel }) {
     };
 
     return (
-        <div style={{
-            position: 'fixed',
-            top: '30%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            backgroundColor: 'white',
-            padding: '20px',
-            border: '1px solid #ccc',
-            boxShadow: '0 0 10px rgba(0,0,0,0.3)',
-            zIndex: 1000
-        }}>
+        <div className='PopUp'>
             <h3>Enter Phone Number</h3>
             <input
                 type="text"

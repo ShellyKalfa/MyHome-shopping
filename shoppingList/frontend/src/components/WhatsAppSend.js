@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 
 import PhonePopup from "./PhonePopup";
+import PhoneVerification from "./PhoneVerification";
 
 const API_BASE = 'http://localhost:5000/Whatsapp';
 
@@ -11,7 +12,8 @@ export default function WhatsAppSend(user,isTemp) {
 
     const handleSendMessage = async (phoneToUse) => {
         const message = 'Hello from my React App!';
-
+        console.log("hhhhh");
+        
         try {
             const response = await axios.post(`${API_BASE}/sendMessage`, {
                 number: phoneToUse,
@@ -26,9 +28,9 @@ export default function WhatsAppSend(user,isTemp) {
         }
     };
     const handleClick = () => {
-        if(!isTemp || user){
-            return;
-        }
+        // if(!isTemp || user){
+        //     return;
+        // }
         if (!user?.phone) {
             setShowPopup(true);
         } else {
@@ -46,11 +48,13 @@ export default function WhatsAppSend(user,isTemp) {
             <button onClick={handleClick}>
                 Send message to WhatsApp
             </button>
-            {showPopup && (
+            {showPopup && (<>
                 <PhonePopup
                     onSubmit={handlePopupSubmit}
                     onCancel={() => setShowPopup(false)}
                 />
+                {/* <PhoneVerification/> */}
+                </>
             )}
         </div>
     );

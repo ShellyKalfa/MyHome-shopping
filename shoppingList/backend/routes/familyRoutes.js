@@ -192,17 +192,17 @@ router.delete('/deleteFamilyMember/:familyId', (req, res) => {
 
 router.post('/updateFamilyMembers/:familyId', (req, res) => {
   console.log("Request received to add family member");
-   const { familyId } = req.params;
+  const { familyId } = req.params;
   const { userId } = req.body;
   const updateSql = "UPDATE memberFamily SET role = ? WHERE userId = ? AND familyId = ?";
- console.log("noww",userId);
+  console.log("noww", userId);
 
-   db.query(updateSql, [Roles.MANAGER,userId, familyId], (err, result) => {
-        if (err) {
-          return res.status(500).json({ success: false, message: 'Failed to update  family member' });
-        }
-        return res.status(200).json({ success: true, message: 'Family member update  successfully' });
-      });
+  db.query(updateSql, [Roles.MANAGER, userId, familyId], (err, result) => {
+    if (err) {
+      return res.status(500).json({ success: false, message: 'Failed to update  family member' });
+    }
+    return res.status(200).json({ success: true, message: 'Family member update  successfully' });
+  });
 
 
 
