@@ -57,7 +57,7 @@ const App = () => {
         <Route path="/Signup" element={<Signup setUser={setUser} />} />
         <Route path="/CreateFamily" element={<CreateFamily User={user} setFamilysApp={setFamilysApp} />} />
         <Route path="/ShoppingListFile" element={<ShoppingListFile User={user} selectedShoppingId={selectedShoppingId} />} />
-        <Route path="/onHand" element={<ShoppingListonHand user={user} selectedFamilyId={selectedFamilyId} />} />
+        <Route path="/onHand" element={<ShoppingListonHand selectedFamilyId={selectedFamilyId} />} />
       </Routes>
       <ShoppingListPage user={user}
         familysApp={familysApp}

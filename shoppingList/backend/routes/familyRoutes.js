@@ -66,6 +66,27 @@ router.post('/familyMembers', (req, res) => {
   });
 });
 
+// Get all completed items (optionally by familyId) - added by omer for the "on hand" page
+router.get('/completed-items/:familyId', (req, res) => {
+  const familyId = req.params.familyId;
+
+  const sql = `
+    SELECT *
+    FROM item i
+           JOIN shoppingList sl ON i.listId = sl.listId
+           JOIN family f ON sl.familyId = f.familyId
+    WHERE  f.familyId = ? AND completed = 1
+  `;
+
+  db.query(sql, [familyId], (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching completed items:", err);
+      return res.status(500).json({ success: false, message: "Server error" });
+    }
+
+    return res.json({ success: true, items: results });
+  });
+});
 
 
 
@@ -203,19 +224,6 @@ router.post('/updateFamilyMembers/:familyId', (req, res) => {
         }
         return res.status(200).json({ success: true, message: 'Family member update  successfully' });
       });
-
-
-
 });
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;

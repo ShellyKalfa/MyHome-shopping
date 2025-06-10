@@ -165,30 +165,6 @@ router.patch('/item/:itemId/quantity', (req, res) => {
   });
 });
 
-// Get all completed items (optionally by familyId) - added by omer for the "on hand" page
-router.get('/completed-items/:userId', (req, res) => {
-  const userId = req.params.userId;
-
-  const sql = `
-    SELECT i.itemName, i.quantity, i.price, sl.listName
-    FROM item i
-           JOIN shoppingList sl ON i.listId = sl.listId
-           JOIN family f ON sl.familyId = f.familyId
-           JOIN familymember fm ON fm.familyId = f.familyId
-    WHERE fm.userId = ? AND i.completed = true
-  `;
-
-  db.query(sql, [userId], (err, results) => {
-    if (err) {
-      console.error("❌ Error fetching completed items:", err);
-      return res.status(500).json({ success: false, message: "Server error" });
-    }
-
-    return res.json({ success: true, items: results });
-  });
-});
-
-
 //--------------------------------- NEW -----------------------------------
 
 // Update item name and price by itemId (with duplicate name check)

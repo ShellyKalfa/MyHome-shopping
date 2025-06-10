@@ -2,8 +2,8 @@ import { SlUser } from "react-icons/sl";
 import { MdManageAccounts } from "react-icons/md";
 import { BsTrash } from "react-icons/bs";
 const Roles = {
-  MANAGER: "Admin",
-  CHILD: "Member"
+  MANAGER: "admin",
+  CHILD: "user"
 }
 
 export default function MemberFamily({ MemberFamily, handleDeleteFamilyMember, handleUpdateFamilyMember, manager }) {
