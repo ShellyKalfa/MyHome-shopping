@@ -23,15 +23,16 @@ import {
 } from '../api/family';
 
 
-export default function ShoppingListPage({ user, familysApp, selectedFamilyId, selectedShoppingId, setSelectedShoppingId }) {
+export default function ShoppingListPage({ user, familysApp, selectedFamilyId, selectedShoppingId, setSelectedShoppingId, setListName }) {
     const [shoppingFamily, setShoppingFamily] = useState([])
     const [newShoppingFamilyName, setNewShoppingFamilyName] = useState('')
     const [close, setClose] = useState(true)
     const selectedFamily = familysApp.find(family => family.familyId === selectedFamilyId);
     const [selectedFamilyName, setSelectedFamilyName] = useState(selectedFamily ? selectedFamily.familyName : '')
     const navigate = useNavigate();
-    const handleSelectedShoppingId = (ShoppingId) => {
+    const handleSelectedShoppingId = (ShoppingId,ShoppingName) => {
         setSelectedShoppingId(ShoppingId)
+        setListName(ShoppingName)
         setClose(true)
         navigate('/ShoppingListFile', { replace: true });
 

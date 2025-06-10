@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
+import WhatsAppSend from './WhatsAppSend';
 import ItemShoppingList from "./ItemShoppingList";
 import '../style/TempShoppingList.css'
 import Typing from './Typing';
 
 const API_BASE = 'http://localhost:5000';
 
-export default function TempShoppingList({ items,isTemp,setItems }) {
+export default function TempShoppingList({ items,isTemp,setItems,listName }) {
+
+  
 
   /**
    * Deletes an item from the backend and updates the local state.
@@ -44,8 +46,9 @@ const updateItem = (id, newData) => {
     return (
         <div className='board'>
             <div className='flex'>
-                <h2 className='textCenter'> {isTemp ? <Typing text={['רשימת קניות', 'כדורגל עם חברים', 'ערב תה עם הבנות', 'ערב זוגי בבית']} /> :' רשימת קניות '}</h2>
-                <div className='board-items '>
+                <h2 className='textCenter'> {isTemp ? <Typing text={['רשימת קניות', 'כדורגל עם חברים', 'ערב תה עם הבנות', 'ערב זוגי בבית']} /> 
+                : listName="" ? ' רשימת קניות ':listName}</h2>
+                <div className='board-items scrollable'>
                     {items.map((item, index) => (
                         <ItemShoppingList 
                         key={index} 
@@ -56,6 +59,7 @@ const updateItem = (id, newData) => {
                 </div>
             </div>
             {/*<button className='bigButton'> Send To Wolt </button>*/}
+            <WhatsAppSend/>
         </div>
     );
 }

@@ -7,7 +7,7 @@ import { BsTrash } from "react-icons/bs";
 export default function ItemShoppingListPage({ shopping, handleSelectedShoppingId, handleDeleteFamily, choose }) {
 
   const handleClick = () => {
-    handleSelectedShoppingId(shopping.listId);
+    handleSelectedShoppingId(shopping.listId,shopping.listName);
   };
 
   const handleDelete = () => {

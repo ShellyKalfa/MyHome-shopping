@@ -7,11 +7,12 @@ import AddItem from "./AddItems";
 
 const API_BASE = 'http://localhost:5000';
 
-export default function ShoppingList({ selectedShoppingId }) {
+export default function ShoppingList({ selectedShoppingId,listName}) {
   // State to hold all items from the backend
   const [item, setItem] = useState(["milk", "apple", "eggs", "apple"])
   const [items, setItems] = useState([])
   const [listId, setListId] = useState(selectedShoppingId);
+  
 
   useEffect(() => {
     setListId(selectedShoppingId)
@@ -45,7 +46,8 @@ export default function ShoppingList({ selectedShoppingId }) {
       <div className="boardSizeShoppingList">
         <TempShoppingList items={items}
           setItems={setItems}
-          isTemp={false} />
+          isTemp={false}
+          listName={listName} />
       </div>
     </div>
 

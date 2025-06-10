@@ -81,6 +81,7 @@ export default function Signup({ setUser }) {
                         password,
                         userId: res.data.user,
                         userName: fullName,
+                        phone:null,
                     };
                     setUser(newUser);
                     navigate('/CreateFamily');
