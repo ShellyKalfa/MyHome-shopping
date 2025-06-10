@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ItemShoppingList from "./ItemShoppingList";
+import GroupedItems from './GroupedItems';
 import '../style/TempShoppingList.css'
 import Typing from './Typing';
 
@@ -10,10 +11,10 @@ export default function TempShoppingList({ items,isTemp,setItems }) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
   const [uniqueItemsCount, setUniqueItemsCount] = useState(0);
-
+// Trackinng live changes in completion status
   useEffect(() => {
     calculateSummary();
-  }, [items]); // This will now properly track changes to items including completion status
+  }, [items]); 
 
   const calculateSummary = () => {
     const uncompletedItems = items.filter(item => item.completed === 0);
@@ -45,9 +46,6 @@ export default function TempShoppingList({ items,isTemp,setItems }) {
     })
       .then((res) => res.json())
       .then(() => {
-
-        console.log("items",items);
-        console.log("filter",items.filter((item) => item.itemId !== itemId));
         setItems(items.filter((item) => item.itemId !== itemId));
       })
       .catch((err) => console.error("Error deleting item:", err));
@@ -71,7 +69,6 @@ const updateItem = (id, newData) => {
     return groups;
   }, {});
 
-
     return (
     <div className='board'>
       <div className='flex'>
@@ -82,20 +79,11 @@ const updateItem = (id, newData) => {
         </h2>
 
         <div className='board-items scrollable'>
-          
-          {Object.entries(groupedItems).map(([department, itemsInDept]) => (
-            <div key={department} className="department-group">
-              <h2 className="department-subtitle">{department}</h2>
-              {itemsInDept.map(item => (
-                <ItemShoppingList
-                  key={item.itemId}
-                  item={item}
-                  deleteItem={deleteItem}
-                  updateItem={updateItem}
-                />
-              ))}
-            </div>
-          ))}
+                    <GroupedItems
+            groupedItems={groupedItems}
+            deleteItem={deleteItem}
+            updateItem={updateItem}
+          />
             <div className="total-amount">
               סה״כ לתשלום: {totalPrice.toFixed(2)}₪
             </div>

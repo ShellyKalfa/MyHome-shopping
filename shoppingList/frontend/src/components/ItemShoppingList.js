@@ -43,21 +43,9 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
         setIsAmountEdit(false);
     };
 
-    // const toggleCompleted = async () => {
-    //     try {
-    //         const response = await axios.patch(`${API_BASE}/item/${item.itemId}`, {
-    //             completed: !item.completed
-    //         });
-    //         if (updateItem) updateItem(item.itemId, { completed: !item.completed });
-    //     } catch (err) {
-    //         console.error('Failed to update item status:', err);
-    //     }
-    // };
-
     // NEW toggleCompleted function - edited by idoaz1 in 10/6/2025
 const toggleCompleted = async () => {
     try {
-        // Toggle between 0 and 1 instead of true/false
         const newCompletedStatus = item.completed === 0 ? 1 : 0;
         
         const response = await axios.patch(`${API_BASE}/item/${item.itemId}`, {
@@ -216,7 +204,7 @@ const toggleCompleted = async () => {
                 <img
                     src={itemImage ? `https://img.rami-levy.co.il${itemImage}` : `https://img.rami-levy.co.il${item.image}`}
                     alt="Item"
-                    style={{ width: '100px', height: 'auto' }}
+                    className="image"
                 />
 
                 <div className="amountItem">
@@ -243,9 +231,6 @@ const toggleCompleted = async () => {
                 <div className="departmentItem">
                     מחלקה: {itemDepartment}
                 </div>
-                {/* <div className="dateItem">
-                    תאריך: {item.created_at ? new Date(item.created_at).getDate() : "N/A"}
-                </div> */}
             </div>
 
             <div>
