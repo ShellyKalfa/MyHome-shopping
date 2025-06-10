@@ -81,15 +81,20 @@
     border: 1px solid #ccc;
     background-color: white;
     position: absolute;
-    width: 100%;
+    width: 25%;
     z-index: 1000;
     max-height: 200px;
     overflow-y: auto;
+    margin-top: 4vh;
 }
+
 .autocomplete-list li {
+    display: grid;
+    height: 50px;
     padding: 8px;
     cursor: pointer;
 }
+
 .autocomplete-list li:hover {
     background-color: #eee;
 }

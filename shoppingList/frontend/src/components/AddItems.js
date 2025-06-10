@@ -215,11 +215,11 @@ function AddItem({ items, setItems, listId }) {
                                 handleOnClick(product);
                             }}>
                             {console.log(`https://img.rami-levy.co.il/${product.productImage}`)}
-                                {product.productName}
-                                <img
+                               <div className="productName">{product.productName}</div> 
+                                <img className="image"
                                     src={`https://img.rami-levy.co.il${product.productImage}`}
                                     alt="failed to present image"
-                                    style={{ width: '100px', height: 'auto' }}
+                                   
                                     />
                             </li>
                         ))}
@@ -237,7 +237,7 @@ function AddItem({ items, setItems, listId }) {
                     <img
                                     src={`https://img.rami-levy.co.il${image}`}
                                     alt="failed to present item image"
-                                    style={{ width: '100px', height: 'auto' }}
+                                    className="image"
                                 />
                                 }
             </div>
