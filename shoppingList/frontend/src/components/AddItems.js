@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from 'axios';
 
 const API_BASE = 'http://localhost:5000/Shopping';
@@ -10,7 +10,8 @@ function AddItem({ items, setItems, listId }) {
     const [quantityTyping, setQuantityTyping] = useState("1");
     // State to track the input value for a new item
     const [suggestions, setSuggestions] = useState([]);
-
+    const [itemDepartment, setItemDepartment] = useState("כללי");
+    const [image, setImage] = useState("");
 
     /**
  * Adds a new item to the backend and updates the local state.
@@ -41,7 +42,10 @@ function AddItem({ items, setItems, listId }) {
                 body: JSON.stringify({
                     itemName: itemNameAPI,
                     quantity: quantityTyping,
-                    price: itemPriceAPI
+                    price: itemPriceAPI,
+                    department: itemDepartment, 
+                    image: image,
+                    completed: 0
                 }),
             });
 
@@ -57,11 +61,15 @@ function AddItem({ items, setItems, listId }) {
                 listId: listId,
                 itemName: itemNameAPI,
                 quantity: quantityTyping,
-                price: itemPriceAPI
+                price: itemPriceAPI,
+                department: itemDepartment,
+                image: image,
+                completed: 0
             }]);
 
             setItemTyping("");
             setQuantityTyping("1");
+            setImage("")
             setSuggestions([]);
         } catch (err) {
             alert("Error adding item: " + err.message);
@@ -164,7 +172,8 @@ function AddItem({ items, setItems, listId }) {
                         ({
                             "productName": product.name,
                             "productPrice": product.price.price,
-                            "productCatgory": product.department.name
+                            "productCategory": product.department?.name || "כללי",
+                            "productImage" : product.images.small
                         }));
                         setSuggestions(results.slice(0, 10));
                     }
@@ -177,25 +186,26 @@ function AddItem({ items, setItems, listId }) {
     }
 
 
- 
-
 
     const handleOnClick = (product) => {
         setItemNameAPI(product.productName);
         setItemPriceAPI(parseFloat(product.productPrice));
         setItemTyping(product.productName);
+        setItemDepartment(product.productCategory); 
+        setImage(product.productImage);
         setSuggestions([]);
+        
     }
 
     return (
 
         <div className="box">
-            < div className="addItemTitle">add item</div>
+            < div className="addItemTitle">הוספת מוצר לסל</div>
             <div className="topButton">
                 <input className="itemInput"
                     value={itemTyping}
                     onChange={(event) => handleChange(event)}
-                    placeholder="Item name..."
+                    placeholder="הקלד מוצר מבוקש"
                     dir="rtl" />
 
                 {(suggestions.length > 0 && itemTyping.length > 1) ? (
@@ -204,7 +214,13 @@ function AddItem({ items, setItems, listId }) {
                             <li key={idx} onClick={() => {
                                 handleOnClick(product);
                             }}>
+                            {console.log(`https://img.rami-levy.co.il/${product.productImage}`)}
                                 {product.productName}
+                                <img
+                                    src={`https://img.rami-levy.co.il${product.productImage}`}
+                                    alt="failed to present image"
+                                    style={{ width: '100px', height: 'auto' }}
+                                    />
                             </li>
                         ))}
                     </ul>
@@ -217,13 +233,20 @@ function AddItem({ items, setItems, listId }) {
                     value={quantityTyping}
                     onChange={(event) => setQuantityTyping(event.target.value)}
                     placeholder="quantity name..."/>
+                    {image == "" ?<></>:   
+                    <img
+                                    src={`https://img.rami-levy.co.il${image}`}
+                                    alt="failed to present item image"
+                                    style={{ width: '100px', height: 'auto' }}
+                                />
+                                }
             </div>
 
 
 
             <div className="topButton">
-                <button className="buttonAddItems" onClick={addItem}> save  </button>
-                <button className="buttonAddItems"> cancel  </button>
+                <button className="buttonAddItems" onClick={addItem}> שמור  </button>
+                <button className="buttonAddItems"> ביטול     </button>
             </div>
 
         </div>);
