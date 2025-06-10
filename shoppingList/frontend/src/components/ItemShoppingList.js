@@ -13,18 +13,17 @@ const API_BASE = 'http://localhost:5000/Shopping';
 
 export default function ItemShoppingList({ item, deleteItem,updateItem }) {
     const [newItem, setNewItem] = useState(item.itemName)
-    const [itemNameAPI, setItemNameAPI] = useState("");
     const [itemPriceAPI, setItemPriceAPI] = useState("");
     const [isEdit,setIsEdit]=useState(false)
-    // State to track the input value for a new item
     const [suggestions, setSuggestions] = useState([]);
-    const [itemTyping, setItemTyping] = useState("");
+    const [isAmountEdit, setIsAmountEdit] = useState(false); 
+
+    const [newAmount, setNewAmount] = useState(item.quantity)
 
     const onEdit=()=>{
         setIsEdit(true)
-        setNewItem('');           // clear input
-        setItemTyping('');        // clear typing
-        setSuggestions([]);       // clear old suggestions
+        setNewItem('');           
+        setSuggestions([]);       
     }
     const onSave=()=>{
         setIsEdit(false)
@@ -33,6 +32,16 @@ export default function ItemShoppingList({ item, deleteItem,updateItem }) {
     const onDelete = () => {
         deleteItem(item.itemId)
     }
+    const amountEdit = () => {
+    setIsAmountEdit(true);
+    setNewAmount(item.quantity);       
+    };
+
+    const amountSave = () => {
+    changeAmount();                    // perform the PATCH
+    setIsAmountEdit(false);            // hide edit UI
+    };
+    
    const toggleCompleted = async () => {
         try {
             const response = await axios.patch(`${API_BASE}/item/${item.itemId}`, {
@@ -54,7 +63,6 @@ export default function ItemShoppingList({ item, deleteItem,updateItem }) {
     const handleAutoComplete = (event) => {
         event.preventDefault();
         let text = event.target.value;
-        setItemTyping(text)
 
         if (text.length > 1) {
             axios.post(`${API_BASE}/search`, {
@@ -84,7 +92,7 @@ export default function ItemShoppingList({ item, deleteItem,updateItem }) {
  */
 
 const renameItem = async () => {
-  const newName = newItem?.trim(); // use `newItem`, not `itemTyping`
+  const newName = newItem?.trim(); 
   if (!newName) return;
 
   try {
@@ -103,7 +111,6 @@ const renameItem = async () => {
 
     setNewItem(newName);
     setIsEdit(false);
-    setItemTyping("");
     setSuggestions([]);
 
     if (typeof updateItem === 'function') {
@@ -118,13 +125,37 @@ const renameItem = async () => {
   }
 };
 
+const changeAmount = async () => {
+  const quantity = parseInt(newAmount);
+  if (isNaN(quantity) || quantity <= 0) {
+    alert("Please enter a valid amount.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/item/${item.itemId}/quantity`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ quantity }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+
+    setNewAmount(quantity);
+    if (typeof updateItem === "function") {
+      updateItem(item.itemId, { quantity });
+    }
+  } catch (err) {
+    alert("Failed to update amount: " + err.message);
+  }
+};
+
 
 
 
     const handleOnClick = (product) => {
-        setItemNameAPI(product.productName);
         setItemPriceAPI(parseFloat(product.productPrice));
-        setItemTyping(product.productName);
         setNewItem(product.productName); 
         setSuggestions([]);
     }
@@ -164,8 +195,27 @@ const renameItem = async () => {
 
 
                 </div>
-                <div className="amountItem"> amount:{item.quantity}</div>
-                <div className="priceItem"> price:{item.price}</div>
+                <div className="amountItem">
+                {isAmountEdit ? (
+                    <div className="amountEditWrapper">
+                    <input
+                        type="number"
+                        value={newAmount}
+                        onChange={(e) => {
+                        setNewAmount(e.target.value);
+                        }}
+                        placeholder="Enter amount"
+                        className="amountInput"
+                    />
+                    <ImCheckmark onClick={amountSave} />
+                    </div>
+                ) : (
+                    <>
+                    amount: {item.quantity} <MdEdit onClick={amountEdit} />
+                    </>
+                )}
+                </div>
+                <div className="priceItem"> price:{item.price} ({(item.price * item.quantity).toFixed(2)}₪)</div>
             </div>
 
             <div>

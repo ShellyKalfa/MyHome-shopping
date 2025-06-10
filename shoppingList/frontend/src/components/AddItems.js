@@ -28,9 +28,6 @@ function AddItem({ items, setItems, listId }) {
             alert("choose an item!");
             return;
         }
-        
-console.log("quantity", quantityTyping );
-
 
         if (!quantityTyping || isNaN(quantityTyping) || parseInt(quantityTyping) <= 0 ||  parseFloat(quantityTyping) % 1 != 0){
             alert("Not valid number!")
@@ -54,9 +51,10 @@ console.log("quantity", quantityTyping );
             }
 
             const data = await res.json();
-            
+
             setItems([...items, {
                 itemId: data.itemId,
+                listId: listId,
                 itemName: itemNameAPI,
                 quantity: quantityTyping,
                 price: itemPriceAPI
