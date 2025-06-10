@@ -166,7 +166,8 @@ console.log("quantity", quantityTyping );
                         ({
                             "productName": product.name,
                             "productPrice": product.price.price,
-                            "productCatgory": product.department.name
+                            "productCatgory": product.department.name,
+                            "productImage" : product.images.small
                         }));
                         setSuggestions(results.slice(0, 10));
                     }
@@ -206,7 +207,14 @@ console.log("quantity", quantityTyping );
                             <li key={idx} onClick={() => {
                                 handleOnClick(product);
                             }}>
+                        {console.log(`https://img.rami-levy.co.il/${product.productImage}`)
+                        }
                                 {product.productName}
+                                 <img
+  src={`https://img.rami-levy.co.il${product.productImage}`}
+  alt="חלב 3% מהדרין"
+  style={{ width: '100px', height: 'auto' }}
+/>
                             </li>
                         ))}
                     </ul>
