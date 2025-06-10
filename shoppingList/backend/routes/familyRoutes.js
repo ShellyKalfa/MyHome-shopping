@@ -77,7 +77,7 @@ router.get('/completed-items/:familyId', (req, res) => {
            JOIN family f ON sl.familyId = f.familyId
     WHERE  f.familyId = ? AND completed = 1
   `;
-
+  console.log("sql",sql);
   db.query(sql, [familyId], (err, results) => {
     if (err) {
       console.error("❌ Error fetching completed items:", err);

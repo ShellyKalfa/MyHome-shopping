@@ -9,6 +9,7 @@
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
+    grid-column: 1 / -1;
 }
 
 .grid-title {
@@ -18,8 +19,14 @@
     font-weight: bold;
 }
 
+.cards-container {
+    display: flex;
+    flex-direction: column; /* Stack vertically */
+    gap: 1rem; /* Space between cards */
+}
+
 .item-card {
-    background-color: #a4a1a1;
+    background-color: #ffffff;
     border-radius: 10px;
     padding: 1rem;
     box-shadow: 0 0 4px rgba(0,0,0,0.1);
