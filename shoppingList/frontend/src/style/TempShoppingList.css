@@ -29,6 +29,8 @@ h2{
     border-radius: 2vw;
     padding:1vw;
     color: #354147;
+      direction: rtl;
+
 
 }
 
@@ -41,6 +43,13 @@ h2{
      
 
   }
+
+.scrollable {
+  /* height: 300px;  */
+  overflow-y: auto; 
+  /* border: 1px solid #ccc; */
+  padding: 10px; 
+}
 
 .ItemShoppingList{
     width: 100%;
@@ -74,6 +83,35 @@ h2{
     grid-row: 3;
 }
 
+.departmentItem{
+
+    font-size: 1rem;
+    text-align: center;
+    /* color: wheat;
+    border-radius: 3vw; */
+     grid-column:2;
+    grid-row: 4;
+}
+
+.total-amount {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+    direction: rtl;
+
+}
+
+
+.dateItem{
+
+    font-size: 1rem;
+    text-align: center;
+    /* color: wheat;
+    border-radius: 3vw; */
+     grid-column:2;
+    grid-row: 5;
+}
 .circle{
     grid-column:1;
     /* grid-row: 1 /2; */
@@ -114,4 +152,9 @@ h2{
 .crossText{
     text-decoration: line-through;
 
+}
+
+.image{
+     width: '100px';
+     height: 'auto' ;
 }

@@ -187,3 +187,16 @@
 //   //   res.json({ message: 'Quantity updated' });
 //   // });
 
+
+// NEW toggleCompleted function - edited by idoaz1 in 10/6/2025
+    // const toggleCompleted = async () => {
+    //     try {
+    //         const response = await axios.patch(`${API_BASE}/item/${item.itemId}`, {
+    //             completed: !item.completed
+    //         });
+    //         if (updateItem) updateItem(item.itemId, { completed: !item.completed });
+    //     } catch (err) {
+    //         console.error('Failed to update item status:', err);
+    //     }
+    // };
+// FINISH toggleCompleted function - edited by idoaz1 in 10/6/2025
