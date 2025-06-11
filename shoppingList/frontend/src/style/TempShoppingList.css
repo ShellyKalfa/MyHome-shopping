@@ -35,11 +35,11 @@ h2 {
 }
 
 .board-items {
-    width: 70%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 5vh;
+    margin-top: 3vh;
 
 
 }
@@ -53,12 +53,10 @@ h2 {
 
 .ItemShoppingList {
     width: 100%;
-    display: flex;
+    display: grid;
     flex-direction: row;
     font-size: 2rem;
     gap: 10px;
-    align-content: center;
-    justify-content: space-between;
     margin-bottom: 3vh;
     text-align: center;
 }
@@ -131,6 +129,7 @@ h2 {
 
 .listItem {
     display: grid;
+    grid-column: 2;
 }
 
 .uncheck {
@@ -162,10 +161,21 @@ h2 {
     width: 50px;
     height: 'auto';
 }
+.imageList {
+    width: 70px;
+    grid-column: 3;
+}
 
 .productName {
     grid-column: 1;
-   width: 15vw;
+    width: 15vw;
     display: flex;
     align-items: center;
+    font-size: 1.2rem;
+}
+
+
+
+.deleteEdit{
+    grid-column: 4;
 }

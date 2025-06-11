@@ -72,7 +72,7 @@ const updateItem = (id, newData) => {
     return (
     <div className='board'>
       <div className='flex'>
-        <h2 className='textCenter'>
+        <h2 className='textCenter shoppingListTitle'>
           {isTemp
             ? <Typing text={['רשימת קניות', 'כדורגל עם חברים', 'ערב תה עם הבנות', 'ערב זוגי בבית']} />
             : 'רשימת קניות'}

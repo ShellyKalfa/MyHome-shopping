@@ -44,24 +44,24 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
     };
 
     // NEW toggleCompleted function - edited by idoaz1 in 10/6/2025
-const toggleCompleted = async () => {
-    try {
-        const newCompletedStatus = item.completed === 0 ? 1 : 0;
-        
-        const response = await axios.patch(`${API_BASE}/item/${item.itemId}`, {
-            completed: newCompletedStatus
-        });
+    const toggleCompleted = async () => {
+        try {
+            const newCompletedStatus = item.completed === 0 ? 1 : 0;
 
-        if (updateItem) {
-            updateItem(item.itemId, { 
-                ...item,
-                completed: newCompletedStatus 
+            const response = await axios.patch(`${API_BASE}/item/${item.itemId}`, {
+                completed: newCompletedStatus
             });
+
+            if (updateItem) {
+                updateItem(item.itemId, {
+                    ...item,
+                    completed: newCompletedStatus
+                });
+            }
+        } catch (err) {
+            console.error('Failed to update item status:', err);
         }
-    } catch (err) {
-        console.error('Failed to update item status:', err);
-    }
-};
+    };
 
     const handleAutoComplete = (event) => {
         const text = event.target.value;
@@ -92,14 +92,14 @@ const toggleCompleted = async () => {
 
     const renameItem = async () => {
         const newName = newItem?.trim();
-        if (!newName){
-                    setItemPriceAPI(parseFloat(item.price));
-                    setNewItem(item.itemName);
-                    setItemDepartment(item.department);
-                    setItemImage(item.image);
-                    setSuggestions([]);
+        if (!newName) {
+            setItemPriceAPI(parseFloat(item.price));
+            setNewItem(item.itemName);
+            setItemDepartment(item.department);
+            setItemImage(item.image);
+            setSuggestions([]);
             return;
-        } 
+        }
 
         try {
             const res = await fetch(`${API_BASE}/item/${item.itemId}/name`, {
@@ -187,10 +187,15 @@ const toggleCompleted = async () => {
                             />
                             {(suggestions.length > 0 && newItem.length > 1 &&
                                 newItem.trim().toLowerCase() !== item.itemName.trim().toLowerCase()) ? (
-                                <ul className="autocomplete-list">
+                                <ul className="autocomplete-list  listEdit">
                                     {suggestions.map((product, idx) => (
                                         <li key={idx} onClick={() => handleOnClick(product)}>
-                                            {product.productName}
+                                            <div className="productName">{product.productName}</div>
+                                            <img className="image"
+                                                src={`https://img.rami-levy.co.il${product.productImage}`}
+                                                alt="failed to present image"
+
+                                            />
                                         </li>
                                     ))}
                                 </ul>
@@ -201,11 +206,7 @@ const toggleCompleted = async () => {
                     )}
                 </div>
 
-                <img
-                    src={itemImage ? `https://img.rami-levy.co.il${itemImage}` : `https://img.rami-levy.co.il${item.image}`}
-                    alt="Item"
-                    className="image"
-                />
+
 
                 <div className="amountItem">
                     {isAmountEdit ? (
@@ -232,8 +233,13 @@ const toggleCompleted = async () => {
                     מחלקה: {itemDepartment}
                 </div>
             </div>
+            <img
+                src={itemImage ? `https://img.rami-levy.co.il${itemImage}` : `https://img.rami-levy.co.il${item.image}`}
+                alt="Item"
+                className="image imageList"
+            />
 
-            <div>
+            <div className="deleteEdit">
                 {isEdit ? <ImCheckmark onClick={onSave} /> : <MdEdit onClick={onEdit} />}
                 <div onClick={onDelete}><BsTrash /></div>
             </div>

@@ -25,16 +25,16 @@ function AddItem({ items, setItems, listId }) {
             alert("This item already exists!");
             return;
         }
-        if(itemPriceAPI.length < 1  || itemNameAPI < 2){
+        if (itemPriceAPI.length < 1 || itemNameAPI < 2) {
             alert("choose an item!");
             return;
         }
 
-        if (!quantityTyping || isNaN(quantityTyping) || parseInt(quantityTyping) <= 0 ||  parseFloat(quantityTyping) % 1 != 0){
+        if (!quantityTyping || isNaN(quantityTyping) || parseInt(quantityTyping) <= 0 || parseFloat(quantityTyping) % 1 != 0) {
             alert("Not valid number!")
             return;
         }
-          
+
         try {
             const res = await fetch(`${API_BASE}/item/${listId}`, {
                 method: "POST",
@@ -43,7 +43,7 @@ function AddItem({ items, setItems, listId }) {
                     itemName: itemNameAPI,
                     quantity: quantityTyping,
                     price: itemPriceAPI,
-                    department: itemDepartment, 
+                    department: itemDepartment,
                     image: image,
                     completed: 0
                 }),
@@ -149,12 +149,12 @@ function AddItem({ items, setItems, listId }) {
     };
 
 
-       /**
-     * Fetches item details (name and price) from the Rami Levi API based on the typed item name.
-     * Updates local state with the name and parsed price.
-     * as auto complition
-     * @param {Event} event - The form submission event.
-     */
+    /**
+  * Fetches item details (name and price) from the Rami Levi API based on the typed item name.
+  * Updates local state with the name and parsed price.
+  * as auto complition
+  * @param {Event} event - The form submission event.
+  */
 
     const handleChange = (event) => {
         event.preventDefault();
@@ -173,7 +173,7 @@ function AddItem({ items, setItems, listId }) {
                             "productName": product.name,
                             "productPrice": product.price.price,
                             "productCategory": product.department?.name || "כללי",
-                            "productImage" : product.images.small
+                            "productImage": product.images.small
                         }));
                         setSuggestions(results.slice(0, 10));
                     }
@@ -191,10 +191,20 @@ function AddItem({ items, setItems, listId }) {
         setItemNameAPI(product.productName);
         setItemPriceAPI(parseFloat(product.productPrice));
         setItemTyping(product.productName);
-        setItemDepartment(product.productCategory); 
+        setItemDepartment(product.productCategory);
         setImage(product.productImage);
         setSuggestions([]);
-        
+
+    }
+     const handleOnClickCancel = () => {
+        setItemNameAPI("");
+        setItemPriceAPI("");
+        setItemTyping("");
+        setItemDepartment("");
+        setImage("");
+        setQuantityTyping("1");
+        setSuggestions([]);
+
     }
 
     return (
@@ -202,7 +212,7 @@ function AddItem({ items, setItems, listId }) {
         <div className="box">
             < div className="addItemTitle">הוספת מוצר לסל</div>
             <div className="topButton">
-                <input className="itemInput"
+                <input className="itemInputAdd"
                     value={itemTyping}
                     onChange={(event) => handleChange(event)}
                     placeholder="הקלד מוצר מבוקש"
@@ -214,13 +224,13 @@ function AddItem({ items, setItems, listId }) {
                             <li key={idx} onClick={() => {
                                 handleOnClick(product);
                             }}>
-                            {console.log(`https://img.rami-levy.co.il/${product.productImage}`)}
-                               <div className="productName">{product.productName}</div> 
+                                {console.log(`https://img.rami-levy.co.il/${product.productImage}`)}
+                                <div className="productName">{product.productName}</div>
                                 <img className="image"
                                     src={`https://img.rami-levy.co.il${product.productImage}`}
                                     alt="failed to present image"
-                                   
-                                    />
+
+                                />
                             </li>
                         ))}
                     </ul>
@@ -229,24 +239,26 @@ function AddItem({ items, setItems, listId }) {
             </div>
 
             <div className="topButton">
-                <input className="quantityInput"
+                {image == "" ? <></> :
+                    <img
+                        src={`https://img.rami-levy.co.il${image}`}
+                        alt="failed to present item image"
+                        className="image"
+                    />
+                }
+                <input className="itemAmont"
+                    type="number"
                     value={quantityTyping}
                     onChange={(event) => setQuantityTyping(event.target.value)}
-                    placeholder="quantity name..."/>
-                    {image == "" ?<></>:   
-                    <img
-                                    src={`https://img.rami-levy.co.il${image}`}
-                                    alt="failed to present item image"
-                                    className="image"
-                                />
-                                }
+                    placeholder="quantity name..." />
+
             </div>
 
 
 
             <div className="topButton">
                 <button className="buttonAddItems" onClick={addItem}> שמור  </button>
-                <button className="buttonAddItems"> ביטול     </button>
+                <button className="buttonAddItems" onClick={()=> handleOnClickCancel()}> ביטול     </button>
             </div>
 
         </div>);
