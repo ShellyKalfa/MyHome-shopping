@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import WhatsAppSend from './WhatsAppSend';
 import ItemShoppingList from "./ItemShoppingList";
+import GroupedItems from './GroupedItems';
 import '../style/TempShoppingList.css'
 import Typing from './Typing';
 
@@ -12,7 +13,31 @@ export default function TempShoppingList({ items,isTemp,setItems,listName }) {
 
   
 
-  /**
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
+  const [uniqueItemsCount, setUniqueItemsCount] = useState(0);
+// Trackinng live changes in completion status
+  useEffect(() => {
+    calculateSummary();
+  }, [items]); 
+
+  const calculateSummary = () => {
+    const uncompletedItems = items.filter(item => item.completed === 0);
+    
+    const total = uncompletedItems.reduce((sum, item) => {
+      return sum + (item.price * item.quantity);
+    }, 0);
+    
+    const totalQuantity = uncompletedItems.reduce((sum, item) => {
+      return sum + item.quantity;
+    }, 0);
+
+    setTotalPrice(total);
+    setTotalItems(totalQuantity);
+    setUniqueItemsCount(uncompletedItems.length);
+  };
+
+ /**
    * Deletes an item from the backend and updates the local state.
    *
    * @param {number} itemId - The ID of the item to delete.
@@ -26,9 +51,6 @@ export default function TempShoppingList({ items,isTemp,setItems,listName }) {
     })
       .then((res) => res.json())
       .then(() => {
-
-        console.log("items",items);
-        console.log("filter",items.filter((item) => item.itemId !== itemId));
         setItems(items.filter((item) => item.itemId !== itemId));
       })
       .catch((err) => console.error("Error deleting item:", err));
@@ -42,24 +64,37 @@ const updateItem = (id, newData) => {
     );
 };
 
+  // Group items by department
+  const groupedItems = items.reduce((groups, item) => {
+    const dept = item.department || 'לא מסווג'; 
+    if (!groups[dept]) {
+      groups[dept] = [];
+    }
+    groups[dept].push(item);
+    return groups;
+  }, {});
 
     return (
-        <div className='board'>
-            <div className='flex'>
-                <h2 className='textCenter'> {isTemp ? <Typing text={['רשימת קניות', 'כדורגל עם חברים', 'ערב תה עם הבנות', 'ערב זוגי בבית']} /> 
-                : listName="" ? ' רשימת קניות ':listName}</h2>
-                <div className='board-items scrollable'>
-                    {items.map((item, index) => (
-                        <ItemShoppingList 
-                        key={index} 
-                        item={item} 
-                        deleteItem={deleteItem}
-                        updateItem={updateItem} />
-                    ))}
-                </div>
+    <div className='board'>
+      <div className='flex'>
+        <h2 className='textCenter shoppingListTitle'>
+          {isTemp
+            ? <Typing text={['רשימת קניות', 'כדורגל עם חברים', 'ערב תה עם הבנות', 'ערב זוגי בבית']} />
+            : 'רשימת קניות'}
+        </h2>
+
+        <div className='board-items scrollable'>
+                    <GroupedItems
+            groupedItems={groupedItems}
+            deleteItem={deleteItem}
+            updateItem={updateItem}
+          />
+            <div className="total-amount">
+              סה״כ לתשלום: {totalPrice.toFixed(2)}₪
             </div>
-            {/*<button className='bigButton'> Send To Wolt </button>*/}
-            <WhatsAppSend isTemp={isTemp} items={items} />
         </div>
-    );
+      </div>
+            <WhatsAppSend isTemp={isTemp} items={items} />
+    </div>
+  );
 }
