@@ -80,7 +80,7 @@ const updateItem = (id, newData) => {
         <h2 className='textCenter shoppingListTitle'>
           {isTemp
             ? <Typing text={['רשימת קניות', 'כדורגל עם חברים', 'ערב תה עם הבנות', 'ערב זוגי בבית']} />
-            : 'רשימת קניות'}
+            : listName="" ? ' רשימת קניות ':listName}
         </h2>
 
         <div className='board-items scrollable'>
