@@ -5,20 +5,21 @@ import axios from 'axios';
 import ShoppingList from "./ShoppingList";
 
 
-export default function ShoppingListFile({ User, selectedShoppingId, listName }) {
+export default function ShoppingListFile({ user, selectedShoppingId, listName }) {
     const navigate = useNavigate();
     useEffect(() => {
-        if (!User?.userId) {
+        if (!user?.userId) {
             navigate('/', { replace: true });
             return;
         }
-    }, [User]);
+    }, [user]);
 
     return (
         <div>
             <ShoppingList isTemp={false}
                           selectedShoppingId={selectedShoppingId}
-                          listName={listName} />
+                          listName={listName}
+                          user={user} />
         </div>
     )
 };

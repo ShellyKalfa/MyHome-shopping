@@ -9,10 +9,7 @@ import Typing from './Typing';
 
 const API_BASE = 'http://localhost:5000';
 
-export default function TempShoppingList({ items,isTemp,setItems,listName }) {
-
-  
-
+export default function TempShoppingList({ items,isTemp,setItems,listName,user }) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
   const [uniqueItemsCount, setUniqueItemsCount] = useState(0);
@@ -65,7 +62,7 @@ const updateItem = (id, newData) => {
 };
 
   // Group items by department
-  const groupedItems = items.reduce((groups, item) => {
+  const groupedItems = items.reduce((groups, item , user) => {
     const dept = item.department || 'לא מסווג'; 
     if (!groups[dept]) {
       groups[dept] = [];
@@ -94,7 +91,7 @@ const updateItem = (id, newData) => {
             </div>
         </div>
       </div>
-            <WhatsAppSend isTemp={isTemp} items={items} />
+            <WhatsAppSend isTemp={isTemp} items={items} user={isTemp ? null : user} />
     </div>
   );
 }
