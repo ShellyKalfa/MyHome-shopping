@@ -37,10 +37,8 @@ router.post('/shoppingFamily/:familyId', (req, res) => {
 router.post('/createShoppingFamily/:selectedFamilyId', (req, res) => {
   const selectedFamilyId = req.params.selectedFamilyId;
   const {ShoppingFamilyName } = req.body;
-  console.log("selectedFamilyId",selectedFamilyId)
-  console.log("ShoppingFamilyName",ShoppingFamilyName)
-    const insertShoppingListSql = "INSERT INTO shoppingList (listId, familyId, listName) VALUES (NULL, ?, ?)";
-    const insertShoppingListValues = [ selectedFamilyId,ShoppingFamilyName]; // default role
+  const insertShoppingListSql = "INSERT INTO shoppingList (listId, familyId, listName) VALUES (NULL, ?, ?)";
+  const insertShoppingListValues = [ selectedFamilyId,ShoppingFamilyName]; // default role
 
     db.query(insertShoppingListSql, insertShoppingListValues, (err2,result) => {
       if (err2) {
@@ -91,10 +89,8 @@ router.delete('/item/:itemId', (req, res) => {
 // Add a new fruit with quantity
 router.post('/item/:listId', (req, res) => {
   const listId = req.params.listId;
-  const { itemName, quantity = 1, price = 0 } = req.body; // default quantity to 1 if not provided
+  const { itemName, quantity = 1, price = 0, department = "כללי", image } = req.body; 
   if (!itemName) return res.status(400).json({ error: 'Fruit itemName is required' });
-  console.log("listId",listId)
-  // Check for duplicates (case insensitive)
   db.query(
     'SELECT * FROM item WHERE LOWER(itemName) = LOWER(?) AND listId = ?',
     [itemName, listId],
@@ -109,8 +105,8 @@ router.post('/item/:listId', (req, res) => {
 
       // No duplicates found, insert new fruit
       db.query(
-        'INSERT INTO item (itemName, quantity, price, listId) VALUES (?, ?, ?,?)',
-        [itemName, quantity, price,listId],
+        'INSERT INTO item (itemName, quantity, price, department, listId, image) VALUES (?, ?, ?, ?, ?, ?)',
+        [itemName, quantity, price, department, listId, image],
         (err, result) => {
           if (err) { console.log(err); return res.status(500).json({ error: err }); }
           res.json({ message: 'Fruit added!', itemId: result.insertId });
@@ -122,15 +118,13 @@ router.post('/item/:listId', (req, res) => {
 
 router.post('/search', async (req, res) => {
   try {
-
-    console.log("req.body", req.body);
-
     const response = await axios.post('https://www.rami-levy.co.il/api/catalog?', req.body, {
       headers: {
         'Content-Type': 'application/json'
       }
     });
     res.json(response.data);
+    
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -170,7 +164,7 @@ router.patch('/item/:itemId/quantity', (req, res) => {
 // Update item name and price by itemId (with duplicate name check)
 router.patch('/item/:itemId/name', (req, res) => {
 const { itemId } = req.params;
-const { name, price, listId } = req.body;
+const { name, price, listId, image, department } = req.body;
 
 if (!name || name.trim() === '') {
   return res.status(400).json({ error: 'New name is required' });
@@ -190,8 +184,8 @@ db.query(
 
     // Update the item
     db.query(
-      'UPDATE item SET itemName = ?, price = ? WHERE itemId = ? AND listId = ?',
-      [trimmedName, price, itemId, listId],
+      'UPDATE item SET itemName = ?, price = ?, image = ?, department = ? WHERE itemId = ? AND listId = ?',
+      [trimmedName, price, image, department, itemId, listId],
       (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
         if (result.affectedRows === 0) {

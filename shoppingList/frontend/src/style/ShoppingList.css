@@ -1,15 +1,13 @@
-
-
-.shoppingListBord{
+.shoppingListBord {
     display: flex;
     justify-content: center;
     /* flex-direction: column; */
-    align-items: center;
+    /* align-items: center; */
 }
 
-.box{
-    width: 30vw;
-    height: 18vh;
+.box {
+    width: 24vw;
+    height: 25vh;
     display: flex;
     flex-direction: column;
     background-color: white;
@@ -20,58 +18,69 @@
     margin: 4vh;
 }
 
-.topButton{
+.topButton {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
-.addItemTitle{
+.addItemTitle {
     display: block;
     font-size: 2.5rem;
-   color: #ddc989;
-   text-align: center;
-  font-weight: bolder;
+    color: #ddc989;
+    text-align: center;
+    font-weight: bolder;
 }
 
-.boardSizeShoppingList{
+.boardSizeShoppingList {
     width: 60vw;
-    height: 70vh;
+    height: 100vh;
 
 }
 
-.itemAmount{
+.itemAmount {
     width: 11vw;
     border: solid #e4dfcf;
     border-radius: 5px;
     font-size: 1rem;
 }
 
-.itemInput{
-    width: 13vw;
+.itemInputAdd {
+    width: 100%;
     height: 3vh;
     font-size: 1rem;
     border: solid #e4dfcf;
     border-radius: 5px;
 }
-/* .itemAmont{
-    display: flex;
-    flex-direction: column;
 
-} */
+.department-subtitle{
+ font-size: 2.6rem;
+}
 
-.selectInput{
+.shoppingListTitle{
+ font-size: 4rem;
+
+}
+
+.itemAmont {
+    height: 20px;
+    width: 70px;
+
+}
+
+.selectInput {
     background-color: #e4dfcf;
     border: 1px;
     border-radius: 5px;
 }
 
-.buttonAddItems{
- background-color: #e4dfcf;
- /* color: white; */
- border-radius: 5px;
- height: 3vh;
- width: 24%;
- 
+.buttonAddItems {
+    background-color: #e4dfcf;
+    /* color: white; */
+    border-radius: 5px;
+    height: 3vh;
+    width: 24%;
+
 }
 
 .autocomplete-list {
@@ -81,16 +90,24 @@
     border: 1px solid #ccc;
     background-color: white;
     position: absolute;
-    width: 100%;
+    width: 25%;
     z-index: 1000;
     max-height: 200px;
     overflow-y: auto;
+    margin-top: 30vh;
 }
+
 .autocomplete-list li {
+    display: grid;
+    height: 50px;
     padding: 8px;
     cursor: pointer;
 }
+
 .autocomplete-list li:hover {
     background-color: #eee;
 }
 
+.listEdit{
+      margin-top: 0;
+}
