@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
-
-
-const Roles = {
-  MANAGER: "admin",
-  CHILD: "user"
-}
+const Roles = require('../roles');
+// const Roles = {
+//   MANAGER: "admin",
+//   CHILD: "member",
+// };
 
 
 router.post('/UserFamily/:id', (req, res) => {

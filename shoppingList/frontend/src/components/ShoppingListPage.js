@@ -5,7 +5,8 @@ import axios from 'axios';
 // API
 import {
     createShoppingFamily,
-    getShoppingFamily
+    getShoppingFamily,
+    getShoppingAdmin
 
 } from '../api/shopping';
 
@@ -23,19 +24,56 @@ import {
 } from '../api/family';
 
 
-export default function ShoppingListPage({ user, familysApp, selectedFamilyId, selectedShoppingId, setSelectedShoppingId }) {
+export default function ShoppingListPage({ user, familysApp, selectedFamilyId, selectedShoppingId, setSelectedShoppingId, setSelectedAdminShopping}) {
     const [shoppingFamily, setShoppingFamily] = useState([])
     const [newShoppingFamilyName, setNewShoppingFamilyName] = useState('')
     const [close, setClose] = useState(true)
     const selectedFamily = familysApp.find(family => family.familyId === selectedFamilyId);
     const [selectedFamilyName, setSelectedFamilyName] = useState(selectedFamily ? selectedFamily.familyName : '')
     const navigate = useNavigate();
+
+
     const handleSelectedShoppingId = (ShoppingId) => {
+       handleShoppingAdmin(ShoppingId);
+    }
+
+    const handleSelectedShopping = (ShoppingId) => {
         setSelectedShoppingId(ShoppingId)
         setClose(true)
         navigate('/ShoppingListFile', { replace: true });
 
     }
+
+    const handleCreateShoppingFamily = async () => {
+        if (!newShoppingFamilyName.trim()) return;
+
+        try {
+            const res = await createShoppingFamily(selectedFamilyId, newShoppingFamilyName);
+            console.log(res.data)
+            if (res.data.success) {
+                const { ShoppingListId, ShoppingFamilyName } = res.data;
+                setShoppingFamily(prev => [...prev, { listId: ShoppingListId, listName: ShoppingFamilyName }]);
+                setNewShoppingFamilyName('');
+            }
+        } catch (error) {
+            console.error('Error creating family:', error);
+        }
+    };
+
+    const handleShoppingAdmin = async (ShoppingId) => {
+        try {
+            const res = await getShoppingAdmin(ShoppingId, user.userId);
+            console.log(res.data)
+            if (res.data.success) {
+                alert("fuck meeee");
+                console.log(res.data.role)
+                handleSelectedShopping(ShoppingId)
+                setSelectedAdminShopping(res.data.role)
+            }
+        } catch (error) {
+            console.error('Error role family:', error);
+        }
+    };
 
     useEffect(() => {
         if (selectedFamilyId) {
@@ -64,25 +102,6 @@ export default function ShoppingListPage({ user, familysApp, selectedFamilyId, s
             setClose(true);
         }
     }, [selectedFamilyId, user]);
-
-
-    const handleCreateShoppingFamily = async () => {
-        if (!newShoppingFamilyName.trim()) return;
-
-        try {
-            const res = await createShoppingFamily(selectedFamilyId, newShoppingFamilyName);
-            console.log(res.data)
-            if (res.data.success) {
-                const { ShoppingListId, ShoppingFamilyName } = res.data;
-                setShoppingFamily(prev => [...prev, { listId: ShoppingListId, listName: ShoppingFamilyName }]);
-                setNewShoppingFamilyName('');
-            }
-        } catch (error) {
-            console.error('Error creating family:', error);
-        }
-    };
-
-
 
     return (
         <div className={user && (!close || selectedFamilyName !== '') ? 'Block' : 'none'}>

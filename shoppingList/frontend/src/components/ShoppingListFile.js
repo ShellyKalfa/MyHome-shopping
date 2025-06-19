@@ -5,7 +5,7 @@ import axios from 'axios';
 import ShoppingList from "./ShoppingList";
 
 
-export default function ShoppingListFile({User,selectedShoppingId}) {
+export default function ShoppingListFile({User,selectedShoppingId,selectedAdminShopping}) {
     const navigate = useNavigate();
     useEffect(() => {
             if (!User?.userId) {
@@ -16,7 +16,9 @@ export default function ShoppingListFile({User,selectedShoppingId}) {
 
     return (
         <div>
-            <ShoppingList isTemp={false} selectedShoppingId={selectedShoppingId}/>
+            <ShoppingList isTemp={false} 
+                          selectedShoppingId={selectedShoppingId} 
+                          selectedAdminShopping={selectedAdminShopping}/>
         </div>
     )
 };

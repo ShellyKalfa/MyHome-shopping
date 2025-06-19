@@ -11,13 +11,18 @@ export default function TempShoppingList({ items,isTemp,setItems }) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
   const [uniqueItemsCount, setUniqueItemsCount] = useState(0);
+  const [approvedItems, setApprovedItems] = useState(items.filter(item => item.approved === 1));
 // Trackinng live changes in completion status
   useEffect(() => {
+    setApprovedItems(items.filter(item => item.approved === 1));
+  }, [items]);
+  
+  useEffect(() => {
     calculateSummary();
-  }, [items]); 
+  }, [approvedItems]); 
 
   const calculateSummary = () => {
-    const uncompletedItems = items.filter(item => item.completed === 0);
+    const uncompletedItems = approvedItems.filter(item => item.completed === 0);
     
     const total = uncompletedItems.reduce((sum, item) => {
       return sum + (item.price * item.quantity);
@@ -60,7 +65,7 @@ const updateItem = (id, newData) => {
 };
 
   // Group items by department
-  const groupedItems = items.reduce((groups, item) => {
+  const groupedItems = approvedItems.reduce((groups, item) => {
     const dept = item.department || 'לא מסווג'; 
     if (!groups[dept]) {
       groups[dept] = [];
@@ -78,12 +83,21 @@ const updateItem = (id, newData) => {
             : 'רשימת קניות'}
         </h2>
 
-        <div className='board-items scrollable'>
-                    <GroupedItems
-            groupedItems={groupedItems}
-            deleteItem={deleteItem}
-            updateItem={updateItem}
-          />
+          <div className='board-items scrollable'>
+          
+          {Object.entries(groupedItems).map(([department, itemsInDept]) => (
+            <div key={department} className="department-group">
+              <h2 className="department-subtitle">{department}</h2>
+              {itemsInDept.map(item => (
+                <ItemShoppingList
+                  key={item.itemId}
+                  item={item}
+                  deleteItem={deleteItem}
+                  updateItem={updateItem}
+                />
+              ))}
+            </div>
+          ))}
             <div className="total-amount">
               סה״כ לתשלום: {totalPrice.toFixed(2)}₪
             </div>

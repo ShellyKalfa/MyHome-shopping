@@ -34,6 +34,34 @@ router.post('/shoppingFamily/:familyId', (req, res) => {
   });
 });
 
+router.post('/getShoppingAdmin/:ShoppingId', (req, res) => {
+  const ShoppingId = req.params.ShoppingId;
+  const { userId } = req.body;
+
+  const sql = `
+    SELECT mf.role
+    FROM shoppingList sl
+    JOIN family f ON sl.familyId = f.familyId
+    JOIN memberFamily mf ON f.familyId = mf.familyId
+    JOIN users u ON mf.userId = u.userId
+    WHERE sl.listId = ? AND u.userId = ?
+  `;
+
+  db.query(sql, [ShoppingId, userId], (err, data) => {
+    if (err) {
+      console.error("Query Failed:", err);
+      return res.status(500).json({ success: false, message: "Internal server error" });
+    }
+
+    if (data.length === 0) {
+      return res.status(403).json({ success: false, message: "User not authorized or not found" });
+    }
+
+    return res.json({ success: true, role: data[0].role });
+  });
+});
+
+
 router.post('/createShoppingFamily/:selectedFamilyId', (req, res) => {
   const selectedFamilyId = req.params.selectedFamilyId;
   const {ShoppingFamilyName } = req.body;
@@ -89,7 +117,7 @@ router.delete('/item/:itemId', (req, res) => {
 // Add a new fruit with quantity
 router.post('/item/:listId', (req, res) => {
   const listId = req.params.listId;
-  const { itemName, quantity = 1, price = 0, department = "כללי", image } = req.body; 
+  const { itemName, quantity = 1, price = 0, department = "כללי", image, approved = 0 } = req.body; 
   if (!itemName) return res.status(400).json({ error: 'Fruit itemName is required' });
   db.query(
     'SELECT * FROM item WHERE LOWER(itemName) = LOWER(?) AND listId = ?',
@@ -105,8 +133,8 @@ router.post('/item/:listId', (req, res) => {
 
       // No duplicates found, insert new fruit
       db.query(
-        'INSERT INTO item (itemName, quantity, price, department, listId, image) VALUES (?, ?, ?, ?, ?, ?)',
-        [itemName, quantity, price, department, listId, image],
+        'INSERT INTO item (itemName, quantity, price, department, listId, image, approved) VALUES (?, ?, ?, ?, ?, ?,?)',
+        [itemName, quantity, price, department, listId, image,approved],
         (err, result) => {
           if (err) { console.log(err); return res.status(500).json({ error: err }); }
           res.json({ message: 'Fruit added!', itemId: result.insertId });

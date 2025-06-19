@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import axios from 'axios';
 
+import Roles from '../api/roles';
+
 const API_BASE = 'http://localhost:5000/Shopping';
 
-function AddItem({ items, setItems, listId }) {
+
+
+function AddItem({ items, setItems, listId , selectedAdminShopping}) {
     const [itemNameAPI, setItemNameAPI] = useState("");
     const [itemPriceAPI, setItemPriceAPI] = useState("");
     const [itemTyping, setItemTyping] = useState("");
@@ -45,7 +49,8 @@ function AddItem({ items, setItems, listId }) {
                     price: itemPriceAPI,
                     department: itemDepartment,
                     image: image,
-                    completed: 0
+                    completed: 0,
+                    approved: selectedAdminShopping == Roles.MANAGER ? 1 : 0
                 }),
             });
 
