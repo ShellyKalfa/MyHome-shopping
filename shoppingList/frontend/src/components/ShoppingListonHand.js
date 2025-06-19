@@ -27,8 +27,21 @@ export default function ShoppingListonHand({ user, selectedFamilyId }) {
             })
             .catch(err => console.error("❌ Error loading completed items:", err));
     }, [selectedFamilyId]);
-
     console.log("🗂️ Current items state:", items);
+
+    const handleReturnToList = (itemId) => {
+        axios
+            .patch(`http://localhost:5000/Shopping/item/${itemId}`, { completed: 0 })
+            .then(res => {
+                if (res.data.message) {
+                    // Remove the item from the view
+                    setItems(prev => prev.filter(item => item.itemId !== itemId));
+                }
+            })
+            .catch(err => {
+                console.error("Error returning item:", err);
+            });
+    };
 
     return (
         <div className="on-hand-container">
@@ -48,7 +61,14 @@ export default function ShoppingListonHand({ user, selectedFamilyId }) {
                                 <div className="item-name">{item.name}</div>
                                 <div className="item-sub">amount: {item.amount}</div>
                                 <div className="item-sub">from: {item.listName}</div>
+                                {item.image && (
+                                    <img src={`https://img.rami-levy.co.il${item.image}`}
+                                        alt="item" className="on-hand-image"/>
+                                )}
                             </div>
+                            <button className="reverse-item-copmleted"
+                                    onClick={() => handleReturnToList(item.itemId)}>↩️ החזר לרשימה
+                            </button>
                         </div>
                     ))}
                 </div>
