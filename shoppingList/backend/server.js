@@ -10,6 +10,8 @@ const PORT = 5000;
 const userRoutes = require('./routes/userRoutes');
 const familyRoutes = require('./routes/familyRoutes');
 const shoppingRoutes = require('./routes/shoppingRoutes');
+const taskRoutes = require('./routes/taskRoutes');
+
 
 
 // Middleware
@@ -19,6 +21,7 @@ app.use(express.json());
 app.use('/users', userRoutes);
 app.use('/Family', familyRoutes);
 app.use('/Shopping', shoppingRoutes);
+app.use('/Task', taskRoutes);
 
 app.listen(PORT, () => {
   console.log("Server running at http://localhost:5000");

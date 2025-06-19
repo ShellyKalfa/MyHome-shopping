@@ -49,7 +49,8 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
         }
         <Link to="/CreateFamily"
           className={`links Link ${location.pathname === "/CreateFamily" ? "active" : ""}`}>מרכז הפיקוד של המשפחה </Link>
-
+       <Link to="/Task"
+          className="links Link ">ניהול מטלות</Link>
         <FamilyMenu familysApp={familysApp} selectedFamilyId={selectedFamilyId} />
 
 
