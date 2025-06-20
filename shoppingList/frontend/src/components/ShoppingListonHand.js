@@ -17,9 +17,11 @@ export default function ShoppingListonHand({ user, selectedFamilyId }) {
                 console.log("✅ Backend response:", res.data);
                 if (res.data.success) {
                     const formatted = res.data.items.map(i => ({
+                        id: i.itemId,
                         name: i.itemName,
                         amount: i.quantity,
-                        listName: i.listName
+                        listName: i.listName,
+                        image: i.image
                     }));
                     console.log("👉 Formatted items:", formatted);
                     setItems(formatted);
@@ -30,12 +32,15 @@ export default function ShoppingListonHand({ user, selectedFamilyId }) {
     console.log("🗂️ Current items state:", items);
 
     const handleReturnToList = (itemId) => {
+        console.log("Sending PATCH for itemId:", itemId);
         axios
             .patch(`http://localhost:5000/Shopping/item/${itemId}`, { completed: 0 })
             .then(res => {
                 if (res.data.message) {
                     // Remove the item from the view
-                    setItems(prev => prev.filter(item => item.itemId !== itemId));
+                    setItems(prev => prev.filter(item => item.id !== itemId));
+                    console.log("reverse the complete item status:", res.data);
+
                 }
             })
             .catch(err => {
@@ -46,32 +51,37 @@ export default function ShoppingListonHand({ user, selectedFamilyId }) {
     return (
         <div className="on-hand-container">
             <h1>Items On Hand</h1>
-            <div className="item-grid">
-                <h1 className="grid-title">רשימת קניות</h1>
-                {items.length === 0 && (
-                    <p style={{ color: 'red', gridColumn: '1 / -1', textAlign: 'center' }}>
-                        ⚠️ No items found
-                    </p>
-                )}
+            <h1 className="grid-title">רשימת קניות</h1>
 
-                <div className="items-container">
-                    {items.map((item, idx) => (
-                        <div className="item-card" key={idx}>
-                            <div className="item-details">
-                                <div className="item-name">{item.name}</div>
-                                <div className="item-sub">amount: {item.amount}</div>
-                                <div className="item-sub">from: {item.listName}</div>
-                                {item.image && (
-                                    <img src={`https://img.rami-levy.co.il${item.image}`}
-                                        alt="item" className="on-hand-image"/>
-                                )}
-                            </div>
-                            <button className="reverse-item-copmleted"
-                                    onClick={() => handleReturnToList(item.itemId)}>↩️ החזר לרשימה
-                            </button>
+            {items.length === 0 && (
+                <p style={{ color: 'red', textAlign: 'center' }}>
+                    ⚠️ No items found
+                </p>
+            )}
+
+            <div className="cards-container">
+                {items.map((item, idx) => (
+                    <div className="item-card" key={idx}>
+                        <div className="item-details">
+                            {item.image && (
+                                <img
+                                    className="on-hand-image"
+                                    src={`https://img.rami-levy.co.il${item.image}`}
+                                    alt="item"
+                                />
+                            )}
+                            <div className="item-name">{item.name}</div>
+                            <div className="item-sub">amount: {item.amount}</div>
+                            <div className="item-sub">from: {item.listName}</div>
                         </div>
-                    ))}
-                </div>
+                        <button
+                            className="reverse-item-completed"
+                            onClick={() => handleReturnToList(item.id)}
+                        >
+                            ↩️ החזר לרשימה
+                        </button>
+                    </div>
+                ))}
             </div>
         </div>
     );
