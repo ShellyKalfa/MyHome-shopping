@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import FamilyMenu from './FamilyMenu';
 import '../style/NavigationBar.css'
-import logo from '../assets/logo.png';
+import logo from '../assets/homepage.png';
 import { IoIosLogOut } from "react-icons/io";
 
 export default function NavigationBar({ User, familysApp, logOut, setSelectedFamilyId }) {
@@ -31,7 +31,7 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
 
   return (
     <div className="NavigationBar">
-      <Link to="/"> <img src={logo} alt="My" /></Link>
+      <Link to="/"> <img src={logo} style={{ width: "200px", height: "auto" }} alt="My" /></Link>
       <div className="nav">
 
         {

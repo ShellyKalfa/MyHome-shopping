@@ -38,7 +38,7 @@ router.post('/login', (req, res) => {
   });
 });
 
-router.post('/signin', async (req, res) => {
+router.post('/signup', async (req, res) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {

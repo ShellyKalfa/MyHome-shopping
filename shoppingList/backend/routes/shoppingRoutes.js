@@ -159,7 +159,6 @@ router.patch('/item/:itemId/quantity', (req, res) => {
   });
 });
 
-
 //--------------------------------- NEW -----------------------------------
 
 // Update item name and price by itemId (with duplicate name check)
