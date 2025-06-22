@@ -32,7 +32,7 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
 
   return (
     <div className="NavigationBar">
-      <Link to="/"> <img src={logo} style={{ width: "200px", height: "auto" }} alt="My" /></Link>
+      <Link to="/"> <img className="homelogo" src={logo} alt="My" /></Link>
       <div className="nav">
 
         {

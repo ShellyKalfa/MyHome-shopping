@@ -5,37 +5,28 @@ import Typing from "./Typing";
 import ItemShoppingList from "./ItemShoppingList";
 
 export default function ShoppingListonHand({ user, selectedFamilyId }) {
-    const [items, setItems] = useState([]);
+    const [onHanditems, setItems] = useState([]);
 
     useEffect(() => {
         if (!selectedFamilyId) return;
 
-        console.log("▶️ Fetching completed items for familyId:", selectedFamilyId);
-        axios
-            .get(`http://localhost:5000/Family/completed-items/${selectedFamilyId}`)
-            .then(res => {
-                console.log("✅ Backend response:", res.data);
+        axios.get(`http://localhost:5000/Family/completed-items/${selectedFamilyId}`).then(res => {
                 if (res.data.success) {
-                    const formatted = res.data.items.map(i => ({
+                    const formatted = res.data.onHanditems.map(i => ({
                         id: i.itemId,
                         name: i.itemName,
                         amount: i.quantity,
                         listName: i.listName,
                         image: i.image
                     }));
-                    console.log("👉 Formatted items:", formatted);
                     setItems(formatted);
                 }
             })
-            .catch(err => console.error("❌ Error loading completed items:", err));
+            .catch(err => console.error("Error loading completed items:", err));
     }, [selectedFamilyId]);
-    console.log("🗂️ Current items state:", items);
 
     const handleReturnToList = (itemId) => {
-        console.log("Sending PATCH for itemId:", itemId);
-        axios
-            .patch(`http://localhost:5000/Shopping/item/${itemId}`, { completed: 0 })
-            .then(res => {
+        axios.patch(`http://localhost:5000/Shopping/item/${itemId}`, { completed: 0 }).then(res => {
                 if (res.data.message) {
                     // Remove the item from the view
                     setItems(prev => prev.filter(item => item.id !== itemId));
@@ -53,15 +44,13 @@ export default function ShoppingListonHand({ user, selectedFamilyId }) {
             <h1>Items On Hand</h1>
             <h1 className="grid-title">רשימת קניות</h1>
 
-            {items.length === 0 && (
-                <p style={{ color: 'red', textAlign: 'center' }}>
+            {onHanditems.length === 0 && (
+                <p className="empty-list">
                     - הרשימה ריקה -
                 </p>
             )}
-
-            <div> className="reverse"</div>
             <div className="cards-container">
-                {items.map((item, idx) => (
+                {onHanditems.map((item, idx) => (
                     <div className="item-card" key={idx}>
                         <div className="item-details">
                             {item.image && (

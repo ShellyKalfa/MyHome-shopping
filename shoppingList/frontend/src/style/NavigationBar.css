@@ -9,6 +9,11 @@
   text-align: center;
 }
 
+.homelogo{
+    width: 200px;
+    height: auto;
+}
+
 .nav{
     width: 70%;
     height: 100%;
