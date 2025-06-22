@@ -118,6 +118,9 @@ export default function ShoppingListPage({ user, familysApp, selectedFamilyId, s
                         <div></div>
                     )
                     }
+                    <button className="onHandButton" onClick={() => navigate('/onHand')}>
+                        View On Hand Item
+                    </button>
                 </div>
                 :
                 <div className={selectedFamilyName !== '' ? 'Block' : 'none'}>
@@ -127,9 +130,5 @@ export default function ShoppingListPage({ user, familysApp, selectedFamilyId, s
                 </div>
             }
         </div>
-
-
     );
-
-
 };

@@ -9,6 +9,11 @@
   text-align: center;
 }
 
+.homelogo{
+    width: 200px;
+    height: auto;
+}
+
 .nav{
     width: 70%;
     height: 100%;
@@ -24,9 +29,19 @@
 .links{
     padding: 10px;
     color:black;
-    font-family: bold;
     font-size: 20px;
     color: #201f20;
+    font-family: "Calibri Light", "Calibri", sans-serif;
+    border-radius: 2vw;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+    width: 175px;
+    height: 60%;
+    padding: 0 10px 0 0;
+    background-color: #45b081;
 }
 
 .Link.active {
@@ -35,6 +50,8 @@
 }
 
 .familysMenu{
+    font-family: "Calibri Light", "Calibri", sans-serif;
+
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -42,44 +59,41 @@
 }
 
 .section-sign-up{
+  font-family: "Calibri Light", "Calibri", sans-serif;
+  font-size: 25px;
   color: #201f20;
   background-color: #d9eee1;
   border-radius: 2vw;
-  padding: 0%;
   display: flex;
   flex-direction: row;
   align-content: center;
   align-items: center;
-  height: 70%;
-  padding-right: 10px;
-  
+  justify-content: space-between;
+  width: fit-content;
+  height: 60%;
+  padding: 0 10px 0 0;
+
 }
-.sign-up{
+
+.toggle-tab {
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    color: black;
+    height: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-tab.active {
     background-color: #45b081;
-    border-radius: 2vw;
-    margin-right: 19px;
     color: white;
-    height: 100%;
-    align-content: center;
-    padding-left: 10px;
-    padding-right: 10px;
-
 }
 
-.Link{
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-}
-
-.welcome{
-    padding: 0.2vh 0.7vw;
-    background-color: #45b081;
-    color: #fbf6f1;
-    border-radius: 4vw;
-    font-size: 1.4rem;
-}
 .welcomeFlex{
+    font-family: "Calibri Light", "Calibri", sans-serif;
     display: flex;
     width: 20vw;
     justify-content: space-evenly;
@@ -87,12 +101,14 @@
 
 }
 .family-selector {
+    font-family: "Calibri Light", "Calibri", sans-serif;
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
 .family-dropdown {
+    font-family: "Calibri Light", "Calibri", sans-serif;
     padding: 8px;
     border-radius: 4px;
     border: 1px solid #ccc;
@@ -101,6 +117,7 @@
 }
 
 .family-link {
+    font-family: "Calibri Light", "Calibri", sans-serif;
     display: flex;
     align-items: center;
     padding: 8px 12px;
@@ -119,6 +136,7 @@
 }
 
 .link-icon {
+    font-family: "Calibri Light", "Calibri", sans-serif;
     margin-right: 6px;
 }
 
