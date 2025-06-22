@@ -55,29 +55,26 @@ export default function ShoppingListonHand({ user, selectedFamilyId }) {
 
             {items.length === 0 && (
                 <p style={{ color: 'red', textAlign: 'center' }}>
-                    ⚠️ No items found
+                    - הרשימה ריקה -
                 </p>
             )}
 
+            <div> className="reverse"</div>
             <div className="cards-container">
                 {items.map((item, idx) => (
                     <div className="item-card" key={idx}>
                         <div className="item-details">
                             {item.image && (
-                                <img
-                                    className="on-hand-image"
-                                    src={`https://img.rami-levy.co.il${item.image}`}
-                                    alt="item"
-                                />
+                                <img className="on-hand-image"
+                                    src={`https://img.rami-levy.co.il${item.image}`} alt="item"/>
                             )}
                             <div className="item-name">{item.name}</div>
-                            <div className="item-sub">amount: {item.amount}</div>
-                            <div className="item-sub">from: {item.listName}</div>
+                            <div className="item-sub">כמות: {item.amount}</div>
+                            <div className="item-sub"> רשימה: {item.listName}</div>
                         </div>
                         <button
                             className="reverse-item-completed"
-                            onClick={() => handleReturnToList(item.id)}
-                        >
+                            onClick={() => handleReturnToList(item.id)}>
                             ↩️ החזר לרשימה
                         </button>
                     </div>

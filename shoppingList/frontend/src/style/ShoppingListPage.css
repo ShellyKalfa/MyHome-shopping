@@ -7,6 +7,7 @@
     width: 25vw;
     height: 80vh;
     z-index: 1;
+    font-weight: bold;
     padding: 1.5vw;
     border-radius: 4vw;
     background-color: wheat;

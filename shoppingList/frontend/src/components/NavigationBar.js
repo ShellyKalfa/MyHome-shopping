@@ -12,6 +12,7 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
   const [nameUser, setNameUser] = useState('');
   const [isUser, setIsUser] = useState(false);
   const location = useLocation();
+  const [activeTab, setActiveTab] = useState("signup"); // for signUp-logIn switch
 
   const selectedFamilyId = (familyId) => {
     setSelectedFamilyId(familyId);
@@ -42,13 +43,20 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
 
           </div>
             :
-            <div className="links section-sign-up">
-              <Link to="/Signup" className='Link sign-up '>Sign-Up</Link>
-              <Link to="/Login" className='Link ' > Log-In</Link>
-            </div>
+              <div className="links section-sign-up">
+                <Link to="/Signup"
+                    className={`Link toggle-tab ${activeTab === "signup" ? "active" : ""}`}
+                    onClick={() => setActiveTab("signup")}
+                >Sign-Up</Link>
+
+                <Link to="/Login"
+                    className={`Link toggle-tab ${activeTab === "login" ? "active" : ""}`}
+                    onClick={() => setActiveTab("login")}
+                >Log-In</Link>
+              </div>
         }
         <Link to="/CreateFamily"
-          className={`links Link ${location.pathname === "/CreateFamily" ? "active" : ""}`}>מרכז הפיקוד של המשפחה </Link>
+          className={`links Link ${location.pathname === "/CreateFamily" ? "active" : ""}`} >מרכז הפיקוד של המשפחה </Link>
 
         <FamilyMenu familysApp={familysApp} selectedFamilyId={selectedFamilyId} />
 

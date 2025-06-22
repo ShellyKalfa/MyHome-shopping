@@ -147,7 +147,7 @@ export default function Signup({ setUser }) {
                 </button>
 
                 <div className="flexDiv">
-                    <h3>Have an account?</h3>
+                    <h3>Have an account? </h3>
                     <Link to="/Login" style={{color: "Blue"}} className="bolder Link">
                         Log in
                     </Link>
