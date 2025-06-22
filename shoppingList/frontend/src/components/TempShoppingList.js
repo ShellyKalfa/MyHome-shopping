@@ -91,7 +91,7 @@ const updateItem = (id, newData) => {
             </div>
         </div>
       </div>
-            <WhatsAppSend isTemp={isTemp} items={items} user={isTemp ? null : user} />
+           
     </div>
   );
 }

@@ -34,7 +34,7 @@
 
 .boardSizeShoppingList {
     width: 60vw;
-    height: 100vh;
+    height: 95vh;
 
 }
 
@@ -53,12 +53,12 @@
     border-radius: 5px;
 }
 
-.department-subtitle{
- font-size: 2.6rem;
+.department-subtitle {
+    font-size: 2.6rem;
 }
 
-.shoppingListTitle{
- font-size: 4rem;
+.shoppingListTitle {
+    font-size: 4rem;
 
 }
 
@@ -108,6 +108,24 @@
     background-color: #eee;
 }
 
-.listEdit{
-      margin-top: 0;
+.listEdit {
+    margin-top: 0;
+}
+
+.divButton {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1vw;
+}
+
+.whatsapppButton {
+    width: 100%;
+    height: 5vh;
+    background-color: #45b081;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bolder;
+    border: none;
+    text-align: center;
 }

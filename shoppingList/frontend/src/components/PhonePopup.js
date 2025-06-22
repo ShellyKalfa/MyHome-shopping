@@ -15,18 +15,19 @@ export default function PhonePopup({ onSubmit, onCancel }) {
 
     return (
         <div className='PopUp'>
-            <h3>Enter Phone Number</h3>
+            <h3>הכנס מספר טלפון</h3>
             <input
                 type="text"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="Phone number"
             />
-            <br /><br />
-            <button onClick={handleSubmit}>Submit</button>
-            <button onClick={onCancel} style={{ marginLeft: '10px' }}>
-                Cancel
-            </button>
+            <div>
+                <button onClick={handleSubmit}>שלח קוד</button>
+                <button className='buttonSmall' onClick={onCancel} >
+                    ביטול
+                </button>
+            </div>
         </div>
     );
 }

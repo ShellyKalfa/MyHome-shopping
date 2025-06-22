@@ -194,7 +194,6 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
                                             <img className="image"
                                                 src={`https://img.rami-levy.co.il${product.productImage}`}
                                                 alt="failed to present image"
-
                                             />
                                         </li>
                                     ))}
@@ -235,7 +234,7 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
             </div>
             <img
                 src={itemImage ? `https://img.rami-levy.co.il${itemImage}` : `https://img.rami-levy.co.il${item.image}`}
-                alt="Item"
+                alt=""
                 className="image imageList"
             />
 

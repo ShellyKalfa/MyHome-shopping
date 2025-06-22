@@ -6,7 +6,7 @@ import PhoneVerification from "./PhoneVerification";
 
 const API_BASE = "http://localhost:5000/Whatsapp";
 
-export default function WhatsAppSend({ isTemp, items, user }) {
+export default function WhatsAppSend({ items, user, setUser }) {
     const [showPopup, setShowPopup] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
     const [step, setStep] = useState(1); // 1 = enter phone, 2 = verify code
@@ -34,32 +34,34 @@ export default function WhatsAppSend({ isTemp, items, user }) {
             console.log("Verification success:", response.data);
             alert("Phone verified and saved!");
             setShowPopup(false);
+            setUser({ ...user, phone: phone });
             handleSendMessage(phone, formatShoppingListMessage(items));
-            //handleSendMessage(phone, tempMessage);
             setStep(1);
         } catch (err) {
             console.error("Verification failed:", err);
             alert("Invalid or expired verification code.");
         }
     };
+
     function formatShoppingListMessage(items) {
         const activeItems = items.filter(item => item.completed === 0);
 
         let total = 0;
-        let message = '🛒 רשימת קניות:\n';
+
+        let message = "\u200F🛒 רשימת קניות:\n\n";
 
         activeItems.forEach((item, index) => {
             const itemTotal = item.price * item.quantity;
             total += itemTotal;
-            message += `${index + 1}. ${item.itemName} × ${item.quantity} – ₪${itemTotal.toFixed(2)}\n`;
+            message += `\u200F ${index + 1}. ${item.itemName} × ${item.quantity} – ₪${itemTotal.toFixed(2)}\n`;
         });
 
-        message += `סה"כ: ₪${total.toFixed(2)}`;
+        message += `\nסה"כ: ₪${total.toFixed(2)}`;
         return message;
     }
 
     const handleSendMessage = async (phoneToUse, tempMessage) => {
-        const message = tempMessage ? JSON.stringify(tempMessage) : "Hello from my React App!";
+        const message = tempMessage ? tempMessage : "Hello from my React App!";
 
         try {
             const response = await axios.post(`${API_BASE}/sendMessage`, {
@@ -79,7 +81,7 @@ export default function WhatsAppSend({ isTemp, items, user }) {
         if (!user?.phone) {
             setShowPopup(true);
         } else {
-            handleSendMessage(user.phone, items.filter((item) => !item.completed));
+            handleSendMessage(user.phone, formatShoppingListMessage(items));
         }
     };
 
@@ -94,28 +96,30 @@ export default function WhatsAppSend({ isTemp, items, user }) {
     };
 
     return (
-        <div>
+        <div className="divButton">
             {console.log("user", user)
             }
 
-        
-                {showPopup && step === 1 && (
-                    <PhonePopup
-                        onSubmit={handlePopupSubmit}
-                        onCancel={() => setShowPopup(false)}
-                    />
-                )}
 
-                {showPopup && step === 2 && (
-                    <PhoneVerification
-                        onSubmit={handleCodeSubmit}
-                        onCancel={() => {
-                            setShowPopup(false);
-                            setStep(1);
-                        }}
-                    />
-                )}
-                 <button onClick={handleClick}>Send message to WhatsApp</button>
+            {showPopup && step === 1 && (
+                <PhonePopup
+                    className="PopUp"
+                    onSubmit={handlePopupSubmit}
+                    onCancel={() => setShowPopup(false)}
+                />
+            )}
+
+            {showPopup && step === 2 && (
+                <PhoneVerification
+                    className="PopUp"
+                    onSubmit={handleCodeSubmit}
+                    onCancel={() => {
+                        setShowPopup(false);
+                        setStep(1);
+                    }}
+                />
+            )}
+            <button className="whatsapppButton" onClick={handleClick}> שלח רשימה לווטסאפ </button>
         </div>
     )
 }

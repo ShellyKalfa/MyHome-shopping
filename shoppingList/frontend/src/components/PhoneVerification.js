@@ -12,16 +12,18 @@ export default function PhoneVerification({ onSubmit, onCancel }) {
     };
 
     return (
-        <div>
-            <h3>Enter Verification Code</h3>
+        <div className="PopUp">
+            <h3> הכנס קוד אימות </h3>
             <input
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 maxLength={4}
             />
-            <button onClick={handleSubmit}>Verify</button>
-            <button onClick={onCancel}>Cancel</button>
+            <div>
+            <button onClick={handleSubmit}> אימות </button>
+            <button className='buttonSmall'  onClick={onCancel}> ביטול </button>
+            </div>
         </div>
     );
 }

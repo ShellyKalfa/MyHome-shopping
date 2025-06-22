@@ -5,7 +5,7 @@ import axios from 'axios';
 import ShoppingList from "./ShoppingList";
 
 
-export default function ShoppingListFile({ user, selectedShoppingId, listName }) {
+export default function ShoppingListFile({ user, setUser,selectedShoppingId, listName }) {
     const navigate = useNavigate();
     useEffect(() => {
         if (!user?.userId) {
@@ -19,7 +19,8 @@ export default function ShoppingListFile({ user, selectedShoppingId, listName })
             <ShoppingList isTemp={false}
                           selectedShoppingId={selectedShoppingId}
                           listName={listName}
-                          user={user} />
+                          user={user}
+                          setUser={setUser} />
         </div>
     )
 };
