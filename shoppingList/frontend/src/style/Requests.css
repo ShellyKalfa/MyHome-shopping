@@ -1,0 +1,9 @@
+.requestsItem{
+  width: 91%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4vh;
+  border: solid;
+
+}
