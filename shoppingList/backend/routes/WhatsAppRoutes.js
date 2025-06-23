@@ -8,6 +8,8 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const requestDict = {};  // Format: { 'number': { code: 1234, timestamp: Date.now() } }
 const CODE_EXPIRY_TIME = 5 * 60 * 1000; // 5 minutes
 
+console.log('WhatsApp search?');
+
 // WhatsApp client setup
 const client = new Client({
     authStrategy: new LocalAuth()

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import JSConfetti from 'js-confetti'
 
 import PhonePopup from "./PhonePopup";
 import PhoneVerification from "./PhoneVerification";
@@ -11,6 +12,7 @@ export default function WhatsAppSend({ items, user, setUser }) {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [step, setStep] = useState(1); // 1 = enter phone, 2 = verify code
     const [tempMessage, setTempMessage] = useState([]);
+    const jsConfetti = new JSConfetti()
 
     const sendVerificationCode = async (phone) => {
         try {
@@ -70,6 +72,9 @@ export default function WhatsAppSend({ items, user, setUser }) {
             });
 
             console.log("Message sent:", response.data);
+            jsConfetti.addConfetti(
+                {confettiRadius:7,}
+            );
             alert("Message sent successfully!");
         } catch (error) {
             console.error("Error sending message:", error);
