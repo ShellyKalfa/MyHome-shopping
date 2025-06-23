@@ -90,7 +90,7 @@ const updateItem = (id, newData) => {
           />
         </div>
         <div className="total-amount">
-          לתשלום: {totalPrice.toFixed(2)}₪
+        {totalPrice.toFixed(2)}₪  לתשלום 
         </div>
       </div>
            
