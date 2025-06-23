@@ -1,0 +1,129 @@
+.Item-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background-color: white;
+    padding: 10px;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+    direction: rtl;
+    width: 120%;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.item-general {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    width: 85%;
+}
+
+.item-list-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.toggle-completed {
+    width: 40px; /*clickable catch size*/
+    height: 40px; /*clickable catch size*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;  /* the circle icon size */
+    padding: 5px;
+}
+
+.left-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.center-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 0;
+    margin-right: 20px;
+}
+
+.right-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-right: 0;
+}
+
+.productImage {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-top: 5px;
+}
+
+.itemInfo {
+    font-family: "Calibri Light", "Calibri", sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+.itemName {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.itemDetails div {
+    font-size: 15px;
+    margin-top: 4px;
+}
+
+.item-text {
+    font-size: 10px;
+}
+
+.checkIcon {
+    font-size: 1.5em;
+    color: #45b081;
+}
+
+.price-and-edit {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.price {
+    font-size: 16px;
+}
+
+.trash-icon {
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.amountEditWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.amountInput {
+    width: 50px;
+    text-align: center;
+}
+
+.autocomplete-wrapper input {
+    width: 100%;
+    max-width: 140px; /* או כל גודל שמתאים לך */
+    padding: 6px 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}

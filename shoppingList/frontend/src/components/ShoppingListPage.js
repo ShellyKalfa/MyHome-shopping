@@ -118,7 +118,9 @@ export default function ShoppingListPage({ user, familysApp, selectedFamilyId, s
                         <div></div>
                     )
                     }
-                    <button className="onHandButton" onClick={() => navigate('/onHand')}>
+                    <button className="onHandButton" onClick={() => {
+                        navigate('/onHand'); setClose(true);
+                    }}>
                         View On Hand Item
                     </button>
                 </div>

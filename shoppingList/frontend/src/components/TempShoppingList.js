@@ -72,21 +72,24 @@ const updateItem = (id, newData) => {
     return (
     <div className='board'>
       <div className='flex'>
-        <h2 className='textCenter shoppingListTitle'>
-          {isTemp
-            ? <Typing text={['רשימת קניות', 'כדורגל עם חברים', 'ערב תה עם הבנות', 'ערב זוגי בבית']} />
-            : 'רשימת קניות'}
-        </h2>
+        <div className="header-row">
+          <h2 className='shoppingListTitle'>
+            {isTemp
+                ? <Typing text={['רשימת קניות', 'כדורגל עם חברים', 'ערב תה עם הבנות', 'ערב זוגי בבית']} />
+                : 'רשימת קניות'}
+          </h2>
 
+
+        </div>
         <div className='board-items scrollable'>
                     <GroupedItems
             groupedItems={groupedItems}
             deleteItem={deleteItem}
             updateItem={updateItem}
           />
-            <div className="total-amount">
-              סה״כ לתשלום: {totalPrice.toFixed(2)}₪
-            </div>
+        </div>
+        <div className="total-amount">
+          לתשלום: {totalPrice.toFixed(2)}₪
         </div>
       </div>
     </div>

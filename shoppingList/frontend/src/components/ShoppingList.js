@@ -39,14 +39,15 @@ export default function ShoppingList({ selectedShoppingId }) {
     <div className="shoppingListBord">
       {/* <h1>ShoppingList</h1> */}
       {console.log("item", items)}
-      <AddItem setItems={setItems}
-        items={items}
-        listId={listId} />
+
       <div className="boardSizeShoppingList">
         <TempShoppingList items={items}
           setItems={setItems}
           isTemp={false} />
       </div>
+      <AddItem setItems={setItems}
+               items={items}
+               listId={listId} />
     </div>
 
   )
