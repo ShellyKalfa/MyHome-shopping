@@ -17,6 +17,8 @@ h2,h3{
     font-size: 15px;
     margin: 1px auto 10px auto;
     width: 60%;
+
+
 }
 .line{
      width: 150px;
@@ -58,9 +60,13 @@ h2,h3{
     height: 3vw;
     font-size: 1.5em;
     color: white;
-    background: #90ee90;
+    background: #45b081;
     border-radius: 5px;
     margin-top: 20px;
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .top{

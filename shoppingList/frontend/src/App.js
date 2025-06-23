@@ -10,6 +10,7 @@ import Home from "./Home";
 import CreateFamily from "./components/CreateFamily";
 import ShoppingListFile from "./components/ShoppingListFile";
 import ShoppingListPage from "./components/ShoppingListPage";
+import ShoppingListonHand from './components/ShoppingListonHand';
 
 import './style/App.css'
 
@@ -57,6 +58,7 @@ const App = () => {
         <Route path="/Signup" element={<Signup setUser={setUser} />} />
         <Route path="/CreateFamily" element={<CreateFamily User={user} setFamilysApp={setFamilysApp} />} />
         <Route path="/ShoppingListFile" element={<ShoppingListFile user={user} setUser={setUser} selectedShoppingId={selectedShoppingId} listName={listName} />} />
+        <Route path="/onHand" element={<ShoppingListonHand selectedFamilyId={selectedFamilyId} />} />
       </Routes>
       <ShoppingListPage user={user}
         familysApp={familysApp}

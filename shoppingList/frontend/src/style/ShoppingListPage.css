@@ -1,4 +1,5 @@
 .ShoppingListPage {
+    font-family: "Calibri Light", "Calibri", sans-serif;
     display: block;
     position: absolute;
     top: 11vh;
@@ -6,6 +7,7 @@
     width: 25vw;
     height: 80vh;
     z-index: 1;
+    font-weight: bold;
     padding: 1.5vw;
     border-radius: 4vw;
     background-color: wheat;
@@ -60,4 +62,29 @@
     /* border-radius: 2vw 0 0 2vw;; */
     padding: 2vh;
     align-items: center;
+}
+
+.onHandButton {
+    font-family: "Calibri Light", "Calibri", sans-serif;
+    background-color: #28b481;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    transition: transform 0.1s ease, background-color 0.2s ease;
+}
+
+/* אפקט ריחוף */
+.onHandButton:hover {
+    background-color: #28b480;
+}
+
+/* אפקט לחיצה */
+.onHandButton:active {
+    transform: scale(0.96);
+    background-color: #3e9143;
 }
