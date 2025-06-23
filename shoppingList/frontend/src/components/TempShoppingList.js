@@ -80,18 +80,20 @@ const updateItem = (id, newData) => {
             : listName="" ? ' רשימת קניות ':listName}
         </h2>
 
+
+        </div>
         <div className='board-items scrollable'>
                     <GroupedItems
             groupedItems={groupedItems}
             deleteItem={deleteItem}
             updateItem={updateItem}
           />
-            <div className="total-amount">
-              סה״כ לתשלום: {totalPrice.toFixed(2)}₪
-            </div>
+        </div>
+        <div className="total-amount">
+          לתשלום: {totalPrice.toFixed(2)}₪
         </div>
       </div>
            
-    </div>
+   
   );
 }

@@ -37,9 +37,10 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
 
         {
           isUser ? <div className="welcomeFlex">
-            <div className="links section-sign-up welcome" ><div> WELCOME:  </div> <div>{nameUser}</div></div>
+            <div className="links section-sign-up welcome" ><div>{nameUser}</div><div>
+              :ברוך הבא </div> </div>
             <div className="links section-sign-up welcome" onClick={logOut} ><IoIosLogOut />
-              logOut</div>
+              התנתק</div>
 
           </div>
             :

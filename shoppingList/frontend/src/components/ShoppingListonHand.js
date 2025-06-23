@@ -5,7 +5,7 @@ import Typing from "./Typing";
 import ItemShoppingList from "./ItemShoppingList";
 
 export default function ShoppingListonHand({ user, selectedFamilyId }) {
-    const [onHanditems, setItems] = useState([]);
+    const [onHandItems, setItems] = useState([]);
 
     useEffect(() => {
         if (!selectedFamilyId) return;
@@ -44,13 +44,13 @@ export default function ShoppingListonHand({ user, selectedFamilyId }) {
             <h1>Items On Hand</h1>
             <h1 className="grid-title">רשימת קניות</h1>
 
-            {onHanditems.length === 0 && (
+            {onHandItems.length === 0 && (
                 <p className="empty-list">
                     - הרשימה ריקה -
                 </p>
             )}
             <div className="cards-container">
-                {onHanditems.map((item, idx) => (
+                {onHandItems.map((item, idx) => (
                     <div className="item-card" key={idx}>
                         <div className="item-details">
                             {item.image && (

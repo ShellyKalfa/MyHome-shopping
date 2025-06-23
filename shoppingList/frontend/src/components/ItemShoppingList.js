@@ -4,7 +4,8 @@ import axios from 'axios';
 import { ImRadioUnchecked, ImCheckmark } from "react-icons/im";
 import { MdCheckCircle, MdEdit } from "react-icons/md";
 import { BsTrash } from "react-icons/bs";
-import '../style/TempShoppingList.css';
+//import '../style/TempShoppingList.css';
+import '../style/ItemShoppingList.css';
 
 const API_BASE = 'http://localhost:5000/Shopping';
 
@@ -171,6 +172,91 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
 
 
     return (
+        <div className="item-list-container">
+                <div className="Item-container">
+                    <div className="item-general">
+                        <div className="left-section">
+                            <div className="toggle-completed" onClick={toggleCompleted}>
+                                {item.completed ? <MdCheckCircle /> : <ImRadioUnchecked />}
+                            </div>
+                            <img
+                                src={itemImage ? `https://img.rami-levy.co.il${itemImage}` : `https://img.rami-levy.co.il${item.image}`}
+                                alt="Item"
+                                className="image imageList"
+                            />
+                        </div>
+
+                        <div className="center-section">
+                            <div className={`itemInfo ${item.completed ? 'crossText' : ''}`}>
+                                <div className="itemName">{item.itemName}</div>
+                                <div>מחלקה: {itemDepartment}</div>
+                                <div>
+                                    {isAmountEdit ? (
+                                        <div className="amountEditWrapper">
+                                            <input
+                                                type="number"
+                                                value={newAmount}
+                                                onChange={(e) => setNewAmount(e.target.value)}
+                                                placeholder="עדכן כמות"
+                                                className="amountInput"
+                                            />
+                                            <ImCheckmark onClick={amountSave} />
+                                        </div>
+                                    ) : (
+                                        <>
+                                             {item.quantity}       יח'        <MdEdit onClick={amountEdit} />
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="right-section">
+                        <div className="price-and-edit">
+                            <div className="price">{(itemPriceAPI * item.quantity).toFixed(2)} ₪</div>
+                            <div className="edit-icon">
+                                {isEdit ? <ImCheckmark onClick={onSave} /> : <MdEdit onClick={onEdit} />}
+                            </div>
+                        </div>
+                        <div className="trash-icon">
+                            {isEdit ? (
+                                <div className="autocomplete-wrapper">
+                                    <input
+                                        value={newItem}
+                                        onChange={handleAutoComplete}
+                                        placeholder="עדכון מוצר"
+                                    />
+                                    {suggestions.length > 0 && newItem.length > 1 &&
+                                        newItem.trim().toLowerCase() !== item.itemName.trim().toLowerCase() && (
+                                            <ul className="autocomplete-list listEdit">
+                                                {suggestions.map((product, idx) => (
+                                                    <li key={idx} onClick={() => handleOnClick(product)}>
+                                                        <div className="productName">{product.productName}</div>
+                                                        <img
+                                                            className="image"
+                                                            src={`https://img.rami-levy.co.il${product.productImage}`}
+                                                            alt="image"
+                                                        />
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                </div>
+                            ) : (
+                                <BsTrash onClick={onDelete} />
+                            )}
+                        </div>
+
+                    </div>
+                </div>
+        </div>
+
+    );
+
+    /*
+    this is ido's old version before omer's redesign
+    return (
         <div className="ItemShoppingList">
             <div onClick={toggleCompleted}>
                 {item.completed ? <MdCheckCircle /> : <ImRadioUnchecked />}
@@ -244,4 +330,5 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
             </div>
         </div>
     );
+    * */
 }

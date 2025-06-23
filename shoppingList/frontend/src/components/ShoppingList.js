@@ -38,9 +38,9 @@ export default function ShoppingList({ selectedShoppingId, listName, user,setUse
 
   return (
     <div className="shoppingListBord">
-      <AddItem setItems={setItems}
-        items={items}
-        listId={listId} />
+      {/* <h1>ShoppingList</h1> */}
+      {console.log("item", items)}
+
       <div className="boardSizeShoppingList">
         <TempShoppingList items={items}
           setItems={setItems}
@@ -53,6 +53,9 @@ export default function ShoppingList({ selectedShoppingId, listName, user,setUse
           user={user} 
           setUser={setUser}/>
       </div>
+      <AddItem setItems={setItems}
+               items={items}
+               listId={listId} />
 
     </div>
 

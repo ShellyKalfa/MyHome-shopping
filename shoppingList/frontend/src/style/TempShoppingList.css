@@ -97,18 +97,36 @@ h2 {
     grid-row: 4;
 }
 
-.total-amount {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #333;
-    margin-top: 10px;
-    direction: rtl;
-
+.header-row {
+    display: flex;
+    justify-content: center; /* מרכז את הכותרת */
+    position: relative;
 }
 
+.shoppingListTitle {
+    font-family: "Calibri Light", "Calibri", sans-serif;
+    text-align: center;
+    width: 100%;
+    font-size: 2em;
+    margin: 0;
+}
+
+.total-amount {
+    font-family: "Calibri Light", "Calibri", sans-serif;
+    margin-right: auto;
+    font-size: 25px;
+    text-align: left;
+    align-self: flex-end;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    width: 100%;
+    height: 5%;
+}
 
 .dateItem {
-
     font-size: 1rem;
     text-align: center;
     /* color: wheat;
@@ -185,8 +203,6 @@ h2 {
     align-items: center;
     font-size: 1.2rem;
 }
-
-
 
 .deleteEdit{
     grid-column: 4;
