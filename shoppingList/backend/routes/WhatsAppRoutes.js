@@ -17,21 +17,26 @@ const client = new Client({
 
 let isClientReady = false;
 
+//generate QR code to conent to WhatsApp
 client.on('qr', (qr) => {
     qrcode.generate(qr, { small: true });
 });
 
+//WhatsApp is ready!
 client.on('ready', () => {
     console.log('WhatsApp client is ready!');
     isClientReady = true;
 });
 
+// Lisnning to the client message
 client.on('message', msg => {
     if (msg.body === '!ping') {
         msg.reply('pong');
     }
 });
 
+
+ // This starts the WhatsApp session
 client.initialize();
 
 // Route to send message
