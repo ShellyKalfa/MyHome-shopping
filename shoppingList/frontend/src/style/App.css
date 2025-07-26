@@ -6,6 +6,10 @@
     margin: 0%;
     font-family: Inter;
     overflow: hidden;
+    background-image: url('../assets/bg.png');
+    background-size: cover;       /* Optional: cover the entire page */
+    background-repeat: no-repeat; /* Optional: prevent image repetition */
+    background-position: center;  /* Optional: center the image */
 }
 .textCenter{
     text-align: center;
