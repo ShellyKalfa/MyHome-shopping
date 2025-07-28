@@ -22,7 +22,7 @@ import {
     createShoppingList
 } from '../api/family';
 
-
+// componnet of the side menu that hold the shopping listts 
 export default function ShoppingListPage({ user, familysApp, selectedFamilyId, selectedShoppingId, setSelectedShoppingId, setListName }) {
     const [shoppingFamily, setShoppingFamily] = useState([])
     const [newShoppingFamilyName, setNewShoppingFamilyName] = useState('')
@@ -30,7 +30,9 @@ export default function ShoppingListPage({ user, familysApp, selectedFamilyId, s
     const selectedFamily = familysApp.find(family => family.familyId === selectedFamilyId);
     const [selectedFamilyName, setSelectedFamilyName] = useState(selectedFamily ? selectedFamily.familyName : '')
     const navigate = useNavigate();
-    const handleSelectedShoppingId = (ShoppingId,ShoppingName) => {
+
+    //  Selected Shopping list to update 
+    const handleSelectedShoppingId = (ShoppingId, ShoppingName) => {
         setSelectedShoppingId(ShoppingId)
         setListName(ShoppingName)
         setClose(true)
@@ -66,7 +68,7 @@ export default function ShoppingListPage({ user, familysApp, selectedFamilyId, s
         }
     }, [selectedFamilyId, user]);
 
-
+    //CreateShopping list by the Family id 
     const handleCreateShoppingFamily = async () => {
         if (!newShoppingFamilyName.trim()) return;
 

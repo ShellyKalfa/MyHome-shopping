@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
+//componet Popup Phone Verification
 export default function PhoneVerification({ onSubmit, onCancel }) {
     const [code, setCode] = useState('');
-
+    //Submit the Verification code to get the user save the number and get the shopping lists  
     const handleSubmit = () => {
         if (code.length !== 4) {
             alert('Enter a valid 4-digit code');
@@ -21,8 +22,8 @@ export default function PhoneVerification({ onSubmit, onCancel }) {
                 maxLength={4}
             />
             <div>
-            <button onClick={handleSubmit}> אימות </button>
-            <button className='buttonSmall'  onClick={onCancel}> ביטול </button>
+                <button onClick={handleSubmit}> אימות </button>
+                <button className='buttonSmall' onClick={onCancel}> ביטול </button>
             </div>
         </div>
     );

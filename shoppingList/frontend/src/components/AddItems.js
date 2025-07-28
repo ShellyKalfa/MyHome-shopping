@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from 'axios';
 
+// API_BASE the server location
 const API_BASE = 'http://localhost:5000/Shopping';
 
+//the componet add items to the shopping list in the shopping 
 function AddItem({ items, setItems, listId }) {
     const [itemNameAPI, setItemNameAPI] = useState("");
     const [itemPriceAPI, setItemPriceAPI] = useState("");
@@ -196,7 +198,7 @@ function AddItem({ items, setItems, listId }) {
         setSuggestions([]);
 
     }
-     const handleOnClickCancel = () => {
+    const handleOnClickCancel = () => {
         setItemNameAPI("");
         setItemPriceAPI("");
         setItemTyping("");
@@ -258,7 +260,7 @@ function AddItem({ items, setItems, listId }) {
 
             <div className="topButton">
                 <button className="buttonAddItems" onClick={addItem}> שמור  </button>
-                <button className="buttonAddItems" onClick={()=> handleOnClickCancel()}> ביטול     </button>
+                <button className="buttonAddItems" onClick={() => handleOnClickCancel()}> ביטול     </button>
             </div>
 
         </div>);

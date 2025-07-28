@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 
 import '../style/PhonePopup.css'
 
+
+//componet Popup for Phone number 
 export default function PhonePopup({ onSubmit, onCancel }) {
     const [phone, setPhone] = useState('');
 
+    //Submit the phone number to get the code 
     const handleSubmit = () => {
         if (phone.trim()) {
             onSubmit(phone);

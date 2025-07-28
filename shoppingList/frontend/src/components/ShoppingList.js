@@ -8,7 +8,8 @@ import WhatsAppSend from './WhatsAppSend';
 
 const API_BASE = 'http://localhost:5000';
 
-export default function ShoppingList({ selectedShoppingId, listName, user,setUser }) {
+//componnet of the shopping list hold the data of the selected Shopping list
+export default function ShoppingList({ selectedShoppingId, listName, user, setUser }) {
   // State to hold all items from the backend
   const [items, setItems] = useState([])
   const [listId, setListId] = useState(selectedShoppingId);
@@ -38,9 +39,6 @@ export default function ShoppingList({ selectedShoppingId, listName, user,setUse
 
   return (
     <div className="shoppingListBord">
-      {/* <h1>ShoppingList</h1> */}
-      {console.log("item", items)}
-
       <div className="boardSizeShoppingList">
         <TempShoppingList items={items}
           setItems={setItems}
@@ -50,12 +48,12 @@ export default function ShoppingList({ selectedShoppingId, listName, user,setUse
         />
         <WhatsAppSend isTemp={false}
           items={items}
-          user={user} 
-          setUser={setUser}/>
+          user={user}
+          setUser={setUser} />
       </div>
       <AddItem setItems={setItems}
-               items={items}
-               listId={listId} />
+        items={items}
+        listId={listId} />
 
     </div>
 

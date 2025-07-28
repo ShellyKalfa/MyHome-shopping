@@ -5,7 +5,7 @@ import axios from 'axios';
 import '../style/Login.css'
 import { GoogleLogin } from '@react-oauth/google';
 
-
+// commponet of the Sign up to the web page 
 export default function Signup({ setUser }) {
 
     const [fullName, setFullName] = useState("")
@@ -40,6 +40,7 @@ export default function Signup({ setUser }) {
         setTimers((prev) => [...prev, timer]);
     };
 
+    // check the template and unfiled inputs 
     const validateAndSubmit = (event) => {
         event.preventDefault();
         setError('');
@@ -81,7 +82,7 @@ export default function Signup({ setUser }) {
                         password,
                         userId: res.data.user,
                         userName: fullName,
-                        phone:null,
+                        phone: null,
                     };
                     setUser(newUser);
                     navigate('/CreateFamily');
@@ -109,7 +110,8 @@ export default function Signup({ setUser }) {
                         value={fullName}
                         onChange={(e) => {
                             setFullName(e.target.value);
-                            setError('');}}
+                            setError('');
+                        }}
                     />
                 </div>
                 <div>
@@ -119,7 +121,8 @@ export default function Signup({ setUser }) {
                         value={email}
                         onChange={(e) => {
                             setEmail(e.target.value);
-                            setError('');}}
+                            setError('');
+                        }}
                     />
                 </div>
                 <div>
@@ -149,7 +152,7 @@ export default function Signup({ setUser }) {
 
                 <div className="flexDiv">
                     <h3>Have an account? </h3>
-                    <Link to="/Login" style={{color: "Blue"}} className="bolder Link">
+                    <Link to="/Login" style={{ color: "Blue" }} className="bolder Link">
                         Log in
                     </Link>
                 </div>

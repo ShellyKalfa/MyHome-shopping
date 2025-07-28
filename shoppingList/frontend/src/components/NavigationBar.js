@@ -7,6 +7,7 @@ import '../style/NavigationBar.css'
 import logo from '../assets/homepage.png';
 import { IoIosLogOut } from "react-icons/io";
 
+//componnet of the nav bar on top 
 export default function NavigationBar({ User, familysApp, logOut, setSelectedFamilyId }) {
   const [data, setData] = useState([]);
   const [nameUser, setNameUser] = useState('');
@@ -14,6 +15,7 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
   const location = useLocation();
   const [activeTab, setActiveTab] = useState("signup"); // for signUp-logIn switch
 
+  //when selected Family get all family members
   const selectedFamilyId = (familyId) => {
     setSelectedFamilyId(familyId);
     console.log("familyId", familyId);

@@ -5,6 +5,7 @@ import '../style/Login.css';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 
+// commponet of the log in to the web page 
 export default function Login({ setUser }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -15,11 +16,12 @@ export default function Login({ setUser }) {
 
     const EMAIL_TEMPLATE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    //Log in with user email and password also check the template and unfiled inputs 
     const handleLogin = (event) => {
 
         event.preventDefault();
         setError('');
-        console.log("email, password",email, password);
+        console.log("email, password", email, password);
 
         // Validation
         if (!email || !password) {
@@ -31,8 +33,8 @@ export default function Login({ setUser }) {
             setError('Invalid email format.');
             return;
         }
-        
-        
+
+
         // Send login request
         axios.post('http://localhost:5000/users/login', { email, password })
             .then(res => {
@@ -66,7 +68,7 @@ export default function Login({ setUser }) {
                     <input
                         className="LogInInput"
                         value={email}
-                        onChange={(e) => { setEmail(e.target.value); setError('');}}
+                        onChange={(e) => { setEmail(e.target.value); setError(''); }}
                     />
                 </div>
                 <div className="top">
@@ -76,7 +78,7 @@ export default function Login({ setUser }) {
                             className="LogInInput"
                             type={showPassword ? 'text' : 'password'}
                             value={password}
-                            onChange={(e) => {setPassword(e.target.value); setError('');}}
+                            onChange={(e) => { setPassword(e.target.value); setError(''); }}
                         />
                         <button
                             type="button"
@@ -94,7 +96,7 @@ export default function Login({ setUser }) {
                 <button className="LogInbutton" type="submit">Log in</button>
                 <div className="flexDiv top">
                     <h3>Don't have an account?</h3>
-                    <Link to="/Signup" style={{color: "Blue"}} className="bolder Link">Sign up</Link>
+                    <Link to="/Signup" style={{ color: "Blue" }} className="bolder Link">Sign up</Link>
                 </div>
                 <div className='separator'>
                     <div className="line"></div>

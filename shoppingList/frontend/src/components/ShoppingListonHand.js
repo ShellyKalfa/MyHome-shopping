@@ -4,6 +4,7 @@ import '../style/ShoppingListonHand.css';
 import Typing from "./Typing";
 import ItemShoppingList from "./ItemShoppingList";
 
+// componnet of the hold the on hand 
 export default function ShoppingListonHand({ user, selectedFamilyId }) {
     const [onHandItems, setItems] = useState([]);
 
@@ -24,7 +25,8 @@ export default function ShoppingListonHand({ user, selectedFamilyId }) {
             })
             .catch(err => console.error("Error loading completed items:", err));
     }, [selectedFamilyId]);
-
+    
+    //list of the items that you have in the family
     const handleReturnToList = (itemId) => {
         axios.patch(`http://localhost:5000/Shopping/item/${itemId}`, { completed: 0 }).then(res => {
                 if (res.data.message) {

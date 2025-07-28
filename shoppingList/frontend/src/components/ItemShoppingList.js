@@ -9,6 +9,7 @@ import '../style/ItemShoppingList.css';
 
 const API_BASE = 'http://localhost:5000/Shopping';
 
+// componnet of Item in Shopping List
 export default function ItemShoppingList({ item, deleteItem, updateItem }) {
     const [newItem, setNewItem] = useState(item.itemName);
     const [itemPriceAPI, setItemPriceAPI] = useState(item.price);
@@ -19,26 +20,31 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
     const [isAmountEdit, setIsAmountEdit] = useState(false);
     const [newAmount, setNewAmount] = useState(item.quantity);
 
+    //Edit- Item Shopping List
     const onEdit = () => {
         setIsEdit(true);
         setNewItem('');
         setSuggestions([]);
     };
 
+    //Save- Item Shopping List
     const onSave = () => {
         setIsEdit(false);
         renameItem();
     };
 
+    //Delete- Item Shopping List
     const onDelete = () => {
         deleteItem(item.itemId);
     };
 
+    //Edit amount- Item Shopping List
     const amountEdit = () => {
         setIsAmountEdit(true);
         setNewAmount(item.quantity);
     };
 
+    //Save amount- Item Shopping List
     const amountSave = () => {
         changeAmount();
         setIsAmountEdit(false);
@@ -64,6 +70,7 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
         }
     };
 
+    // Auto Complete for item name - to choose item from the api of rami lavi 
     const handleAutoComplete = (event) => {
         const text = event.target.value;
         setNewItem(text);
@@ -91,6 +98,7 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
         }
     };
 
+    //rename Item
     const renameItem = async () => {
         const newName = newItem?.trim();
         if (!newName) {
@@ -134,7 +142,7 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
             alert("Error updating item: " + err.message);
         }
     };
-
+    //change Amount of item
     const changeAmount = async () => {
         const quantity = parseInt(newAmount);
         if (isNaN(quantity) || quantity <= 0) {
@@ -161,6 +169,7 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
         }
     };
 
+    //on click item 
     const handleOnClick = (product) => {
         setItemPriceAPI(parseFloat(product.productPrice));
         setNewItem(product.productName);
@@ -173,162 +182,85 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
 
     return (
         <div className="item-list-container">
-                <div className="Item-container">
-                    <div className="item-general">
-                        <div className="left-section">
-                            <div className="toggle-completed" onClick={toggleCompleted}>
-                                {item.completed ? <MdCheckCircle /> : <ImRadioUnchecked />}
-                            </div>
-                            <img
-                                src={itemImage ? `https://img.rami-levy.co.il${itemImage}` : `https://img.rami-levy.co.il${item.image}`}
-                                alt=""
-                                className="image imageList"
-                            />
+            <div className="Item-container">
+                <div className="item-general">
+                    <div className="left-section">
+                        <div className="toggle-completed" onClick={toggleCompleted}>
+                            {item.completed ? <MdCheckCircle /> : <ImRadioUnchecked />}
                         </div>
+                        <img
+                            src={itemImage ? `https://img.rami-levy.co.il${itemImage}` : `https://img.rami-levy.co.il${item.image}`}
+                            alt=""
+                            className="image imageList"
+                        />
+                    </div>
 
-                        <div className="center-section">
-                            <div className={`itemInfo ${item.completed ? 'crossText' : ''}`}>
-                                <div className="itemName">{item.itemName}</div>
-                                <div>מחלקה: {itemDepartment}</div>
-                                <div>
-                                    {isAmountEdit ? (
-                                        <div className="amountEditWrapper">
-                                            <input
-                                                type="number"
-                                                value={newAmount}
-                                                onChange={(e) => setNewAmount(e.target.value)}
-                                                placeholder="עדכן כמות"
-                                                className="amountInput"
-                                            />
-                                            <ImCheckmark onClick={amountSave} />
-                                        </div>
-                                    ) : (
-                                        <>
-                                             {item.quantity}       יח'        <MdEdit onClick={amountEdit} />
-                                        </>
+                    <div className="center-section">
+                        <div className={`itemInfo ${item.completed ? 'crossText' : ''}`}>
+                            <div className="itemName">{item.itemName}</div>
+                            <div>מחלקה: {itemDepartment}</div>
+                            <div>
+                                {isAmountEdit ? (
+                                    <div className="amountEditWrapper">
+                                        <input
+                                            type="number"
+                                            value={newAmount}
+                                            onChange={(e) => setNewAmount(e.target.value)}
+                                            placeholder="עדכן כמות"
+                                            className="amountInput"
+                                        />
+                                        <ImCheckmark onClick={amountSave} />
+                                    </div>
+                                ) : (
+                                    <>
+                                        {item.quantity}       יח'        <MdEdit onClick={amountEdit} />
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="right-section">
+                    <div className="price-and-edit">
+                        <div className="price">{(itemPriceAPI * item.quantity).toFixed(2)} ₪</div>
+                        <div className="edit-icon">
+                            {isEdit ? <ImCheckmark onClick={onSave} /> : <MdEdit onClick={onEdit} />}
+                        </div>
+                    </div>
+                    <div className="trash-icon">
+                        {isEdit ? (
+                            <div className="autocomplete-wrapper">
+                                <input
+                                    value={newItem}
+                                    onChange={handleAutoComplete}
+                                    placeholder="עדכון מוצר"
+                                />
+                                {suggestions.length > 0 && newItem.length > 1 &&
+                                    newItem.trim().toLowerCase() !== item.itemName.trim().toLowerCase() && (
+                                        <ul className="autocomplete-list listEdit">
+                                            {suggestions.map((product, idx) => (
+                                                <li key={idx} onClick={() => handleOnClick(product)}>
+                                                    <div className="productName">{product.productName}</div>
+                                                    <img
+                                                        className="image"
+                                                        src={`https://img.rami-levy.co.il${product.productImage}`}
+                                                        alt="image"
+                                                    />
+                                                </li>
+                                            ))}
+                                        </ul>
                                     )}
-                                </div>
                             </div>
-                        </div>
+                        ) : (
+                            <BsTrash onClick={onDelete} />
+                        )}
                     </div>
 
-                    <div className="right-section">
-                        <div className="price-and-edit">
-                            <div className="price">{(itemPriceAPI * item.quantity).toFixed(2)} ₪</div>
-                            <div className="edit-icon">
-                                {isEdit ? <ImCheckmark onClick={onSave} /> : <MdEdit onClick={onEdit} />}
-                            </div>
-                        </div>
-                        <div className="trash-icon">
-                            {isEdit ? (
-                                <div className="autocomplete-wrapper">
-                                    <input
-                                        value={newItem}
-                                        onChange={handleAutoComplete}
-                                        placeholder="עדכון מוצר"
-                                    />
-                                    {suggestions.length > 0 && newItem.length > 1 &&
-                                        newItem.trim().toLowerCase() !== item.itemName.trim().toLowerCase() && (
-                                            <ul className="autocomplete-list listEdit">
-                                                {suggestions.map((product, idx) => (
-                                                    <li key={idx} onClick={() => handleOnClick(product)}>
-                                                        <div className="productName">{product.productName}</div>
-                                                        <img
-                                                            className="image"
-                                                            src={`https://img.rami-levy.co.il${product.productImage}`}
-                                                            alt="image"
-                                                        />
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        )}
-                                </div>
-                            ) : (
-                                <BsTrash onClick={onDelete} />
-                            )}
-                        </div>
-
-                    </div>
                 </div>
+            </div>
         </div>
 
     );
 
-    /*
-    this is ido's old version before omer's redesign
-    return (
-        <div className="ItemShoppingList">
-            <div onClick={toggleCompleted}>
-                {item.completed ? <MdCheckCircle /> : <ImRadioUnchecked />}
-            </div>
-
-            <div className="listItem">
-                <div className={`itemText ${item.completed ? 'crossText' : ''}`} dir="auto">
-                    {isEdit ? (
-                        <div className="autocomplete-wrapper">
-                            <input
-                                value={newItem}
-                                onChange={handleAutoComplete}
-                                placeholder="עדכון מוצר"
-                            />
-                            {(suggestions.length > 0 && newItem.length > 1 &&
-                                newItem.trim().toLowerCase() !== item.itemName.trim().toLowerCase()) ? (
-                                <ul className="autocomplete-list  listEdit">
-                                    {suggestions.map((product, idx) => (
-                                        <li key={idx} onClick={() => handleOnClick(product)}>
-                                            <div className="productName">{product.productName}</div>
-                                            <img className="image"
-                                                src={`https://img.rami-levy.co.il${product.productImage}`}
-                                                alt="failed to present image"
-                                            />
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : null}
-                        </div>
-                    ) : (
-                        item.itemName
-                    )}
-                </div>
-
-
-
-                <div className="amountItem">
-                    {isAmountEdit ? (
-                        <div className="amountEditWrapper">
-                            <input
-                                type="number"
-                                value={newAmount}
-                                onChange={(e) => setNewAmount(e.target.value)}
-                                placeholder="Enter amount"
-                                className="amountInput"
-                            />
-                            <ImCheckmark onClick={amountSave} />
-                        </div>
-                    ) : (
-                        <>
-                            כמות: {item.quantity} <MdEdit onClick={amountEdit} />
-                        </>
-                    )}
-                </div>
-                <div className="priceItem">
-                    מחיר: {itemPriceAPI} ({(itemPriceAPI * newAmount).toFixed(2)}₪)
-                </div>
-                <div className="departmentItem">
-                    מחלקה: {itemDepartment}
-                </div>
-            </div>
-            <img
-                src={itemImage ? `https://img.rami-levy.co.il${itemImage}` : `https://img.rami-levy.co.il${item.image}`}
-                alt=""
-                className="image imageList"
-            />
-
-            <div className="deleteEdit">
-                {isEdit ? <ImCheckmark onClick={onSave} /> : <MdEdit onClick={onEdit} />}
-                <div onClick={onDelete}><BsTrash /></div>
-            </div>
-        </div>
-    );
-    * */
 }

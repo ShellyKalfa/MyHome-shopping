@@ -7,6 +7,7 @@ import PhoneVerification from "./PhoneVerification";
 
 const API_BASE = "http://localhost:5000/Whatsapp";
 
+//componnt of connect the user to the whatsapp and sent the list to whats app 
 export default function WhatsAppSend({ items, user, setUser }) {
     const [showPopup, setShowPopup] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -14,6 +15,7 @@ export default function WhatsAppSend({ items, user, setUser }) {
     const [tempMessage, setTempMessage] = useState([]);
     const jsConfetti = new JSConfetti()
 
+    //send Verification Code to  Verife the phone 
     const sendVerificationCode = async (phone) => {
         try {
             const response = await axios.post(`${API_BASE}/sendMessageCode`, { number: phone });
@@ -25,6 +27,7 @@ export default function WhatsAppSend({ items, user, setUser }) {
         }
     };
 
+    //check the Verification Code to  Verife the phone 
     const verifyCode = async (phone, code) => {
         try {
             const response = await axios.post(`${API_BASE}/verifyCode`, {
@@ -45,6 +48,7 @@ export default function WhatsAppSend({ items, user, setUser }) {
         }
     };
 
+    //send the Shopping List Message
     function formatShoppingListMessage(items) {
         const activeItems = items.filter(item => item.completed === 0);
 
@@ -62,6 +66,7 @@ export default function WhatsAppSend({ items, user, setUser }) {
         return message;
     }
 
+    //check if there is phone to the user or need a verification
     const handleSendMessage = async (phoneToUse, tempMessage) => {
         const message = tempMessage ? tempMessage : "Hello from my React App!";
 
@@ -73,7 +78,7 @@ export default function WhatsAppSend({ items, user, setUser }) {
 
             console.log("Message sent:", response.data);
             jsConfetti.addConfetti(
-                {confettiRadius:7,}
+                { confettiRadius: 7, }
             );
             alert("Message sent successfully!");
         } catch (error) {
@@ -82,6 +87,7 @@ export default function WhatsAppSend({ items, user, setUser }) {
         }
     };
 
+    //click the message whats app check 
     const handleClick = () => {
         if (!user?.phone) {
             setShowPopup(true);
@@ -90,12 +96,14 @@ export default function WhatsAppSend({ items, user, setUser }) {
         }
     };
 
+    //pop the phone Submit 
     const handlePopupSubmit = (phone) => {
         setPhoneNumber(phone);
         setTempMessage(items.filter((item) => !item.completed));
         sendVerificationCode(phone);
     };
 
+    //pop the Code Submit
     const handleCodeSubmit = (code) => {
         verifyCode(phoneNumber, code);
     };

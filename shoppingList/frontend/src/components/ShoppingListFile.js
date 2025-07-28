@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import ShoppingList from "./ShoppingList";
 
-
+//hold the shopping list 
 export default function ShoppingListFile({ user, setUser,selectedShoppingId, listName }) {
     const navigate = useNavigate();
     useEffect(() => {
