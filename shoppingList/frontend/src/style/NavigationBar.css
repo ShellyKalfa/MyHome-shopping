@@ -34,14 +34,10 @@
     font-family: "Calibri Light", "Calibri", sans-serif;
     border-radius: 2vw;
     display: flex;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
-    justify-content: space-between;
     width: 175px;
-    height: 60%;
-    padding: 0 10px 0 0;
-    background-color: #45b081;
+}
+.links {
+    margin-left: 20px;
 }
 
 .Link.active {
@@ -96,8 +92,12 @@
     font-family: "Calibri Light", "Calibri", sans-serif;
     display: flex;
     width: 20vw;
-    justify-content: space-evenly;
+
     height: 100%;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+    width: fit-content;
 
 }
 .family-selector {

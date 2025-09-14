@@ -3,22 +3,8 @@ const router = express.Router();
 const db = require('../db');
 
 
-router.get('/', (req, res) => {
-  const sql = "SELECT * FROM users";
 
-  db.query(sql, (err, data) => {
-    if (err) {
-      console.error("Fetch users failed:", err);
-      return res.status(500).json({ success: false, message: "Server error" });
-    }
-    
-
-    return res.json({ success: true, users: data });
-  });
-});
-
-
-// Login route
+// Log in users by email and password route 
 router.post('/login', (req, res) => {
   const sql = "SELECT * FROM users WHERE email = ? AND password = ?";
   const values = [req.body.email, req.body.password];
@@ -38,6 +24,8 @@ router.post('/login', (req, res) => {
   });
 });
 
+
+// sign up users by email and password and name route 
 router.post('/signup', async (req, res) => {
   const { name, email, password } = req.body;
 

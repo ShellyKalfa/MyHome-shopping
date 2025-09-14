@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+import WhatsAppSend from './WhatsAppSend';
 import ItemShoppingList from "./ItemShoppingList";
 import GroupedItems from './GroupedItems';
 import '../style/TempShoppingList.css'
@@ -6,8 +9,7 @@ import Typing from './Typing';
 
 const API_BASE = 'http://localhost:5000';
 
-export default function TempShoppingList({ items,isTemp,setItems }) {
-
+export default function TempShoppingList({ items,isTemp,setItems,listName,user }) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
   const [uniqueItemsCount, setUniqueItemsCount] = useState(0);
@@ -60,7 +62,7 @@ const updateItem = (id, newData) => {
 };
 
   // Group items by department
-  const groupedItems = items.reduce((groups, item) => {
+  const groupedItems = items.reduce((groups, item , user) => {
     const dept = item.department || 'לא מסווג'; 
     if (!groups[dept]) {
       groups[dept] = [];
@@ -75,20 +77,23 @@ const updateItem = (id, newData) => {
         <h2 className='textCenter shoppingListTitle'>
           {isTemp
             ? <Typing text={['רשימת קניות', 'כדורגל עם חברים', 'ערב תה עם הבנות', 'ערב זוגי בבית']} />
-            : 'רשימת קניות'}
+            : listName="" ? ' רשימת קניות ':listName}
         </h2>
 
+
+        </div>
         <div className='board-items scrollable'>
                     <GroupedItems
             groupedItems={groupedItems}
             deleteItem={deleteItem}
             updateItem={updateItem}
           />
-            <div className="total-amount">
-              סה״כ לתשלום: {totalPrice.toFixed(2)}₪
-            </div>
+        </div>
+        <div className="total-amount">
+        {totalPrice.toFixed(2)}₪  לתשלום 
         </div>
       </div>
-    </div>
+           
+   
   );
 }

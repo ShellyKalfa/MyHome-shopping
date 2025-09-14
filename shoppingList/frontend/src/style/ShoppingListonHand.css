@@ -18,6 +18,14 @@
     textAlign: center;
 }
 
+.scrollable {
+    /* height: 300px;  */
+    overflow-y: auto;
+    /* border: 1px solid #ccc; */
+    padding: 10px;
+    direction: rtl;
+}
+
 .grid-title {
     grid-column: 1 / -1; /* מתפרס על כל העמודות */
     text-align: center;
@@ -26,12 +34,15 @@
 }
 
 .cards-container {
+    max-height: 500px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center; /* or flex-start */
     gap: 2rem;
     margin-top: 2rem;
+    overflow-y: auto;
 }
+
 
 .item-card {
     display: flex;

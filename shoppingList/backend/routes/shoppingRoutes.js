@@ -5,7 +5,7 @@ const axios = require('axios');
 
 
 
-
+// get shopping list by the family id 
 router.post('/shoppingFamily/:familyId', (req, res) => {
   const familyId = req.params.familyId;
   const sql = `
@@ -21,7 +21,7 @@ router.post('/shoppingFamily/:familyId', (req, res) => {
     }
 
     if (data.length >= 0) {
-      console.log(`✅ Login successful for member ID: ${familyId}`, data[0]);
+      
       if (data.length > 0) {
         return res.json({ success: true, data: data });
       }
@@ -34,6 +34,7 @@ router.post('/shoppingFamily/:familyId', (req, res) => {
   });
 });
 
+// insert Shopping List by Family Id
 router.post('/createShoppingFamily/:selectedFamilyId', (req, res) => {
   const selectedFamilyId = req.params.selectedFamilyId;
   const {ShoppingFamilyName } = req.body;

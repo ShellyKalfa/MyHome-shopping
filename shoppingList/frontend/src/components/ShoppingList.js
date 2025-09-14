@@ -4,14 +4,16 @@ import React, { useEffect, useState } from 'react';
 import "../style/ShoppingList.css"
 import TempShoppingList from "./TempShoppingList";
 import AddItem from "./AddItems";
+import WhatsAppSend from './WhatsAppSend';
 
 const API_BASE = 'http://localhost:5000';
 
-export default function ShoppingList({ selectedShoppingId }) {
+//componnet of the shopping list hold the data of the selected Shopping list
+export default function ShoppingList({ selectedShoppingId, listName, user, setUser }) {
   // State to hold all items from the backend
-  const [item, setItem] = useState(["milk", "apple", "eggs", "apple"])
   const [items, setItems] = useState([])
   const [listId, setListId] = useState(selectedShoppingId);
+
 
   useEffect(() => {
     setListId(selectedShoppingId)
@@ -37,16 +39,22 @@ export default function ShoppingList({ selectedShoppingId }) {
 
   return (
     <div className="shoppingListBord">
-      {/* <h1>ShoppingList</h1> */}
-      {console.log("item", items)}
-      <AddItem setItems={setItems}
-        items={items}
-        listId={listId} />
       <div className="boardSizeShoppingList">
         <TempShoppingList items={items}
           setItems={setItems}
-          isTemp={false} />
+          isTemp={false}
+          listName={listName}
+          user={user}
+        />
+        <WhatsAppSend isTemp={false}
+          items={items}
+          user={user}
+          setUser={setUser} />
       </div>
+      <AddItem setItems={setItems}
+        items={items}
+        listId={listId} />
+
     </div>
 
   )

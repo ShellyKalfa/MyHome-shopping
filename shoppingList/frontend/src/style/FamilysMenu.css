@@ -10,20 +10,7 @@
   border-radius: 6px;
   user-select: none;
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
   font-size: 22px;
-
-  border-radius: 2vw;
-  align-content: center;
-  align-items: center;
-  justify-content: space-between;
-  width: 175px;
-  height: 60%;
-  padding: 0 10px 0 0;
-  background-color: #45b081;
 }
 
 .menuTrigger.active {

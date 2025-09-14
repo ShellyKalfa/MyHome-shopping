@@ -4,7 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlineMenu } from "react-icons/ai";
 import '../style/FamilysMenu.css'; // Add custom CSS here
 
-export default  function FamilyMenu({ familysApp,selectedFamilyId }) {
+//drop down Family Menu
+export default function FamilyMenu({ familysApp, selectedFamilyId }) {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -17,19 +18,19 @@ export default  function FamilyMenu({ familysApp,selectedFamilyId }) {
 
   return (
     <div className="familysMenu">
-      <div 
-        onClick={toggleMenu} 
-        className={`menuTrigger ${ isOpen ? "active" : ""}`}
+      <div
+        onClick={toggleMenu}
+        className={`menuTrigger ${isOpen ? "active" : ""}`}
       >
-        מאגר הקניות המשפחתי<AiOutlineMenu/>
+        מאגר הקניות המשפחתי<AiOutlineMenu />
       </div>
 
       {isOpen && (
         <div className="dropdownMenu">
           {familysApp.map((f, index) => (
-            <div 
-              key={index} 
-              className="dropdownItem" 
+            <div
+              key={index}
+              className="dropdownItem"
               onClick={() => handleFamilyClick(f.familyId)}
             >
               {f.familyName}

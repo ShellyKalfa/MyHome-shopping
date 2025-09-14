@@ -4,15 +4,16 @@ import '../style/ShoppingListonHand.css';
 import Typing from "./Typing";
 import ItemShoppingList from "./ItemShoppingList";
 
+// componnet of the hold the on hand 
 export default function ShoppingListonHand({ user, selectedFamilyId }) {
-    const [onHanditems, setItems] = useState([]);
+    const [onHandItems, setItems] = useState([]);
 
     useEffect(() => {
         if (!selectedFamilyId) return;
 
         axios.get(`http://localhost:5000/Family/completed-items/${selectedFamilyId}`).then(res => {
                 if (res.data.success) {
-                    const formatted = res.data.onHanditems.map(i => ({
+                    const formatted = res.data.items.map(i => ({
                         id: i.itemId,
                         name: i.itemName,
                         amount: i.quantity,
@@ -24,7 +25,8 @@ export default function ShoppingListonHand({ user, selectedFamilyId }) {
             })
             .catch(err => console.error("Error loading completed items:", err));
     }, [selectedFamilyId]);
-
+    
+    //list of the items that you have in the family
     const handleReturnToList = (itemId) => {
         axios.patch(`http://localhost:5000/Shopping/item/${itemId}`, { completed: 0 }).then(res => {
                 if (res.data.message) {
@@ -44,13 +46,13 @@ export default function ShoppingListonHand({ user, selectedFamilyId }) {
             <h1>Items On Hand</h1>
             <h1 className="grid-title">רשימת קניות</h1>
 
-            {onHanditems.length === 0 && (
+            {onHandItems.length === 0 && (
                 <p className="empty-list">
                     - הרשימה ריקה -
                 </p>
             )}
             <div className="cards-container">
-                {onHanditems.map((item, idx) => (
+                {onHandItems.map((item, idx) => (
                     <div className="item-card" key={idx}>
                         <div className="item-details">
                             {item.image && (

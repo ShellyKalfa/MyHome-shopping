@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-
+// Roles to the app wich you are 
 const Roles = {
   MANAGER: "admin",
   CHILD: "user"
 }
 
-
+// get Familys by user id 
 router.post('/UserFamily/:id', (req, res) => {
   const userId = req.params.id;
   const sql = `
@@ -38,6 +38,7 @@ router.post('/UserFamily/:id', (req, res) => {
   });
 });
 
+// get family Members by  family Id
 router.post('/familyMembers', (req, res) => {
   const { familyId } = req.body;
   const sql = `
@@ -88,7 +89,7 @@ router.get('/completed-items/:familyId', (req, res) => {
 });
 
 
-
+// delte Family by family Id
 router.delete('/delteFamily/:familyId', (req, res) => {
 
   const { familyId } = req.params;
@@ -103,6 +104,8 @@ router.delete('/delteFamily/:familyId', (req, res) => {
   })
 });
 
+
+//creat Family by user Id
 router.post('/creatFamily/:id', (req, res) => {
   const userId = req.params.id;
   const { nameFamily, role } = req.body;
@@ -140,7 +143,7 @@ router.post('/creatFamily/:id', (req, res) => {
 });
 
 
-
+//add Family Members by  email and  familyId 
 router.post('/addFamilyMembers', (req, res) => {
   console.log("Request received to add family member");
 
@@ -176,7 +179,7 @@ router.post('/addFamilyMembers', (req, res) => {
   });
 });
 
-
+// delete Family Member  by family Id and user Id
 router.delete('/deleteFamilyMember/:familyId', (req, res) => {
   const { familyId } = req.params;
   const { userId } = req.body;
@@ -210,19 +213,21 @@ router.delete('/deleteFamilyMember/:familyId', (req, res) => {
   });
 });
 
+
+//update Family Members Role
 router.post('/updateFamilyMembers/:familyId', (req, res) => {
   console.log("Request received to add family member");
-   const { familyId } = req.params;
+  const { familyId } = req.params;
   const { userId } = req.body;
   const updateSql = "UPDATE memberFamily SET role = ? WHERE userId = ? AND familyId = ?";
- console.log("noww",userId);
+  console.log("noww", userId);
 
-   db.query(updateSql, [Roles.MANAGER,userId, familyId], (err, result) => {
-        if (err) {
-          return res.status(500).json({ success: false, message: 'Failed to update  family member' });
-        }
-        return res.status(200).json({ success: true, message: 'Family member update  successfully' });
-      });
+  db.query(updateSql, [Roles.MANAGER, userId, familyId], (err, result) => {
+    if (err) {
+      return res.status(500).json({ success: false, message: 'Failed to update  family member' });
+    }
+    return res.status(200).json({ success: true, message: 'Family member update  successfully' });
+  });
 });
 
 module.exports = router;
