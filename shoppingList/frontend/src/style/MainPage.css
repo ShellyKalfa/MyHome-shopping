@@ -1,59 +1,202 @@
-h1, p{
-    padding: 0%;
-    margin: 0%;
+/* App.css - עיצוב גלובלי מתוקן */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
+
+:root {
+  --primary-color: #2D9C6C;
+  --primary-hover: #227a53;
+  --bg-color: #F7FAFC;
+  --text-dark: #1A202C;
+  --text-gray: #718096;
 }
 
-h1{
-    font-size: 4rem;
+/* איפוס בסיסי - חובה! */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-p{
-    font-size: 2vw; 
+body, html {
+  height: 100%;
+  font-family: 'Rubik', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  direction: rtl; /* כיוון האתר */
 }
 
-.MainPage{
-    height: 100%;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: row;
-    justify-content: center;
-    justify-content: space-around;
-    margin: 0px 5px ;
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.boardSize{
-    width: 50%;
-    height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* --- תיקון ה-Navigation Bar --- */
+.NavigationBar {
+  height: 80px; /* גובה קבוע */
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* לוגו בימין, תפריט בשמאל */
+  padding: 0 5%; /* ריווח מהצדדים */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
 }
-.boardSide{
-    width: 50%;
-    display: flex;
-    justify-content: center;
+
+.homelogo img {
+  height: 45px;
+  width: auto;
+  display: block; /* מונע רווחים מיותרים */
+}
+
+/* הקונטיינר של הלינקים והכפתורים */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* רווח בין האלמנטים בתפריט */
+}
+
+/* עיצוב הלינקים בתפריט */
+.links {
+  text-decoration: none;
+  color: var(--text-dark);
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.links:hover {
+  background-color: #f0f0f0;
+  color: var(--primary-color);
+}
+
+.links.active {
+  color: var(--primary-color);
+  background-color: #e6fffa;
+}
+
+/* טוגל התחברות */
+.section-sign-up {
+  display: flex;
+  background: #EDF2F7;
+  padding: 4px;
+  border-radius: 50px;
+  gap: 5px;
+}
+
+.toggle-tab {
+  text-decoration: none;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: var(--text-gray);
+  transition: all 0.3s ease;
+}
+
+.toggle-tab.active {
+  background-color: white;
+  color: var(--primary-color);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  font-weight: 600;
+}
+
+/* --- תיקון ה-MainPage --- */
+.MainPage {
+  /* תופס את כל הגובה שנשאר מתחת לנאבבר */
+  min-height: calc(100vh - 80px); 
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* ממקם הכל באמצע הגובה */
+  justify-content: space-between;
+  padding: 0 10%; /* מרחיק את התוכן מהצדדים */
+  overflow: hidden; /* מונע גלילה מיותרת */
+}
+
+/* צד ימין - טקסט */
+.titles {
+  flex: 1; /* לוקח 50% מהרוחב */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* מצמיד לימין */
+  z-index: 10;
+}
+
+.titles h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.titles h1 span {
+  color: var(--primary-color);
+  display: block; /* יורד שורה */
+}
+
+.titles p {
+  font-size: 1.2rem;
+  color: var(--text-gray);
+  max-width: 500px;
+}
+
+/* כפתור CTA */
+.bigButton {
+  margin-top: 30px;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: inline-block;
+  box-shadow: 0 4px 15px rgba(45, 156, 108, 0.3);
+  transition: transform 0.2s;
+}
+
+.bigButton:hover {
+  transform: translateY(-2px);
+  background-color: var(--primary-hover);
+}
+
+/* צד שמאל - הלוח */
+.boardSide {
+  flex: 1; /* לוקח 50% מהרוחב */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boardSize {
+  background: white;
+  width: 380px; /* רוחב קבוע לכרטיס */
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  border: 1px solid #e2e8f0;
+  transform: rotate(-3deg); /* הטיה עיצובית */
+}
+
+/* מובייל */
+@media (max-width: 900px) {
+  .MainPage {
     flex-direction: column;
-    align-items: center;
-   
-}
+    padding: 40px 20px;
+    text-align: center;
+    height: auto;
+  }
 
-.titles{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    color: #414848;
-}
-.countener{
-    margin-top: 10vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.top{
-    margin-top: 5vh;
-}
-.space{
-   
-    width: 40%;
+  .titles {
+    align-items: center; /* ממקז במובייל */
+    margin-bottom: 50px;
+  }
+
+  .nav {
+    display: none; /* כרגע מחביא תפריט במובייל עד שנסדר המבורגר */
+  }
 }

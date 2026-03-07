@@ -1,77 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
-// API
-import {
-    createShoppingFamily,
-    getShoppingFamily
-
-} from '../api/shopping';
 
 // Components
 import ItemShoppingListPage from './ItemShoppingListPage';
 
 // Styles
 import '../style/ShoppingListPage.css';
-import { BsJournalPlus } from "react-icons/bs";
-import { AiOutlineClose } from "react-icons/ai";
+import { BsPlusLg } from "react-icons/bs"; // אייקון נקי יותר לפלוס
+import { AiOutlineClose, AiOutlineDoubleLeft } from "react-icons/ai";
+import { FaBoxOpen } from "react-icons/fa"; // אייקון למוצרים בבית
 
 // API
-import {
-    createShoppingList
-} from '../api/family';
-
+import { createShoppingFamily, getShoppingFamily } from '../api/shopping';
 
 export default function ShoppingListPage({ user, familysApp, selectedFamilyId, selectedShoppingId, setSelectedShoppingId }) {
-    const [shoppingFamily, setShoppingFamily] = useState([])
-    const [newShoppingFamilyName, setNewShoppingFamilyName] = useState('')
-    const [close, setClose] = useState(true)
+    const [shoppingFamily, setShoppingFamily] = useState([]);
+    const [newShoppingFamilyName, setNewShoppingFamilyName] = useState('');
+    const [close, setClose] = useState(true);
+    
+    // מציאת שם המשפחה הנבחרת
     const selectedFamily = familysApp.find(family => family.familyId === selectedFamilyId);
-    const [selectedFamilyName, setSelectedFamilyName] = useState(selectedFamily ? selectedFamily.familyName : '')
+    const [selectedFamilyName, setSelectedFamilyName] = useState(selectedFamily ? selectedFamily.familyName : '');
+    
     const navigate = useNavigate();
-    const handleSelectedShoppingId = (ShoppingId) => {
-        setSelectedShoppingId(ShoppingId)
-        setClose(true)
-        navigate('/ShoppingListFile', { replace: true });
 
-    }
+    const handleSelectedShoppingId = (ShoppingId) => {
+        setSelectedShoppingId(ShoppingId);
+        setClose(true); // סוגר את התפריט כשבוחרים רשימה
+        navigate('/ShoppingListFile', { replace: true });
+    };
 
     useEffect(() => {
         if (selectedFamilyId) {
-
             getShoppingFamily(selectedFamilyId)
                 .then(res => {
-                    console.log(res.data);
                     if (res.data.success) {
-                        if (res.data.data != null) {
-                            setShoppingFamily(res.data.data);
-                            setClose(false);
-                        } else {
-                            setShoppingFamily([]);
-                            setClose(false);
-                        }
-                        let selectedFamily = familysApp.find(family => family.familyId === selectedFamilyId);
-                        setSelectedFamilyName(selectedFamily ? selectedFamily.familyName : '')
+                        setShoppingFamily(res.data.data || []);
+                        setClose(false); // פותח את התפריט אוטומטית כשבוחרים משפחה
+                        
+                        let fam = familysApp.find(family => family.familyId === selectedFamilyId);
+                        setSelectedFamilyName(fam ? fam.familyName : '');
                     }
                 })
-                .catch(err => {
-                    console.log(err);
-                });
-        }
-        else {
+                .catch(err => console.log(err));
+        } else {
             setSelectedFamilyName('');
             setClose(true);
         }
-    }, [selectedFamilyId, user]);
-
+    }, [selectedFamilyId, user, familysApp]);
 
     const handleCreateShoppingFamily = async () => {
         if (!newShoppingFamilyName.trim()) return;
 
         try {
             const res = await createShoppingFamily(selectedFamilyId, newShoppingFamilyName);
-            console.log(res.data)
             if (res.data.success) {
                 const { ShoppingListId, ShoppingFamilyName } = res.data;
                 setShoppingFamily(prev => [...prev, { listId: ShoppingListId, listName: ShoppingFamilyName }]);
@@ -82,53 +64,55 @@ export default function ShoppingListPage({ user, familysApp, selectedFamilyId, s
         }
     };
 
-
+    if (!user) return null;
 
     return (
-        <div className={user && (!close || selectedFamilyName !== '') ? 'Block' : 'none'}>
-            {!close ?
-                <div className={`ShoppingListPage ${!close && user ? 'Block' : 'none'}`}>
-                    <AiOutlineClose onClick={() => setClose(true)} />
-                    <div className='familyNameDiv' >  <p>{selectedFamilyName}</p></div>
-                    <div className='addFamilyDiv textBox'>
+        <>
+            {!close && selectedFamilyName !== '' && (
+                <div className="ShoppingListPage">
+                    
+                    <AiOutlineClose className="close-icon" onClick={() => setClose(true)} />
+                    
+                    <div className='familyNameDiv'>
+                        <p>{selectedFamilyName}</p>
+                    </div>
+
+                    <div className='addFamilyDiv'>
                         <input
                             className='itemInput'
                             value={newShoppingFamilyName}
                             onChange={e => setNewShoppingFamilyName(e.target.value)}
-                            placeholder='Enter shopping list name...'
+                            placeholder='New list name...'
+                            onKeyDown={(e) => e.key === 'Enter' && handleCreateShoppingFamily()}
                         />
-                        <div className="addFamily"
-                            onClick={handleCreateShoppingFamily}>
-                            <div>Add shopping list</div>
-                            <BsJournalPlus />
+                        <div className="addFamily" onClick={handleCreateShoppingFamily}>
+                            <BsPlusLg />
                         </div>
                     </div>
 
-                    {!close ? (
-                        <div>
-                            {shoppingFamily.map((shopping, index) => (
-                                < ItemShoppingListPage key={index}
-                                    shopping={shopping}
-                                    handleSelectedShoppingId={handleSelectedShoppingId}
-                                    choose={selectedShoppingId === shopping.listId} />
+                    <div className="lists-container">
+                        {shoppingFamily.map((shopping, index) => (
+                            <ItemShoppingListPage 
+                                key={index}
+                                shopping={shopping}
+                                handleSelectedShoppingId={handleSelectedShoppingId}
+                                choose={selectedShoppingId === shopping.listId} 
+                            />
+                        ))}
+                    </div>
 
-                            ))}
-                        </div>
-                    ) : (
-                        <div></div>
-                    )
-                    }
                     <button className="onHandButton" onClick={() => navigate('/onHand')}>
-                        View On Hand Item
+                        <FaBoxOpen /> View On Hand
                     </button>
                 </div>
-                :
-                <div className={selectedFamilyName !== '' ? 'Block' : 'none'}>
-                    <div className='ShoppingListButton' onClick={() => setClose(false)} >
-                        {'<<   '}{selectedFamilyName}
-                    </div>
+            )}
+
+            {close && selectedFamilyName !== '' && (
+                <div className='ShoppingListButton' onClick={() => setClose(false)}>
+                    <AiOutlineDoubleLeft />
+                    <span>{selectedFamilyName}</span>
                 </div>
-            }
-        </div>
+            )}
+        </>
     );
 };

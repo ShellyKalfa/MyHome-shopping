@@ -8,30 +8,17 @@ function AddItem({ items, setItems, listId }) {
     const [itemPriceAPI, setItemPriceAPI] = useState("");
     const [itemTyping, setItemTyping] = useState("");
     const [quantityTyping, setQuantityTyping] = useState("1");
-    // State to track the input value for a new item
     const [suggestions, setSuggestions] = useState([]);
     const [itemDepartment, setItemDepartment] = useState("כללי");
     const [image, setImage] = useState("");
 
-    /**
- * Adds a new item to the backend and updates the local state.
- * Prevents duplicates and ensures the price is properly parsed.
- */
     const addItem = async () => {
         const trimmed = itemTyping.trim().toLowerCase();
         if (trimmed === "") return;
 
+        // בדיקה אם קיים
         if (items.some(item => item.itemName.toLowerCase() === trimmed)) {
-            alert("This item already exists!");
-            return;
-        }
-        if (itemPriceAPI.length < 1 || itemNameAPI < 2) {
-            alert("choose an item!");
-            return;
-        }
-
-        if (!quantityTyping || isNaN(quantityTyping) || parseInt(quantityTyping) <= 0 || parseFloat(quantityTyping) % 1 != 0) {
-            alert("Not valid number!")
+            alert("המוצר כבר קיים ברשימה!");
             return;
         }
 
@@ -40,228 +27,161 @@ function AddItem({ items, setItems, listId }) {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    itemName: itemNameAPI,
+                    itemName: itemNameAPI || itemTyping,
                     quantity: quantityTyping,
-                    price: itemPriceAPI,
+                    price: itemPriceAPI || 0,
                     department: itemDepartment,
                     image: image,
                     completed: 0
                 }),
             });
 
-            if (!res.ok) {
-                const err = await res.json();
-                throw new Error(err.error);
-            }
-
+            if (!res.ok) throw new Error("Failed to add");
             const data = await res.json();
 
             setItems([...items, {
                 itemId: data.itemId,
                 listId: listId,
-                itemName: itemNameAPI,
+                itemName: itemNameAPI || itemTyping,
                 quantity: quantityTyping,
-                price: itemPriceAPI,
+                price: itemPriceAPI || 0,
                 department: itemDepartment,
                 image: image,
                 completed: 0
             }]);
 
-            setItemTyping("");
-            setQuantityTyping("1");
-            setImage("")
-            setSuggestions([]);
+            resetForm();
         } catch (err) {
-            alert("Error adding item: " + err.message);
-            console.error("Error adding item:", err);
+            console.error(err);
         }
     };
 
-    /**
-     * Toggles the completed state of an item and updates the backend.
-     *
-     * @param {number} id - The ID of the item to toggle.
-     */
-    const handleCheckboxChange = async (id) => {
-        const updatedItems = items.map(f =>
-            f.itemId === id
-                ? { ...f, completed: f.completed === 0 ? 1 : 0 }
-                : f
-        );
-
-        setItems(updatedItems);
-
-        const updatedItem = updatedItems.find(f => f.itemId === id);
-
-        try {
-            await fetch(`http://localhost:5000/item/${id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ completed: updatedItem.completed })
-            })
-                .then(res => res.json())
-                .then(() => {
-                    // Refresh item list from backend
-                    fetch("http://localhost:5000/item")
-                        .then(res => res.json())
-                        .then(data => setItems(data))
-                        .catch(err => console.error("Failed to reload items list:", err));
-                });
-        } catch (error) {
-            console.error('Failed to update checkbox state:', error);
-        }
-    };
-
-    /**
-    * Updates the quantity of an item and syncs the change with the backend.
-    *
-    * @param {number} id - The ID of the item to update.
-    * @param {number} quantity - The new quantity value.
-    */
-    const handleQuantityChange = async (id, quantity) => {
-        const updatedItems = items.map(f =>
-            f.itemId === id
-                ? { ...f, quantity }
-                : f
-        );
-
-        setItems(updatedItems);
-
-        const updatedItem = updatedItems.find(f => f.itemId === id);
-
-        try {
-            await fetch(`http://localhost:5000/item/${id}/quantity`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ quantity: updatedItem.quantity })
-            })
-                .then(res => res.json())
-                .then(() => {
-                    // Refresh item list from backend
-                    fetch("http://localhost:5000/item")
-                        .then(res => res.json())
-                        .then(data => setItems(data))
-                        .catch(err => console.error("Failed to reload items list:", err));
-                });
-        } catch (error) {
-            console.error('Failed to update quantity:', error);
-        }
-    };
-
-
-    /**
-  * Fetches item details (name and price) from the Rami Levi API based on the typed item name.
-  * Updates local state with the name and parsed price.
-  * as auto complition
-  * @param {Event} event - The form submission event.
-  */
-
+    // חיפוש מוצרים
     const handleChange = (event) => {
-        event.preventDefault();
-        let text = event.target.value;
-        setItemTyping(text)
+        const text = event.target.value;
+        setItemTyping(text);
+        
+        // אם המשתמש מקליד מחדש, נקה את הבחירה הקודמת
+        if (image) { 
+             resetSelection();
+             setItemTyping(text); // מחזיר את הטקסט
+        }
+
         if (text.length > 1) {
-            axios.post(`${API_BASE}/search`, {
-                aggs: 1,
-                q: text,
-                store: 331
-            })
+            axios.post(`${API_BASE}/search`, { aggs: 1, q: text, store: 331 })
                 .then(res => {
                     if (res.data && res.data.data) {
-                        const results = res.data.data.map(product =>
-                        ({
+                        const results = res.data.data.map(product => ({
                             "productName": product.name,
                             "productPrice": product.price.price,
                             "productCategory": product.department?.name || "כללי",
                             "productImage": product.images.small
                         }));
-                        setSuggestions(results.slice(0, 10));
+                        setSuggestions(results.slice(0, 5)); // מגביל ל-5 תוצאות שלא יסתיר את המסך
                     }
                 })
-                .catch(err => console.error("Autocomplete from API error", err));
+                .catch(err => console.error(err));
+        } else {
+            setSuggestions([]);
         }
-        else {
-            setSuggestions([])
-        }
-    }
+    };
 
-
-
-    const handleOnClick = (product) => {
+    const handleSelectProduct = (product) => {
         setItemNameAPI(product.productName);
         setItemPriceAPI(parseFloat(product.productPrice));
-        setItemTyping(product.productName);
+        setItemTyping(product.productName); // מעדכן את האינפוט לשם המלא
         setItemDepartment(product.productCategory);
         setImage(product.productImage);
-        setSuggestions([]);
+        setSuggestions([]); // סוגר את הרשימה
+    };
 
-    }
-     const handleOnClickCancel = () => {
+    const resetSelection = () => {
         setItemNameAPI("");
         setItemPriceAPI("");
-        setItemTyping("");
-        setItemDepartment("");
         setImage("");
+        setItemDepartment("כללי");
+    };
+
+    const resetForm = () => {
+        resetSelection();
+        setItemTyping("");
         setQuantityTyping("1");
         setSuggestions([]);
-
-    }
+    };
 
     return (
-
-        <div className="box">
-            < div className="addItemTitle">הוספת מוצר לסל</div>
-            <div className="topButton">
-                <input className="itemInputAdd"
+        <div className="shopping-grid-add">
+        <div className="add-item-wrapper">
+            
+            {/* 1. שדה חיפוש */}
+            <div>
+                <label className="input-label">שם המוצר</label>
+                <input 
+                    className="styled-input"
                     value={itemTyping}
-                    onChange={(event) => handleChange(event)}
-                    placeholder="הקלד מוצר מבוקש"
-                    dir="rtl" />
-
-                {(suggestions.length > 0 && itemTyping.length > 1) ? (
-                    <ul className="autocomplete-list">
+                    onChange={handleChange}
+                    placeholder="הקלד שם מוצר (למשל: חלב)..."
+                    autoComplete="off"
+                />
+                
+                {/* רשימת תוצאות - מופיעה רק כשיש הצעות ואין בחירה סופית */}
+                {suggestions.length > 0 && !image && (
+                    <ul className="autocomplete-results">
                         {suggestions.map((product, idx) => (
-                            <li key={idx} onClick={() => {
-                                handleOnClick(product);
-                            }}>
-                                {console.log(`https://img.rami-levy.co.il/${product.productImage}`)}
-                                <div className="productName">{product.productName}</div>
-                                <img className="image"
-                                    src={`https://img.rami-levy.co.il${product.productImage}`}
-                                    alt="failed to present image"
-
+                            <li key={idx} className="result-item" onClick={() => handleSelectProduct(product)}>
+                                <div className="result-info">
+                                    <div className="result-name">{product.productName}</div>
+                                    <div className="result-price">{product.productPrice?.toFixed(2)} ₪</div>
+                                </div>
+                                <img 
+                                    src={`https://img.rami-levy.co.il${product.productImage}`} 
+                                    alt="product" 
+                                    className="result-image"
                                 />
                             </li>
                         ))}
                     </ul>
-                ) : <></>}
-
+                )}
             </div>
 
-            <div className="topButton">
-                {image == "" ? <></> :
-                    <img
-                        src={`https://img.rami-levy.co.il${image}`}
-                        alt="failed to present item image"
-                        className="image"
-                    />
-                }
-                <input className="itemAmont"
-                    type="number"
+          
+
+            {/* 3. כמות */}
+            <div>
+                <label className="input-label">כמות</label>
+                <input 
+                    type="number" 
+                    min="1"
+                    className="styled-input"
                     value={quantityTyping}
-                    onChange={(event) => setQuantityTyping(event.target.value)}
-                    placeholder="quantity name..." />
-
+                    onChange={(e) => setQuantityTyping(e.target.value)}
+                />
             </div>
 
-
-
-            <div className="topButton">
-                <button className="buttonAddItems" onClick={addItem}> שמור  </button>
-                <button className="buttonAddItems" onClick={()=> handleOnClickCancel()}> ביטול     </button>
+            {/* 4. כפתורים */}
+            <div className="action-btn-group">
+                <button className="btn-secondary" onClick={resetForm}>נקה</button>
+                <button className="btn-primary" onClick={addItem}>הוסף לסל</button>
             </div>
-
-        </div>);
+        </div>
+        <div>
+              {/* 2. תצוגה מקדימה - מופיעה רק אחרי בחירה */}
+            {image && (
+                <div className="selected-product-preview">
+                    <img 
+                        src={`https://img.rami-levy.co.il${image}`} 
+                        alt="Preview" 
+                        style={{width:'100px', height:'100px', objectFit:'contain'}} 
+                    />
+                    <div className="preview-text">
+                        <h4>{itemNameAPI}</h4>
+                        <p>{itemPriceAPI} ₪ ליחידה</p>
+                    </div>
+                </div>
+            )}
+        </div>
+        </div>
+    );
 }
 
 export default AddItem;

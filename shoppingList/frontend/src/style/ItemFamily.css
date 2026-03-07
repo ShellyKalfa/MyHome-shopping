@@ -1,0 +1,67 @@
+/* ItemFamily.css */
+
+.ItemFamily-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 12px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    user-select: none;
+    
+}
+
+/* Hover Effect */
+.ItemFamily-container:hover {
+    background-color: #fcf7f2;
+    border-color: #f6bf88;
+    transform: translateX(-4px); /* Subtle slide effect for RTL */
+}
+
+/* The "Selected" State */
+.ItemFamily-container.selected {
+    background-color: #fcf7f2; /* Light teal */
+    border-color:#fcf7f2;
+    border-right: 5px solid #f6bf88; /* Green strip on the right for RTL */
+}
+
+/* Text and Icon section */
+.family-info-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-grow: 1; /* Makes the whole area clickable */
+    color: #2d3748;
+    font-weight: 500;
+}
+
+.family-icon {
+    font-size: 1.2rem;
+    color: #4a5568;
+    transition: color 0.2s;
+}
+
+.selected .family-icon {
+    color: #f6bf88;
+}
+
+/* Delete Button */
+.delete-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 8px;
+    color: #a0aec0;
+    transition: all 0.2s;
+}
+
+.delete-action:hover {
+    background-color: #fff5f5;
+    color: #e53e3e;
+    transform: scale(1.1);
+}

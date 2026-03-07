@@ -36,12 +36,17 @@ export default function NavigationBar({ User, familysApp, logOut, setSelectedFam
       <div className="nav">
 
         {
-          isUser ? <div className="welcomeFlex">
-            <div className="links section-sign-up welcome" ><div> WELCOME:  </div> <div>{nameUser}</div></div>
-            <div className="links section-sign-up welcome" onClick={logOut} ><IoIosLogOut />
-              logOut</div>
-
+          isUser ?  (
+          <div className="user-profile-section">
+            <div className="user-info">
+              <span className="welcome-label">Hi,</span>
+              <span className="user-name">{nameUser}</span>
+            </div>
+            <button className="logout-btn" onClick={logOut} title="Log Out">
+              <IoIosLogOut size={22} />
+            </button>
           </div>
+        )
             :
               <div className="links section-sign-up">
                 <Link to="/Signup"

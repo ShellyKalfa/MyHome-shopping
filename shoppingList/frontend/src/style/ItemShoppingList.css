@@ -1,0 +1,228 @@
+/* ItemShoppingList.css */
+
+.shopping-item-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  background: white;
+  border-bottom: 1px solid #EDF2F7;
+  transition: all 0.2s ease;
+  position: relative;
+  gap: 15px;
+}
+
+.shopping-item-row:hover {
+  background-color: #F7FAFC;
+}
+
+.shopping-item-row:last-child {
+  border-bottom: none;
+}
+
+/* --- חלק שמאלי: צ'קבוקס ותמונה --- */
+.item-start {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.checkbox-wrapper {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  color: #CBD5E0; /* אפור לא מסומן */
+  transition: color 0.2s;
+}
+
+.checkbox-wrapper:hover {
+  color: var(--primary-color, #2D9C6C);
+}
+
+.shopping-item-row.completed .checkbox-wrapper {
+  color: var(--primary-color, #2D9C6C);
+}
+
+.image-wrapper img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain; /* שומר על פרופורציות */
+  border-radius: 8px;
+  background-color: white;
+  border: 1px solid #f0f0f0;
+  padding: 2px;
+}
+
+/* --- חלק מרכזי: טקסט --- */
+.item-center {
+  flex: 1; /* לוקח את כל המקום הפנוי */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0; /* מונע גלישה */
+}
+
+.product-name {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #2D3748;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* שלוש נקודות אם הטקסט ארוך */
+}
+
+.shopping-item-row.completed .product-name {
+  text-decoration: line-through;
+  color: #A0AEC0;
+}
+
+.item-meta-row {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #718096;
+  gap: 8px;
+}
+
+/* אינפוט כמות מיוחד - נראה כמו טקסט רגיל עד שלוחצים */
+.qty-input {
+  width: 30px;
+  border: 1px solid transparent;
+  background: #EDF2F7;
+  border-radius: 4px;
+  text-align: center;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  color: #4A5568;
+  padding: 2px;
+}
+
+.qty-input:focus {
+  background: white;
+  border-color: var(--primary-color, #2D9C6C);
+  outline: none;
+}
+
+.separator {
+  color: #CBD5E0;
+}
+
+/* --- חלק ימני: מחיר ופעולות --- */
+.item-end {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.price-tag {
+  font-weight: 600;
+  color: #2D3748;
+  font-size: 1rem;
+  min-width: 60px;
+  text-align: left;
+}
+
+.shopping-item-row.completed .price-tag {
+  color: #A0AEC0;
+}
+
+/* כפתורי פעולה - מופיעים רק בהובר בדסקטופ, תמיד במובייל */
+.actions-hover {
+  display: flex;
+  gap: 8px;
+  opacity: 0; /* מוסתר כברירת מחדל */
+  transition: opacity 0.2s;
+}
+
+.shopping-item-row:hover .actions-hover {
+  opacity: 1;
+}
+
+.action-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #A0AEC0;
+  transition: all 0.2s;
+}
+
+.edit-btn:hover { background-color: #E6FFFA; color: var(--primary-color, #2D9C6C); }
+.delete-btn:hover { background-color: #FFF5F5; color: #E53E3E; }
+.save-btn { color: var(--primary-color, #2D9C6C); }
+.cancel-btn { color: #E53E3E; }
+
+/* --- עריכה ו-Autocomplete --- */
+.edit-name-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.edit-input.name-input {
+  width: 100%;
+  padding: 5px 8px;
+  border: 1px solid #CBD5E0;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 250px;
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  z-index: 100;
+  list-style: none;
+  padding: 0;
+  margin: 5px 0 0 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.suggestions-dropdown li {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #f7fafc;
+}
+
+.suggestions-dropdown li:hover {
+  background-color: #F7FAFC;
+}
+
+.suggestions-dropdown img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+/* מובייל */
+@media (max-width: 600px) {
+  .actions-hover {
+    opacity: 1; /* תמיד להראות כפתורים במובייל */
+  }
+  
+  .product-name {
+    font-size: 1rem;
+  }
+  
+  .shopping-item-row {
+      padding: 10px;
+      gap: 10px;
+  }
+}

@@ -1,90 +1,166 @@
+/* ShoppingListPage.css */
+
+/* הקונטיינר הראשי - מגירת צד */
 .ShoppingListPage {
-    font-family: "Calibri Light", "Calibri", sans-serif;
-    display: block;
-    position: absolute;
-    top: 11vh;
+    position: fixed; /* נשאר קבוע גם כשגוללים */
+    top: 0;
     right: 0;
-    width: 25vw;
-    height: 80vh;
-    z-index: 1;
-    font-weight: bold;
-    padding: 1.5vw;
-    border-radius: 4vw;
-    background-color: wheat;
-    border-radius: 2vw 0 0 2vw;;
-    padding: 2vh;
-}
-
-.textBox {
-    margin-bottom: 4vh;
-}
-
-.none {
-    display: none;
-}
-
-.Block {
-    display: block;
-}
-
-.ItemFamily {
-    width: 80%;
-    background-color: #fbf6f1;
-    border-radius: 10px;
-    height: 2vh;
-    margin-top: 1vh;
+    width: 350px; /* רוחב קבוע ונוח */
+    height: 100vh; /* גובה מלא */
+    background-color: #ffffff;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.05); /* צל עדין בצד שמאל */
+    z-index: 1000; /* שיהיה מעל הכל */
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2vh;
+    flex-direction: column;
+    padding: 25px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out;
 }
 
-.Chosen {
-    background-color: #ffeebd;
+/* כפתור סגירה */
+.close-icon {
+    font-size: 1.5rem;
+    color: #A0AEC0;
+    cursor: pointer;
+    align-self: flex-start; /* מצמיד לשמאל כי זה אנגלית/עברית */
+    transition: color 0.2s;
 }
 
+.close-icon:hover {
+    color: #2D3748;
+}
+
+/* כותרת שם המשפחה */
 .familyNameDiv {
+    margin: 10px 0 25px 0;
+    text-align: center;
+}
+
+.familyNameDiv p {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #2D9C6C; /* ירוק מותג */
+    margin: 0;
+}
+
+/* --- איזור הוספת רשימה חדשה --- */
+.addFamilyDiv {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border-radius: 12px;
+}
+
+.itemInput {
+    width: 100%;
+    padding: 12px 15px;
+    padding-right: 50px; /* מקום לכפתור */
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #F7FAFC;
+    transition: all 0.2s;
+}
+
+.itemInput:focus {
+    outline: none;
+    background: white;
+    border-color: #2D9C6C;
+}
+
+/* כפתור הפלוס בתוך האינפוט */
+.addFamily {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #2D9C6C;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
     display: flex;
     justify-content: center;
-}
-
-
-.ShoppingListButton {
-    display: flex;
-    position: absolute;
-    top: 11vh;
-    right: 0;
-    width: 5w;
-    height: 2vh;
-    z-index: 1;
-    padding: 1.5vw;
-    background-color: wheat;
-    /* border-radius: 2vw 0 0 2vw;; */
-    padding: 2vh;
     align-items: center;
-}
-
-.onHandButton {
-    font-family: "Calibri Light", "Calibri", sans-serif;
-    background-color: #28b481;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 16px;
-    margin-top: 20px;
     cursor: pointer;
-    font-weight: bold;
-    font-size: 20px;
-    transition: transform 0.1s ease, background-color 0.2s ease;
+    font-size: 1.2rem;
+    transition: background 0.2s;
 }
 
-/* אפקט ריחוף */
+.addFamily:hover {
+    background-color: #227a53;
+}
+
+/* טקסט מוסתר לכפתור - נשאיר רק אייקון */
+.addFamily div {
+    display: none; 
+}
+
+/* --- איזור הרשימות (גלילה) --- */
+.lists-container {
+    flex: 1; /* לוקח את כל הגובה הפנוי */
+    overflow-y: auto; /* מאפשר גלילה אם יש הרבה רשימות */
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* עיצוב הפריטים בתוך הרשימה (בהנחה שזה div) */
+.ItemShoppingListPage {
+    /* עיצוב לקומפוננטת הבן אם צריך */
+    width: 100%;
+}
+
+/* --- כפתור תחתון --- */
+.onHandButton {
+    margin-top: 20px;
+    width: 100%;
+    padding: 14px;
+    background-color: #EDF2F7;
+    color: #4A5568;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
 .onHandButton:hover {
-    background-color: #28b480;
+    background-color: #E2E8F0;
+    color: #2D3748;
 }
 
-/* אפקט לחיצה */
-.onHandButton:active {
-    transform: scale(0.96);
-    background-color: #3e9143;
+/* --- הכפתור הצף שפותח את התפריט --- */
+.ShoppingListButton {
+    position: fixed;
+    top: 100px; /* מותאם ל-Header */
+    right: 0;
+    background-color: #2D9C6C;
+    color: white;
+    padding: 12px 20px 12px 15px;
+    border-radius: 20px 0 0 20px;
+    cursor: pointer;
+    box-shadow: -2px 2px 10px rgba(0,0,0,0.1);
+    font-weight: 600;
+    z-index: 999;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
+
+.ShoppingListButton:hover {
+    transform: translateX(-5px); /* אפקט שליפה */
+}
+
+/* מחלקות עזר */
+.none { display: none; }
+.Block { display: flex; }

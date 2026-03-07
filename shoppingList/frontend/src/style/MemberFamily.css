@@ -1,0 +1,101 @@
+/* CreateFamily.css */
+
+.familyManagementBord {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    background-color: #f4f7f6; /* רקע אפור/תכלת עדין לכל העמוד */
+    min-height: calc(100vh - 80px);
+    direction: rtl; /* חובה כדי שהכל יסתדר מימין לשמאל */
+}
+
+.management-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* שני כרטיסים שווים בגודלם */
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px; /* מונע מהמסך להימתח במסכים גדולים */
+}
+
+/* הכרטיסים הלבנים של המשפחה והחברים */
+.management-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f0f0f0;
+    height: fit-content;
+}
+/* MemberFamily.css */
+
+.member-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fcf7f2; /* רקע בז' עדין כמו בתמונה */
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+/* צד ימין - מידע המשתמש */
+.member-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 100px;
+    justify-content: flex-end; /* דוחף הכל לימין */
+}
+
+.member-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+}
+
+.member-avatar {
+    font-size: 18px;
+    color: #4a5568;
+}
+
+/* אמצע - תגיות (Badges) */
+.member-badge {
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: white; /* טקסט לבן כמו בתמונה */
+    text-align: center;
+    min-width: 65px;
+}
+
+.admin-badge {
+    background-color: #f7dca0; /* צבע כתמתם-צהוב לאדמין */
+}
+
+.user-badge {
+    background-color: #f0daa4; /* צבע דומה אבל קצת שונה ליוזר */
+}
+
+/* צד שמאל - אייקונים */
+.member-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    min-width: 60px;
+}
+
+.action-icon {
+    cursor: pointer;
+    font-size: 18px;
+    color: #718096;
+    transition: color 0.2s;
+}
+
+.action-icon.trash:hover {
+    color: #e53e3e; /* אדום בהובר */
+}
+
+.action-icon.manage:hover {
+    color: #3182ce; /* כחול בהובר */
+}

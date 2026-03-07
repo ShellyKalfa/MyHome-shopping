@@ -1,56 +1,227 @@
-.familysMenu {
+/* FamilyMenu.css */
+
+.family-menu-container {
   position: relative;
   display: inline-block;
-  cursor: pointer;
+  font-family: 'Rubik', sans-serif; /* הפונט שבחרנו */
 }
 
-.menuTrigger {
-  font-family: "Calibri Light", "Calibri", sans-serif;
-  padding: 10px;
-  border-radius: 6px;
-  user-select: none;
+/* כפתור הטריגר - נקי ומודרני */
+.menu-trigger {
+  background-color: transparent;
+  border: 1px solid #E2E8F0; /* גבול אפור עדין */
+  color: #4A5568;
+  padding: 8px 16px;
+  border-radius: 8px; /* פינות עגולות */
+  cursor: pointer;
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  font-size: 22px;
-
-  border-radius: 2vw;
-  align-content: center;
   align-items: center;
   justify-content: space-between;
-  width: 175px;
-  height: 60%;
-  padding: 0 10px 0 0;
-  background-color: #45b081;
+  gap: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 200px; /* רוחב מינימלי יפה */
 }
 
-.menuTrigger.active {
-  font-weight: bold;
-   background-color: #A1DBC3FF;
-  /* background-color: #e0e0e0; */
+/* הופר ואקטיב - הופך לירוק שלנו */
+.menu-trigger:hover,
+.menu-trigger.active {
+  border-color: var(--primary-color, #2D9C6C);
+  color: var(--primary-color, #2D9C6C);
+  background-color: #F0FFF4; /* רקע ירוק ממש בהיר */
 }
 
-.dropdownMenu {
+.trigger-icon {
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.trigger-text {
+  flex: 1; /* תופס את המקום באמצע */
+  text-align: right; /* עברית */
+}
+
+.trigger-arrow {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+/* התפריט הנפתח */
+.dropdown-menu {
   position: absolute;
-  width: 100%;
-  top: 80%;
-  left: 0;
+  top: 110%; /* רווח קטן מהכפתור */
+  left: 0; /* מיושר לשמאל (או ימין תלוי בעיצוב) */
+  width: 100%; /* בדיוק ברוחב של הכפתור מעליו */
   background: white;
-  border: 1px solid #ccc;
-  border-top: 0px;
-  border-radius: 0px 6px 6px 6px;
-  margin-top: 5px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  z-index: 100;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* צל יוקרתי */
+  z-index: 1001;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-out;
 }
 
-.dropdownItem {
-  padding: 10px;
+/* פריטים בתוך הרשימה */
+.dropdown-item {
+  padding: 10px 15px;
   cursor: pointer;
+  color: #2D3748;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+  text-align: right;
+  border-bottom: 1px solid #f7fafc;
 }
 
-.dropdownItem:hover {
-  background-color: #f5f5f5;
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover {
+  background-color: #F0FFF4; /* ירוק בהיר בהובר */
+  color: var(--primary-color, #2D9C6C);
+}
+
+.dropdown-item.empty {
+  color: #A0AEC0;
+  cursor: default;
+  text-align: center;
+}
+
+/* אנימציה קטנה לפתיחה */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* התאמה למובייל */
+@media (max-width: 900px) {
+  .family-menu-container {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .menu-trigger {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .dropdown-menu {
+    position: relative; /* במובייל עדיף שלא יצוף אלא יפתח למטה */
+    top: 0;
+    margin-top: 5px;
+    box-shadow: none;
+    border: 1px solid #edf2f7;
+  }
+}
+/* FamilysMenu.css */
+
+.family-menu-container {
+  position: relative;
+  display: inline-block;
+  /* יורש את הפונט מהאפליקציה (למשל Rubik) */
+  font-family: inherit; 
+}
+
+/* --- כפתור הפתיחה (הטריגר) --- */
+.menu-trigger {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #2d3748;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  min-width: 220px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.menu-trigger:hover,
+.menu-trigger.active {
+  border-color: #45b081; /* הירוק של המותג */
+  box-shadow: 0 0 0 3px rgba(69, 176, 129, 0.1); /* הילה ירוקה עדינה */
+}
+
+.trigger-text {
+  flex: 1;
+  text-align: right; /* יישור לימין לעברית */
+}
+
+/* --- הרשימה הנפתחת (הדרופ-דאון) --- */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px); /* מרווח קטן מתחת לכפתור */
+  right: 0; /* נפתח ומוצמד לימין (RTL) */
+  width: 100%; /* בדיוק ברוחב של הכפתור מעליו */
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* חשוב מאוד: דואג שזה יצוף מעל כל שאר האתר */
+  overflow: hidden;
+  animation: menuFadeIn 0.2s ease-out;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* --- פריטים בתוך הרשימה --- */
+.dropdown-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  color: #4a5568;
+  font-size: 0.95rem;
+  transition: background-color 0.2s, color 0.2s;
+  text-align: right;
+  border-bottom: 1px solid #f7fafc;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none; /* מסיר את הקו התחתון מהפריט האחרון */
+}
+
+.dropdown-item:hover {
+  background-color: #f0fff4; /* מנטה בהיר בהובר */
+  color: #45b081; /* טקסט ירוק */
+}
+
+/* מצב שאין משפחות ברשימה */
+.dropdown-item.empty {
+  color: #a0aec0;
+  cursor: default;
+  justify-content: center;
+}
+
+.dropdown-item.empty:hover {
+  background-color: transparent;
+  color: #a0aec0;
+}
+
+/* אנימציית הופעה חלקה */
+@keyframes menuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -1,48 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import ItemShoppingList from "./ItemShoppingList";
 import GroupedItems from './GroupedItems';
-import '../style/TempShoppingList.css'
 import Typing from './Typing';
+import '../style/TempShoppingList.css'; // וודא שהשם תואם
 
 const API_BASE = 'http://localhost:5000';
 
-export default function TempShoppingList({ items,isTemp,setItems }) {
-
+export default function TempShoppingList({ items, isTemp, setItems }) {
   const [totalPrice, setTotalPrice] = useState(0);
-  const [totalItems, setTotalItems] = useState(0);
-  const [uniqueItemsCount, setUniqueItemsCount] = useState(0);
-// Trackinng live changes in completion status
+
+  // חישוב סכומים בכל פעם שהרשימה משתנה
   useEffect(() => {
+    const calculateSummary = () => {
+      // מסננים רק פריטים שלא הושלמו (או כולם, תלוי בלוגיקה שלך)
+      // כאן הנחתי שרוצים לסכום את מה שצריך לקנות (completed === 0 או false)
+      const uncompletedItems = items.filter(item => !item.completed); 
+      
+      const total = uncompletedItems.reduce((sum, item) => {
+        return sum + (item.price * item.quantity);
+      }, 0);
+      
+      setTotalPrice(total);
+    };
+
     calculateSummary();
-  }, [items]); 
+  }, [items]);
 
-  const calculateSummary = () => {
-    const uncompletedItems = items.filter(item => item.completed === 0);
-    
-    const total = uncompletedItems.reduce((sum, item) => {
-      return sum + (item.price * item.quantity);
-    }, 0);
-    
-    const totalQuantity = uncompletedItems.reduce((sum, item) => {
-      return sum + item.quantity;
-    }, 0);
-
-    setTotalPrice(total);
-    setTotalItems(totalQuantity);
-    setUniqueItemsCount(uncompletedItems.length);
-  };
-
- /**
-   * Deletes an item from the backend and updates the local state.
-   *
-   * @param {number} itemId - The ID of the item to delete.
-   */
+  // מחיקת פריט
   const deleteItem = (itemId) => {
     fetch(`${API_BASE}/Shopping/item/${itemId}`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
     })
       .then((res) => res.json())
       .then(() => {
@@ -51,43 +38,44 @@ export default function TempShoppingList({ items,isTemp,setItems }) {
       .catch((err) => console.error("Error deleting item:", err));
   };
 
-const updateItem = (id, newData) => {
+  // עדכון פריט
+  const updateItem = (id, newData) => {
     setItems(prevItems =>
-        prevItems.map(item =>
-            item.itemId === id ? { ...item, ...newData } : item
-        )
+      prevItems.map(item =>
+        item.itemId === id ? { ...item, ...newData } : item
+      )
     );
-};
+  };
 
-  // Group items by department
+  // קיבוץ לפי מחלקות
   const groupedItems = items.reduce((groups, item) => {
     const dept = item.department || 'לא מסווג'; 
-    if (!groups[dept]) {
-      groups[dept] = [];
-    }
+    if (!groups[dept]) groups[dept] = [];
     groups[dept].push(item);
     return groups;
   }, {});
 
-    return (
-    <div className='board'>
-      <div className='flex'>
-        <h2 className='textCenter shoppingListTitle'>
+  return (
+    <div className='board-container'>
+      <div className='board-header'>
+        <h2 className='shoppingListTitle'>
           {isTemp
-            ? <Typing text={['רשימת קניות', 'כדורגל עם חברים', 'ערב תה עם הבנות', 'ערב זוגי בבית']} />
+            ? <Typing text={['רשימת קניות', 'ערב פיצה 🍕', 'על האש בשבת 🥩', 'קניות לבית 🏠']} />
             : 'רשימת קניות'}
         </h2>
+      </div>
 
-        <div className='board-items scrollable'>
-                    <GroupedItems
+      <div className='board-content scrollable-area'>
+        <GroupedItems
             groupedItems={groupedItems}
             deleteItem={deleteItem}
             updateItem={updateItem}
-          />
-            <div className="total-amount">
-              סה״כ לתשלום: {totalPrice.toFixed(2)}₪
-            </div>
-        </div>
+        />
+      </div>
+
+      <div className="board-footer">
+        <div className="total-label">סה״כ לתשלום:</div>
+        <div className="total-value">{totalPrice.toFixed(2)} ₪</div>
       </div>
     </div>
   );

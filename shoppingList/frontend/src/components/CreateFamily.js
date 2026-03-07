@@ -21,7 +21,8 @@ import {
 // Styles
 import '../style/CreateFamily.css';
 
-export default function CreateFamily({ User,setFamilysApp }) {
+export default function CreateFamily({ User, setFamilysApp }) {
+    // ... (כל הלוגיקה נשארת זהה לחלוטין - מעתיק רק את ה-Return) ...
     const [families, setFamilies] = useState([]);
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyId, setSelectedFamilyId] = useState('');
@@ -35,12 +36,11 @@ export default function CreateFamily({ User,setFamilysApp }) {
             navigate('/', { replace: true });
             return;
         }
-
         loadUserFamilies();
     }, [User]);
 
     useEffect(() => {
-     setFamilysApp(families)
+        setFamilysApp(families)
     }, [families]);
 
     const loadUserFamilies = async () => {
@@ -56,7 +56,6 @@ export default function CreateFamily({ User,setFamilysApp }) {
 
     const handleCreateFamily = async () => {
         if (!newFamilyName.trim()) return;
-
         try {
             const res = await createFamily(User.userId, newFamilyName);
             if (res.data.success) {
@@ -75,7 +74,6 @@ export default function CreateFamily({ User,setFamilysApp }) {
             const res = await getFamilyMembers(familyId);
             if (res.data.success && Array.isArray(res.data.data)) {
                 setFamilyMembers(res.data.data);
-                
                 setSelectedFamilyId(familyId);
             }
         } catch (error) {
@@ -86,7 +84,6 @@ export default function CreateFamily({ User,setFamilysApp }) {
     const handleDeleteFamily = async (familyId) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this family?');
         if (!confirmDelete) return;
-
         try {
             await deleteFamily(familyId);
             setFamilies(prev => prev.filter(f => f.familyId !== familyId));
@@ -94,7 +91,6 @@ export default function CreateFamily({ User,setFamilysApp }) {
                 setFamilyMembers([]);
                 setSelectedFamilyId('');
             }
-            alert('Family deleted successfully.');
         } catch (error) {
             console.error('Error deleting family:', error);
         }
@@ -102,7 +98,6 @@ export default function CreateFamily({ User,setFamilysApp }) {
 
     const handleAddFamilyMember = async () => {
         if (!newMemberEmail.trim()) return;
-
         try {
             const res = await addFamilyMember(newMemberEmail, selectedFamilyId);
             if (res.data.success && res.data.userName && res.data.role && res.data.userId) {
@@ -120,11 +115,11 @@ export default function CreateFamily({ User,setFamilysApp }) {
     };
 
     const handleDeleteFamilyMember = async (MemberFamilyId) => {
+        // ... הלוגיקה שלך נשארת ...
         const confirmDelete = window.confirm('Are you sure you want to delete this family Member?');
         let userId = MemberFamilyId;
         if (!confirmDelete) return;
-        console.log("MemberFamilyId", userId);
-        console.log("MemberFamilyId", User.userId);
+
         if (userId === User.userId) {
             const confirmDeleteFamily = window.confirm('You are the manager. Would you like to delete this family?');
             if (confirmDeleteFamily) {
@@ -132,15 +127,9 @@ export default function CreateFamily({ User,setFamilysApp }) {
                 return;
             }
         }
-
         try {
             await deleteFamilyMember(selectedFamilyId, userId);
             setFamilyMembers(prev => prev.filter(f => f.userId !== userId));
-            //   if (selectedFamilyId === familyId) {
-            //     setFamilyMembers([]);
-            //     setSelectedFamilyId('');
-            //   }
-            // alert('Family deleted successfully.');
         } catch (error) {
             console.error('Error deleting family:', error);
         }
@@ -148,38 +137,37 @@ export default function CreateFamily({ User,setFamilysApp }) {
 
 
     const handleUpdateFamilyMember = async (MemberFamilyId) => {
-
-
         let userId = MemberFamilyId;
         try {
             await updateFamilyMember(selectedFamilyId, userId);
         } catch (error) {
             console.error('Error deleting family:', error);
         }
-
-
     };
-
-
 
     return (
         <div className="familyManagementBord">
-            <div className="Bord">
-                <div className='bordMarge'>
-                    <h1>Family</h1>
-                    <div className='addFamilyDiv'>
+            <div className="management-container">
+
+                {/* --- כרטיס משפחות --- */}
+                <div className="management-card">
+                    <div className="card-header">
+                        <h1>My Families</h1>
+                    </div>
+
+                    <div className="compact-input-group">
                         <input
-                            className='itemInput'
+                            className="compact-input"
                             value={newFamilyName}
                             onChange={e => setNewFamilyName(e.target.value)}
-                            placeholder='Enter Family Name...'
+                            placeholder="Enter new family name..."
                         />
-                        <div className="addFamily" onClick={handleCreateFamily}>
-                            <div>Create Family</div>
-                            <BsJournalPlus />
-                        </div>
+                        <button className="compact-add-btn" onClick={handleCreateFamily}>
+                            <BsJournalPlus size={20} />
+                        </button>
                     </div>
-                    <div className="familys">
+
+                    <div className="list-container familys">
                         {families.map(family => (
                             <ItemFamily
                                 key={family.familyId}
@@ -191,24 +179,36 @@ export default function CreateFamily({ User,setFamilysApp }) {
                         ))}
                     </div>
                 </div>
-            </div>
 
-            <div className="Bord">
-                <div className='bordMarge'>
-                    <h1>Members</h1>
-                    <div className='addFamilyDiv'>
+                {/* --- כרטיס חברים --- */}
+                <div className="management-card">
+                    <div className="card-header">
+                        <h1>Members {selectedFamilyId && <span style={{ fontSize: '0.6em', color: '#888' }}>(Selected)</span>}</h1>
+                    </div>
+
+                    <div className={`compact-input-group ${!selectedFamilyId ? 'disabled-group' : ''}`}>
                         <input
-                            className='itemInput'
+                            className="compact-input"
                             value={newMemberEmail}
                             onChange={e => setNewMemberEmail(e.target.value)}
-                            placeholder='Enter member email...'
+                            placeholder="Enter member email..."
+                            disabled={!selectedFamilyId}
                         />
-                        <div className="addFamily" onClick={handleAddFamilyMember}>
-                            <div>Add Member</div>
-                            <LiaUserPlusSolid />
-                        </div>
+                        <button
+                            className="compact-add-btn"
+                            onClick={handleAddFamilyMember}
+                            disabled={!selectedFamilyId}
+                        >
+                            <LiaUserPlusSolid size={20} />
+                        </button>
                     </div>
-                    <div className="familys">
+
+                    <div className="list-container familys">
+                        {!selectedFamilyId && (
+                            <div style={{ textAlign: 'center', color: '#aaa', marginTop: '20px' }}>
+                                Select a family to manage members
+                            </div>
+                        )}
                         {familyMembers.map((member, index) => (
                             <MemberFamily
                                 key={index}
@@ -220,6 +220,7 @@ export default function CreateFamily({ User,setFamilysApp }) {
                         ))}
                     </div>
                 </div>
+
             </div>
         </div>
     );

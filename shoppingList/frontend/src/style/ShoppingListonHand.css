@@ -1,114 +1,206 @@
-.on-hand-container {
-    font-family: "Calibri Light", "Calibri", sans-serif;
-    padding: 2rem;
+/* ShoppingList.css */
+
+/* הקונטיינר הראשי של כל העמוד */
+.shopping-list-page {
+    min-height: calc(100vh - 80px);
+    background-color: #f8f9fa;
+    padding: 30px;
+    font-family: 'Rubik', sans-serif; /* או הפונט שבחרת */
     direction: rtl;
-    text-align: center;
 }
 
-.item-grid {
+.shopping-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-    grid-column: 1 / -1;
+    grid-template-columns: 2fr 1fr; /* הרשימה רחבה (2), ההוספה צרה (1) */
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: start; /* שהקופסאות לא יימתחו בכוח לגובה */
 }
 
-.empty-list{
-    font-family: "Calibri Light", "Calibri", sans-serif;
-    textAlign: center;
+/* עיצוב הכרטיסים (Cards) */
+.list-card, .add-item-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eaeaea;
+    overflow: hidden; /* שומר שהתוכן לא יגלוש מהפינות */
 }
 
-.grid-title {
-    grid-column: 1 / -1; /* מתפרס על כל העמודות */
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: bold;
+.list-card {
+    min-height: 600px; /* גובה מינימלי לרשימה */
+    padding: 30px;
 }
 
-.cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* or flex-start */
-    gap: 2rem;
-    margin-top: 2rem;
+.add-item-card {
+    padding: 25px;
+    position: sticky; /* כדי שזה יישאר איתנו כשגוללים את הרשימה */
+    top: 30px;
 }
 
-.item-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* pushes button to the bottom */
-    min-height: 280px;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    padding: 16px;
-    margin: 0;
-    max-width: 600px;
-    background: #fafafa;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    width: 220px;
-}
-
-.check {
-    font-size: 1.5rem;
-    margin-left: 1rem;
-    color: darkgreen;
-}
-
-.item-details {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+/* כותרות */
+.card-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
     text-align: right;
 }
-.item-name {
-    font-weight: bold;
-    font-family: "Calibri Light", "Calibri", sans-serif;
-    font-size: 25px;
-    margin-bottom: 4px;
-}
 
-.item-sub {
-    font-family: "Calibri Light", "Calibri", sans-serif;
-    font-size: 18px;
-    color: #444;
-    direction: rtl;
-}
-.return-button {
-    margin-top: 10px;
-    padding: 6px 10px;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.on-hand-image {
-    max-width: 100px;
-    height: auto;
-    border-radius: 8px;
-    object-fit: cover;
-    display: block;
-    margin: 0 auto; /* center it */
-}
-.item-content {
+/* --- עיצוב טופס הוספה (AddItem) --- */
+.add-item-form {
     display: flex;
-    flex-direction: row-reverse; /* RTL: image on right */
-    align-items: center;
-    gap: 16px;
+    flex-direction: column;
+    gap: 15px;
+    position: relative; /* חשוב עבור ה-Autocomplete */
 }
 
-.reverse-item-completed {
-    background-color: #f5f5f5;
-    color: #333;
-    border: 1px solid #ccc;
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #718096;
+}
+
+.modern-input {
+    padding: 12px;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    margin-top: 12px;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.2s;
+    background-color: #fcfcfc;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.reverse-item-completed:hover {
-    background-color: #e0e0e0;
+.modern-input:focus {
+    border-color: #45b081;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(69, 176, 129, 0.1);
+}
+
+/* Autocomplete List - צף מעל */
+.autocomplete-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 50; /* שיהיה מעל הכל */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.autocomplete-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f7fafc;
+    transition: background 0.2s;
+}
+
+.autocomplete-item:hover {
+    background-color: #f0fff4;
+}
+
+.autocomplete-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: 4px;
+    background: white;
+}
+.shopping-grid-add {
+    display: flex;
+}
+
+/* תצוגה מקדימה של מוצר שנבחר */
+.selected-preview {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #f0fff4;
+    border: 1px solid #c6f6d5;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.preview-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    background: white;
+    border-radius: 6px;
+    padding: 2px;
+}
+
+/* כפתורים */
+.actions-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-save {
+    flex: 1;
+    background-color: #45b081;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-save:hover {
+    background-color: #38a169;
+}
+
+.btn-cancel {
+    background-color: #edf2f7;
+    color: #4a5568;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+    background-color: #e2e8f0;
+}
+
+/* רספונסיביות */
+@media (max-width: 900px) {
+    .shopping-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .shopping-list-page {
+        padding: 15px;
+    }
 }

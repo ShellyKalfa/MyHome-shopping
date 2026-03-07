@@ -1,0 +1,220 @@
+/* Signup.css */
+
+/* קונטיינר ראשי - תופס מסך מלא */
+.signup-page-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  font-family: 'Rubik', sans-serif;
+  background-color: #ffffff;
+  direction: ltr;
+}
+
+/* --- צד שמאל: מיתוג (הפכנו צדדים לגיוון או שמרנו אותו דבר) --- */
+/* כאן שמרתי אותו בצד שמאל כמו בלוגין לאחידות */
+.signup-hero-section {
+  flex: 1;
+  background-color: #E8F5E9; /* ירוק בהיר */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 40px;
+}
+
+/* אלמנט קישוטי ברקע */
+.signup-hero-section::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: rgba(45, 156, 108, 0.08);
+  border-radius: 50%;
+  bottom: -100px;
+  left: -100px;
+}
+
+.hero-content {
+  text-align: center;
+  z-index: 2;
+  max-width: 450px;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  color: #2D3748;
+  margin-bottom: 1rem;
+  font-weight: 800;
+}
+
+.hero-subtitle {
+  color: #718096;
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+/* --- צד ימין: הטופס --- */
+.signup-form-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: white;
+  overflow-y: auto; /* למקרה שהמסך נמוך */
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 420px; /* זה מה שמונע מהטופס להימרח לרוחב! */
+}
+
+.form-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.form-header h2 {
+  font-size: 2rem;
+  color: #1A202C;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.form-header p {
+  color: #A0AEC0;
+}
+
+/* --- שדות --- */
+.form-group {
+  margin-bottom: 15px; /* רווח קטן יותר בגלל שיש יותר שדות */
+}
+
+.form-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4A5568;
+  margin-bottom: 6px;
+}
+
+.input-container {
+  position: relative;
+}
+
+.custom-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.2s;
+  background-color: #F7FAFC;
+  box-sizing: border-box; /* חשוב מאוד */
+}
+
+.custom-input:focus {
+  outline: none;
+  border-color: #2D9C6C;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(45, 156, 108, 0.1);
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #718096;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* --- כפתור הרשמה --- */
+.signup-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #2D9C6C;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0 4px 6px rgba(45, 156, 108, 0.2);
+  margin-top: 10px;
+}
+
+.signup-btn:hover {
+  background-color: #227a53;
+  transform: translateY(-1px);
+}
+
+/* --- שגיאות --- */
+.error-message {
+  background-color: #FFF5F5;
+  color: #C53030;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  border: 1px solid #FEB2B2;
+  text-align: center;
+}
+
+/* --- מפריד --- */
+.separator {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: #A0AEC0;
+  font-size: 0.9rem;
+}
+
+.line {
+  flex: 1;
+  height: 1px;
+  background-color: #E2E8F0;
+}
+
+.separator span {
+  padding: 0 10px;
+}
+
+/* --- גוגל ולינק ללוגין --- */
+.google-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.login-redirect {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #4A5568;
+}
+
+.login-link {
+  color: #2D9C6C;
+  text-decoration: none;
+  font-weight: 700;
+  margin-left: 5px;
+}
+
+/* --- מובייל --- */
+@media (max-width: 900px) {
+  .signup-hero-section {
+    display: none;
+  }
+  
+  .signup-form-section {
+    padding: 20px;
+  }
+}

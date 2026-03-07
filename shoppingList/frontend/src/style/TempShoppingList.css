@@ -1,181 +1,132 @@
-h2 {
-    font-size: 3rem;
+/* TempShoppingList.css */
+
+/* הקונטיינר הראשי - הכרטיס הלבן */
+.board-container {
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column; /* מסדר כותרת, תוכן, וסיכום אחד מתחת לשני */
+  justify-content: space-between;
+  border-radius: 24px;
+  /* אין צורך בבורדר וצל כאן כי הם מגיעים מה-MainPage, אבל אם תשתמש ברכיב בנפרד תוסיף פה */
+  overflow: hidden; /* שומר שהתוכן לא יצא מהפינות העגולות */
+  direction: rtl;
+  font-family: 'Rubik', sans-serif;
+  position: relative;
 }
 
-.ShoppingList {
-    width: 100%;
-    height: 100%;
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
+/* --- כותרת --- */
+.board-header {
+  padding: 20px 25px;
+  background-color: #ffffff;
+  border-bottom: 2px dashed #E2E8F0; /* קו מקווקו כמו מחברת */
+  z-index: 10;
 }
 
-.flex {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.shoppingListTitle {
+  font-size: 2rem;
+  margin: 0;
+  color: #2D3748;
+  text-align: center;
+  font-weight: 700;
 }
 
-.board {
-    width: 100%;
-    height: 80%;
-    background-color: #fefdfb;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 2vw;
-    padding: 1vw;
-    color: #354147;
-    direction: rtl;
-
-
+/* --- איזור הגלילה (הרשימה) --- */
+.board-content {
+  flex: 1; /* לוקח את כל הגובה הפנוי */
+  overflow-y: auto; /* מאפשר גלילה רק כאן */
+  padding: 15px 20px;
 }
 
-.board-items {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 3vh;
-
-
+/* עיצוב פס הגלילה (Chrome/Safari/Edge) - שיראה מקצועי */
+.scrollable-area::-webkit-scrollbar {
+  width: 6px;
 }
 
-.scrollable {
-    /* height: 300px;  */
-    overflow-y: auto;
-    /* border: 1px solid #ccc; */
-    padding: 10px;
+.scrollable-area::-webkit-scrollbar-track {
+  background: #f1f1f1; 
 }
 
+.scrollable-area::-webkit-scrollbar-thumb {
+  background: #cbd5e0; 
+  border-radius: 10px;
+}
+
+.scrollable-area::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0; 
+}
+
+/* --- איזור הסיכום למטה --- */
+.board-footer {
+  padding: 20px 25px;
+  background-color: #F7FAFC; /* רקע אפרפר עדין */
+  border-top: 1px solid #E2E8F0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-label {
+  font-size: 1.1rem;
+  color: #718096;
+  font-weight: 500;
+}
+
+.total-value {
+  font-size: 1.5rem;
+  color: #2D9C6C; /* הירוק של המותג */
+  font-weight: bold;
+}
+
+/* --- עיצוב פריטים כללי (לילדים) --- */
+/* אלה מחלקות שמשמשות את GroupedItems ו-ItemShoppingList */
+
+/* כותרת של מחלקה (למשל: "מוצרי חלב") */
+.department-title {
+  font-size: 1rem;
+  color: #A0AEC0;
+  margin-top: 15px;
+  margin-bottom: 8px;
+  padding-right: 5px;
+  font-weight: 500;
+}
+
+/* שורת פריט בודד */
 .ItemShoppingList {
-    width: 100%;
-    display: grid;
-    flex-direction: row;
-    font-size: 2rem;
-    gap: 10px;
-    margin-bottom: 3vh;
-    text-align: center;
+  display: flex; /* שיניתי מ-grid ל-flex כי זה יותר גמיש */
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #edf2f7;
+  transition: background-color 0.2s;
 }
 
-.amountItem {
-
-    font-size: 1rem;
-    text-align: center;
-    /* color: wheat;
-    border-radius: 3vw; */
-    grid-column: 2;
-    grid-row: 2;
+.ItemShoppingList:hover {
+  background-color: #fafafa;
 }
 
-.priceItem {
-
-    font-size: 1rem;
-    text-align: center;
-    /* color: wheat;
-    border-radius: 3vw; */
-    grid-column: 2;
-    grid-row: 3;
-}
-
-.departmentItem {
-
-    font-size: 1rem;
-    text-align: center;
-    /* color: wheat;
-    border-radius: 3vw; */
-    grid-column: 2;
-    grid-row: 4;
-}
-
-.total-amount {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #333;
-    margin-top: 10px;
-    direction: rtl;
-
-}
-
-
-.dateItem {
-
-    font-size: 1rem;
-    text-align: center;
-    /* color: wheat;
-    border-radius: 3vw; */
-    grid-column: 2;
-    grid-row: 5;
-}
-
-.circle {
-    grid-column: 1;
-    /* grid-row: 1 /2; */
-    grid-row-start: 1;
-    grid-row-end: 3;
-    display: flex;
-    align-items: center;
-
-}
-
-.itemText {
-    grid-column: 2;
-    grid-row: 1;
-    direction: rtl;
-}
-
-.listItem {
-    display: grid;
-    grid-column: 2;
-}
-
-.uncheck {
-    color: #414848;
-}
-
-.bigButton {
-    background-color: #45b081;
-    color: white;
-    width: 90%;
-    height: 5vh;
-    font-size: 1.6em;
-    font-weight: bold;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.crossText {
-    text-decoration: line-through;
-
-}
-
-.image {
-    grid-column: 2;
-    display: flex;
-    align-items: center;
-    width: 50px;
-    height: 'auto';
-}
-.imageList {
-    width: 70px;
-    grid-column: 3;
+.item-left-side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .productName {
-    grid-column: 1;
-    width: 15vw;
-    display: flex;
-    align-items: center;
-    font-size: 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #2D3748;
 }
 
+.item-meta {
+  display: flex;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: #718096;
+}
 
-
-.deleteEdit{
-    grid-column: 4;
+/* אם הפריט הושלם - קו חוצה */
+.completed-item .productName {
+  text-decoration: line-through;
+  color: #cbd5e0;
 }

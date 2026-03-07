@@ -1,63 +1,37 @@
 import React, { useState } from "react";
 import axios from 'axios';
-
-import { ImRadioUnchecked, ImCheckmark } from "react-icons/im";
-import { MdCheckCircle, MdEdit } from "react-icons/md";
-import { BsTrash } from "react-icons/bs";
-import '../style/TempShoppingList.css';
+import { FiCheck, FiCircle, FiCheckCircle, FiTrash2, FiEdit2, FiX } from "react-icons/fi";
+import '../style/ItemShoppingList.css';
 
 const API_BASE = 'http://localhost:5000/Shopping';
 
 export default function ItemShoppingList({ item, deleteItem, updateItem }) {
+    // State definitions
     const [newItem, setNewItem] = useState(item.itemName);
     const [itemPriceAPI, setItemPriceAPI] = useState(item.price);
     const [itemDepartment, setItemDepartment] = useState(item.department);
     const [itemImage, setItemImage] = useState(item.image || "");
     const [isEdit, setIsEdit] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
+    
+    // סטייט חדש לטיפול בתמונות שבורות
+    const [imageError, setImageError] = useState(false);
+
     const [isAmountEdit, setIsAmountEdit] = useState(false);
     const [newAmount, setNewAmount] = useState(item.quantity);
 
-    const onEdit = () => {
-        setIsEdit(true);
-        setNewItem('');
-        setSuggestions([]);
-    };
+    // --- Handlers ---
+    const onEdit = () => { setIsEdit(true); setNewItem(item.itemName); setSuggestions([]); };
+    const onSave = () => { renameItem(); }; 
+    const onCancelEdit = () => { setIsEdit(false); setIsAmountEdit(false); };
 
-    const onSave = () => {
-        setIsEdit(false);
-        renameItem();
-    };
+    const onDelete = () => { deleteItem(item.itemId); };
 
-    const onDelete = () => {
-        deleteItem(item.itemId);
-    };
-
-    const amountEdit = () => {
-        setIsAmountEdit(true);
-        setNewAmount(item.quantity);
-    };
-
-    const amountSave = () => {
-        changeAmount();
-        setIsAmountEdit(false);
-    };
-
-    // NEW toggleCompleted function - edited by idoaz1 in 10/6/2025
     const toggleCompleted = async () => {
         try {
             const newCompletedStatus = item.completed === 0 ? 1 : 0;
-
-            const response = await axios.patch(`${API_BASE}/item/${item.itemId}`, {
-                completed: newCompletedStatus
-            });
-
-            if (updateItem) {
-                updateItem(item.itemId, {
-                    ...item,
-                    completed: newCompletedStatus
-                });
-            }
+            if (updateItem) updateItem(item.itemId, { ...item, completed: newCompletedStatus });
+            await axios.patch(`${API_BASE}/item/${item.itemId}`, { completed: newCompletedStatus });
         } catch (err) {
             console.error('Failed to update item status:', err);
         }
@@ -66,43 +40,40 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
     const handleAutoComplete = (event) => {
         const text = event.target.value;
         setNewItem(text);
-
         if (text.length > 1) {
-            axios.post(`${API_BASE}/search`, {
-                aggs: 1,
-                q: text,
-                store: 331
-            })
+            axios.post(`${API_BASE}/search`, { aggs: 1, q: text, store: 331 })
                 .then(res => {
-                    if (res.data && res.data.data) {
-                        const results = res.data.data.map(product => ({
-                            productName: product.name,
-                            productPrice: product.price.price,
-                            productCategory: product.department?.name || "כללי",
-                            productImage: product.images.small || ""
+                    if (res.data?.data) {
+                        const results = res.data.data.map(p => ({
+                            productName: p.name,
+                            productPrice: p.price.price,
+                            productCategory: p.department?.name || "כללי",
+                            productImage: p.images.small || ""
                         }));
                         setSuggestions(results.slice(0, 10));
                     }
                 })
-                .catch(err => console.error("Autocomplete from API error", err));
+                .catch(err => console.error("Autocomplete error", err));
         } else {
             setSuggestions([]);
         }
     };
 
+    const handleSuggestionClick = (product) => {
+        setItemPriceAPI(parseFloat(product.productPrice));
+        setNewItem(product.productName);
+        setItemDepartment(product.productCategory);
+        setItemImage(product.productImage);
+        setImageError(false); // איפוס שגיאת תמונה אם נבחר מוצר חדש
+        setSuggestions([]);
+    };
+
     const renameItem = async () => {
         const newName = newItem?.trim();
-        if (!newName) {
-            setItemPriceAPI(parseFloat(item.price));
-            setNewItem(item.itemName);
-            setItemDepartment(item.department);
-            setItemImage(item.image);
-            setSuggestions([]);
-            return;
-        }
+        if (!newName) return onCancelEdit();
 
         try {
-            const res = await fetch(`${API_BASE}/item/${item.itemId}/name`, {
+            await fetch(`${API_BASE}/item/${item.itemId}/name`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -113,135 +84,128 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
                     listId: item.listId
                 })
             });
-
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error);
-
-            setNewItem(newName);
+            updateItem(item.itemId, { 
+                itemName: newName, price: itemPriceAPI, department: itemDepartment, image: itemImage 
+            });
             setIsEdit(false);
-            setSuggestions([]);
-
-            if (typeof updateItem === 'function') {
-                updateItem(item.itemId, {
-                    itemName: newName,
-                    price: itemPriceAPI,
-                    department: itemDepartment,
-                    image: itemImage,
-                });
-            }
-        } catch (err) {
-            alert("Error updating item: " + err.message);
-        }
+        } catch (err) { alert("Error: " + err.message); }
     };
 
-    const changeAmount = async () => {
-        const quantity = parseInt(newAmount);
-        if (isNaN(quantity) || quantity <= 0) {
-            alert("Please enter a valid amount.");
-            return;
-        }
+    const changeAmount = async (e) => {
+        const quantity = parseInt(e.target.value);
+        if (isNaN(quantity) || quantity <= 0) return;
+        setNewAmount(quantity); 
 
         try {
-            const res = await fetch(`${API_BASE}/item/${item.itemId}/quantity`, {
+            await fetch(`${API_BASE}/item/${item.itemId}/quantity`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ quantity }),
             });
-
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error);
-
-            setNewAmount(quantity);
-            if (typeof updateItem === "function") {
-                updateItem(item.itemId, { quantity });
-            }
-        } catch (err) {
-            alert("Failed to update amount: " + err.message);
-        }
+            updateItem(item.itemId, { quantity });
+        } catch (err) { console.error(err); }
     };
 
-    const handleOnClick = (product) => {
-        setItemPriceAPI(parseFloat(product.productPrice));
-        setNewItem(product.productName);
-        setItemDepartment(product.productCategory);
-        setItemImage(product.productImage);
-        setSuggestions([]);
+    // --- לוגיקה חדשה לתמונות ---
+    const getFinalImageUrl = () => {
+        const img = itemImage || item.image;
+        if (!img) return null; // אם אין תמונה, מחזיר null
+        return img.startsWith('http') ? img : `https://img.rami-levy.co.il${img}`;
     };
 
-
+    const imageUrl = getFinalImageUrl();
+    const shouldShowImage = imageUrl && !imageError; // מציג רק אם יש URL ואין שגיאת טעינה
 
     return (
-        <div className="ItemShoppingList">
-            <div onClick={toggleCompleted}>
-                {item.completed ? <MdCheckCircle /> : <ImRadioUnchecked />}
+        <div className={`shopping-item-row ${item.completed ? 'completed' : ''} ${isEdit ? 'editing' : ''}`}>
+            
+            {/* חלק 1: צ'קבוקס ותמונה */}
+            <div className="item-start">
+                <div className="checkbox-wrapper" onClick={toggleCompleted}>
+                    {item.completed 
+                        ? <FiCheckCircle className="icon-checked" /> 
+                        : <FiCircle className="icon-unchecked" />}
+                </div>
+                
+                {/* התמונה מוצגת רק אם התנאי מתקיים */}
+                {shouldShowImage && (
+                    <div className="image-wrapper">
+                        <img 
+                            src={imageUrl} 
+                            alt="product" 
+                            onError={() => setImageError(true)} // מסתיר את התמונה אם הלינק שבור
+                        />
+                    </div>
+                )}
             </div>
 
-            <div className="listItem">
-                <div className={`itemText ${item.completed ? 'crossText' : ''}`} dir="auto">
+            {/* חלק 2: מידע מרכזי */}
+            <div className="item-center">
+                <div className="item-primary-row">
                     {isEdit ? (
-                        <div className="autocomplete-wrapper">
-                            <input
+                        <div className="edit-name-wrapper">
+                            <input 
+                                className="edit-input name-input"
                                 value={newItem}
                                 onChange={handleAutoComplete}
-                                placeholder="עדכון מוצר"
+                                placeholder="שם מוצר..."
+                                autoFocus
                             />
-                            {(suggestions.length > 0 && newItem.length > 1 &&
-                                newItem.trim().toLowerCase() !== item.itemName.trim().toLowerCase()) ? (
-                                <ul className="autocomplete-list  listEdit">
-                                    {suggestions.map((product, idx) => (
-                                        <li key={idx} onClick={() => handleOnClick(product)}>
-                                            <div className="productName">{product.productName}</div>
-                                            <img className="image"
-                                                src={`https://img.rami-levy.co.il${product.productImage}`}
-                                                alt="failed to present image"
-
-                                            />
+                            {suggestions.length > 0 && (
+                                <ul className="suggestions-dropdown">
+                                    {suggestions.map((s, i) => (
+                                        <li key={i} onClick={() => handleSuggestionClick(s)}>
+                                            {/* הצגת תמונה בהצעות רק אם יש */}
+                                            {s.productImage && (
+                                                 <img src={`https://img.rami-levy.co.il${s.productImage}`} alt="" />
+                                            )}
+                                            <span>{s.productName}</span>
                                         </li>
                                     ))}
                                 </ul>
-                            ) : null}
+                            )}
                         </div>
                     ) : (
-                        item.itemName
+                        <span className="product-name" onClick={toggleCompleted}>{item.itemName}</span>
                     )}
                 </div>
 
+                <div className="item-meta-row">
+                    <div className="quantity-badge">
+                        <input 
+                            type="number" 
+                            className="qty-input"
+                            value={newAmount}
+                            onChange={(e) => setNewAmount(e.target.value)}
+                            onBlur={changeAmount} 
+                            onKeyDown={(e) => e.key === 'Enter' && changeAmount(e)}
+                        />
+                        <span className="qty-label">יח׳</span>
+                    </div>
+                    <span className="separator">•</span>
+                    <span className="department-tag">{itemDepartment || "כללי"}</span>
+                </div>
+            </div>
 
+            {/* חלק 3: מחיר ופעולות */}
+            <div className="item-end">
+                <div className="price-tag">
+                    {(itemPriceAPI * newAmount).toFixed(2)} ₪
+                </div>
 
-                <div className="amountItem">
-                    {isAmountEdit ? (
-                        <div className="amountEditWrapper">
-                            <input
-                                type="number"
-                                value={newAmount}
-                                onChange={(e) => setNewAmount(e.target.value)}
-                                placeholder="Enter amount"
-                                className="amountInput"
-                            />
-                            <ImCheckmark onClick={amountSave} />
-                        </div>
+                <div className="actions-hover">
+                    {isEdit ? (
+                        <>
+                            <button onClick={onSave} className="action-btn save-btn"><FiCheck /></button>
+                            <button onClick={onCancelEdit} className="action-btn cancel-btn"><FiX /></button>
+                        </>
                     ) : (
                         <>
-                            כמות: {item.quantity} <MdEdit onClick={amountEdit} />
+                            <button onClick={onEdit} className="action-btn edit-btn"><FiEdit2 /></button>
+                            <button onClick={onDelete} className="action-btn delete-btn"><FiTrash2 /></button>
                         </>
                     )}
                 </div>
-                <div className="priceItem">
-                    מחיר: {itemPriceAPI} ({(itemPriceAPI * newAmount).toFixed(2)}₪)
-                </div>
-                <div className="departmentItem">
-                    מחלקה: {itemDepartment}
-                </div>
-            </div>
-            <img
-                src={itemImage ? `https://img.rami-levy.co.il${itemImage}` : `https://img.rami-levy.co.il${item.image}`}
-                alt="Item"
-                className="image imageList"
-            />
-
-            <div className="deleteEdit">
-                {isEdit ? <ImCheckmark onClick={onSave} /> : <MdEdit onClick={onEdit} />}
-                <div onClick={onDelete}><BsTrash /></div>
             </div>
         </div>
     );

@@ -1,145 +1,139 @@
-.NavigationBar{
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  flex-direction: row;
+
+
+.NavigationBar {
   width: 100%;
-  height: 10vh;
-  text-decoration:none;
-  text-align: center;
-}
-
-.homelogo{
-    width: 200px;
-    height: auto;
-}
-
-.nav{
-    width: 70%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-content: center;
-    align-items: center;
-    padding: 10px;
-
-}
-
-.links{
-    padding: 10px;
-    color:black;
-    font-size: 20px;
-    color: #201f20;
-    font-family: "Calibri Light", "Calibri", sans-serif;
-    border-radius: 2vw;
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
-    justify-content: space-between;
-    width: 175px;
-    height: 60%;
-    padding: 0 10px 0 0;
-    background-color: #45b081;
-}
-
-.Link.active {
-  border-bottom: 2px solid black; /* The line indicating the current route */
-  font-weight: bold;
-}
-
-.familysMenu{
-    font-family: "Calibri Light", "Calibri", sans-serif;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 100%;
-}
-
-.section-sign-up{
-  font-family: "Calibri Light", "Calibri", sans-serif;
-  font-size: 25px;
-  color: #201f20;
-  background-color: #d9eee1;
-  border-radius: 2vw;
+  height: 80px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* צל עדין ומודרני */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   display: flex;
-  flex-direction: row;
-  align-content: center;
   align-items: center;
+  font-family: 'Rubik', 'Assistant', sans-serif;
+}
+
+.navbar-container {
+  width: 100%;
+  max-width: 1400px; /* רוחב מקסימלי כדי שלא יימרח במסכים ענקיים */
+  margin: 0 auto;
+  padding: 0 30px;
+  display: flex;
   justify-content: space-between;
-  width: fit-content;
-  height: 60%;
-  padding: 0 10px 0 0;
-
+  align-items: center;
 }
 
-.toggle-tab {
-    padding: 10px 20px;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    background-color: transparent;
-    color: black;
-    height: 70%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* לוגו */
+.homelogo {
+  height: 50px; /* גודל קבוע ולוגי */
+  object-fit: contain;
+  transition: transform 0.2s;
 }
 
-.toggle-tab.active {
-    background-color: #45b081;
-    color: white;
+.homelogo:hover {
+  transform: scale(1.05);
 }
 
-.welcomeFlex{
-    font-family: "Calibri Light", "Calibri", sans-serif;
-    display: flex;
-    width: 20vw;
-    justify-content: space-evenly;
-    height: 100%;
-
-}
-.family-selector {
-    font-family: "Calibri Light", "Calibri", sans-serif;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+/* אזור התפריטים בצד ימין */
+.nav-items {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* רווח בין האלמנטים */
 }
 
-.family-dropdown {
-    font-family: "Calibri Light", "Calibri", sans-serif;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    appearance: none; /* Optional for customizing look */
+/* לינק רגיל (מרכז הפיקוד) */
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
-.family-link {
-    font-family: "Calibri Light", "Calibri", sans-serif;
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
-    border-radius: 4px;
-    background-color: white;
-    border: 1px solid #ccc;
-    color: #333;
-    font-size: 14px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+.nav-link:hover, .nav-link.active-link {
+  background-color: #e8f5e9; /* ירוק בהיר מאוד */
+  color: #2e7d32; /* ירוק כהה */
 }
 
-.family-link:hover {
-    background-color: #f0f0f0;
+/* --- עיצוב אזור המשתמש (התיקון שביקשת) --- */
+.user-profile-section {
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa; /* רקע אפור בהיר מאוד */
+  padding: 5px 5px 5px 5px; /* פדינג אסימטרי */
+  border-radius: 50px; /* צורת "גלולה" */
+  border: 1px solid #eaeaea;
+  gap: 40px;
 }
 
-.link-icon {
-    font-family: "Calibri Light", "Calibri", sans-serif;
-    margin-right: 6px;
+.user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
 }
 
+.welcome-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
+.user-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #2c3e50;
+}
 
+.logout-btn {
+  background-color: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 50%; /* כפתור עגול */
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #e74c3c; /* צבע אדום ליציאה */
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
 
+.logout-btn:hover {
+  background-color: #e74c3c;
+  color: white;
+  transform: rotate(90deg); /* אפקט סיבוב נחמד בהובר */
+}
+
+/* --- כפתורי התחברות/הרשמה --- */
+.auth-links {
+  display: flex;
+  gap: 10px;
+}
+
+.auth-btn {
+  text-decoration: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.3s;
+  color: #555;
+}
+
+.auth-btn.login {
+  color: #2e7d32;
+  background-color: #e8f5e9;
+}
+
+.auth-btn:hover {
+  background-color: #eee;
+}
+
+.auth-btn.active {
+  background-color: #2e7d32; /* הירוק של הלוגו שלך */
+  color: white;
+}
