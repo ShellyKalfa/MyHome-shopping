@@ -11,14 +11,12 @@ export default function TempShoppingList({ items, isTemp, setItems }) {
   // חישוב סכומים בכל פעם שהרשימה משתנה
   useEffect(() => {
     const calculateSummary = () => {
-      // מסננים רק פריטים שלא הושלמו (או כולם, תלוי בלוגיקה שלך)
-      // כאן הנחתי שרוצים לסכום את מה שצריך לקנות (completed === 0 או false)
-      const uncompletedItems = items.filter(item => !item.completed); 
-      
+      const uncompletedItems = items.filter(item => !item.completed);
+
       const total = uncompletedItems.reduce((sum, item) => {
         return sum + (item.price * item.quantity);
       }, 0);
-      
+
       setTotalPrice(total);
     };
 
@@ -49,7 +47,7 @@ export default function TempShoppingList({ items, isTemp, setItems }) {
 
   // קיבוץ לפי מחלקות
   const groupedItems = items.reduce((groups, item) => {
-    const dept = item.department || 'לא מסווג'; 
+    const dept = item.department || 'השלמות'; 
     if (!groups[dept]) groups[dept] = [];
     groups[dept].push(item);
     return groups;

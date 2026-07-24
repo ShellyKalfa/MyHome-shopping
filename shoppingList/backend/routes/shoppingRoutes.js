@@ -116,6 +116,28 @@ router.post('/item/:listId', (req, res) => {
   );
 });
 
+router.delete('/deleteShoppingFamily/:listId', (req, res) => {
+  const { listId } = req.params;
+
+  db.query('DELETE FROM item WHERE listId = ?', [listId], (err) => {
+    if (err) {
+      console.error("Delete items Failed:", err);
+      return res.status(500).json({ success: false, message: 'Failed to delete items' });
+    }
+
+    db.query('DELETE FROM shoppingList WHERE listId = ?', [listId], (err2, result) => {
+      if (err2) {
+        console.error("Delete shoppingList Failed:", err2);
+        return res.status(500).json({ success: false, message: 'Failed to delete shopping list' });
+      }
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ success: false, message: 'Shopping list not found' });
+      }
+      res.json({ success: true, message: 'Shopping list deleted successfully' });
+    });
+  });
+});
+
 router.post('/search', async (req, res) => {
   try {
     const response = await axios.post('https://www.rami-levy.co.il/api/catalog?', req.body, {

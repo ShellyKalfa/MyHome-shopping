@@ -11,7 +11,7 @@ import { AiOutlineClose, AiOutlineDoubleLeft } from "react-icons/ai";
 import { FaBoxOpen } from "react-icons/fa"; // אייקון למוצרים בבית
 
 // API
-import { createShoppingFamily, getShoppingFamily } from '../api/shopping';
+import { createShoppingFamily, getShoppingFamily, deleteShoppingFamily } from '../api/shopping';
 
 export default function ShoppingListPage({ user, familysApp, selectedFamilyId, selectedShoppingId, setSelectedShoppingId }) {
     const [shoppingFamily, setShoppingFamily] = useState([]);
@@ -48,6 +48,18 @@ export default function ShoppingListPage({ user, familysApp, selectedFamilyId, s
             setClose(true);
         }
     }, [selectedFamilyId, user, familysApp]);
+
+    const handleDeleteFamily = async (listId) => {
+        try {
+            await deleteShoppingFamily(listId);
+            setShoppingFamily(prev => prev.filter(shopping => shopping.listId !== listId));
+            if (selectedShoppingId === listId) {
+                setSelectedShoppingId(null);
+            }
+        } catch (error) {
+            console.error('Error deleting shopping list:', error);
+        }
+    };
 
     const handleCreateShoppingFamily = async () => {
         if (!newShoppingFamilyName.trim()) return;
@@ -92,11 +104,12 @@ export default function ShoppingListPage({ user, familysApp, selectedFamilyId, s
 
                     <div className="lists-container">
                         {shoppingFamily.map((shopping, index) => (
-                            <ItemShoppingListPage 
+                            <ItemShoppingListPage
                                 key={index}
                                 shopping={shopping}
                                 handleSelectedShoppingId={handleSelectedShoppingId}
-                                choose={selectedShoppingId === shopping.listId} 
+                                handleDeleteFamily={handleDeleteFamily}
+                                choose={selectedShoppingId === shopping.listId}
                             />
                         ))}
                     </div>
