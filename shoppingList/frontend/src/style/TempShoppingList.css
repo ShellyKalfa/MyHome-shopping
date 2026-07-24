@@ -24,12 +24,21 @@
   z-index: 10;
 }
 
+<<<<<<< HEAD
 .shoppingListTitle {
   font-size: 2rem;
   margin: 0;
   color: #2D3748;
   text-align: center;
   font-weight: 700;
+=======
+.flex {
+    width: 100%;
+    /* height: 100%; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+>>>>>>> whatsapp1
 }
 
 /* --- איזור הגלילה (הרשימה) --- */
@@ -44,6 +53,7 @@
   width: 6px;
 }
 
+<<<<<<< HEAD
 .scrollable-area::-webkit-scrollbar-track {
   background: #f1f1f1; 
 }
@@ -93,6 +103,21 @@
 }
 
 /* שורת פריט בודד */
+=======
+.scrollable {
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.ff{
+     width: 70%; 
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     margin-top: 2vh;
+  }
+
+>>>>>>> whatsapp1
 .ItemShoppingList {
   display: flex; /* שיניתי מ-grid ל-flex כי זה יותר גמיש */
   align-items: center;
@@ -106,10 +131,130 @@
   background-color: #fafafa;
 }
 
+<<<<<<< HEAD
 .item-left-side {
   display: flex;
   align-items: center;
   gap: 12px;
+=======
+.priceItem {
+
+    font-size: 1rem;
+    text-align: center;
+    /* color: wheat;
+    border-radius: 3vw; */
+    grid-column: 2;
+    grid-row: 3;
+}
+
+.departmentItem {
+
+    font-size: 1rem;
+    text-align: center;
+    /* color: wheat;
+    border-radius: 3vw; */
+    grid-column: 2;
+    grid-row: 4;
+}
+
+.header-row {
+    display: flex;
+    justify-content: center; /* מרכז את הכותרת */
+    position: relative;
+}
+
+.shoppingListTitle {
+    font-family: "Calibri Light", "Calibri", sans-serif;
+    text-align: center;
+    width: 100%;
+    font-size: 2em;
+    margin: 0;
+}
+
+.total-amount {
+    font-family: "Calibri Light", "Calibri", sans-serif;
+    margin-right: auto;
+    font-size: 25px;
+    text-align: left;
+    align-self: flex-end;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    width: 100%;
+    height: 5%;
+}
+
+.dateItem {
+    font-size: 1rem;
+    text-align: center;
+    /* color: wheat;
+    border-radius: 3vw; */
+    grid-column: 2;
+    grid-row: 5;
+}
+
+.circle {
+    grid-column: 1;
+    /* grid-row: 1 /2; */
+    grid-row-start: 1;
+    grid-row-end: 3;
+    display: flex;
+    align-items: center;
+
+}
+
+.itemText {
+    grid-column: 2;
+    grid-row: 1;
+    direction: rtl;
+}
+
+.listItem {
+    display: grid;
+    grid-column: 2;
+}
+
+.uncheck {
+    color: #414848;
+}
+
+.bigButton {
+    background-color: #45b081;
+    color: white;
+    width: 90%;
+    height: 5vh;
+    font-size: 1.6em;
+    font-weight: bold;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.crossText {
+    text-decoration: line-through;
+}
+
+.scrollable {
+  /* height: 300px;  */
+  overflow-y: auto; 
+  /* border: 1px solid #ccc; */
+  padding: 10px; 
+}
+
+.image {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    width: 50px;
+    height: 'auto';
+}
+.imageList {
+    width: 70px;
+    grid-column: 3;
+>>>>>>> whatsapp1
 }
 
 .productName {
@@ -118,6 +263,7 @@
   color: #2D3748;
 }
 
+<<<<<<< HEAD
 .item-meta {
   display: flex;
   gap: 10px;
@@ -129,4 +275,8 @@
 .completed-item .productName {
   text-decoration: line-through;
   color: #cbd5e0;
+=======
+.deleteEdit{
+    grid-column: 4;
+>>>>>>> whatsapp1
 }

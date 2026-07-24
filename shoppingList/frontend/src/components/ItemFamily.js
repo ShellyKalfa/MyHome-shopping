@@ -3,8 +3,24 @@ import { PiUserListFill } from "react-icons/pi";
 import { BsTrash } from "react-icons/bs";
 import '../style/ItemFamily.css'; 
 
+// componnent of Item Family
 export default function ItemFamily({ family, handleGetFamilyMembers, handleDeleteFamily, choose }) {
+<<<<<<< HEAD
 
+=======
+    /**
+     * when click on family bring all the famliy members 
+     */
+    const handleClick = () => {
+        handleGetFamilyMembers(family.familyId);
+    };
+    /**
+     * when click delete family - only admin can 
+     */
+    const handleDelete = () => {
+        handleDeleteFamily(family.familyId);
+    };
+>>>>>>> whatsapp1
     return (
         <div className={`ItemFamily-container ${choose ? 'selected' : ''}`}>
             

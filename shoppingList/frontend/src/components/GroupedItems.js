@@ -23,7 +23,6 @@ export default function GroupedItems({ groupedItems, deleteItem, updateItem }) {
 
     renderedGroups.push(
       <div key={department} className="department-group">
-        <h2 className="department-subtitle">{department}</h2>
         {itemComponents}
       </div>
     );

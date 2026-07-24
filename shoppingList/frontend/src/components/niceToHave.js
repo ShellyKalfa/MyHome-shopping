@@ -44,6 +44,84 @@
 //     }
 //   });
 // });
+///////////////////////ido ///////////////////////
+    /*
+    this is ido's old version before omer's redesign
+    return (
+        <div className="ItemShoppingList">
+            <div onClick={toggleCompleted}>
+                {item.completed ? <MdCheckCircle /> : <ImRadioUnchecked />}
+            </div>
+
+            <div className="listItem">
+                <div className={`itemText ${item.completed ? 'crossText' : ''}`} dir="auto">
+                    {isEdit ? (
+                        <div className="autocomplete-wrapper">
+                            <input
+                                value={newItem}
+                                onChange={handleAutoComplete}
+                                placeholder="עדכון מוצר"
+                            />
+                            {(suggestions.length > 0 && newItem.length > 1 &&
+                                newItem.trim().toLowerCase() !== item.itemName.trim().toLowerCase()) ? (
+                                <ul className="autocomplete-list  listEdit">
+                                    {suggestions.map((product, idx) => (
+                                        <li key={idx} onClick={() => handleOnClick(product)}>
+                                            <div className="productName">{product.productName}</div>
+                                            <img className="image"
+                                                src={`https://img.rami-levy.co.il${product.productImage}`}
+                                                alt="failed to present image"
+                                            />
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : null}
+                        </div>
+                    ) : (
+                        item.itemName
+                    )}
+                </div>
+
+
+
+                <div className="amountItem">
+                    {isAmountEdit ? (
+                        <div className="amountEditWrapper">
+                            <input
+                                type="number"
+                                value={newAmount}
+                                onChange={(e) => setNewAmount(e.target.value)}
+                                placeholder="Enter amount"
+                                className="amountInput"
+                            />
+                            <ImCheckmark onClick={amountSave} />
+                        </div>
+                    ) : (
+                        <>
+                            כמות: {item.quantity} <MdEdit onClick={amountEdit} />
+                        </>
+                    )}
+                </div>
+                <div className="priceItem">
+                    מחיר: {itemPriceAPI} ({(itemPriceAPI * newAmount).toFixed(2)}₪)
+                </div>
+                <div className="departmentItem">
+                    מחלקה: {itemDepartment}
+                </div>
+            </div>
+            <img
+                src={itemImage ? `https://img.rami-levy.co.il${itemImage}` : `https://img.rami-levy.co.il${item.image}`}
+                alt=""
+                className="image imageList"
+            />
+
+            <div className="deleteEdit">
+                {isEdit ? <ImCheckmark onClick={onSave} /> : <MdEdit onClick={onEdit} />}
+                <div onClick={onDelete}><BsTrash /></div>
+            </div>
+        </div>
+    );
+    * */
 
 
 ///////////////////////////////////////////

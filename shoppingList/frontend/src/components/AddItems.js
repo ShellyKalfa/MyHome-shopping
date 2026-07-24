@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from 'axios';
 
+// API_BASE the server location
 const API_BASE = 'http://localhost:5000/Shopping';
 
+//the componet add items to the shopping list in the shopping 
 function AddItem({ items, setItems, listId }) {
     const [itemNameAPI, setItemNameAPI] = useState("");
     const [itemPriceAPI, setItemPriceAPI] = useState("");
@@ -95,7 +97,12 @@ function AddItem({ items, setItems, listId }) {
         setSuggestions([]); // סוגר את הרשימה
     };
 
+<<<<<<< HEAD
     const resetSelection = () => {
+=======
+    }
+    const handleOnClickCancel = () => {
+>>>>>>> whatsapp1
         setItemNameAPI("");
         setItemPriceAPI("");
         setImage("");
@@ -158,10 +165,18 @@ function AddItem({ items, setItems, listId }) {
                 />
             </div>
 
+<<<<<<< HEAD
             {/* 4. כפתורים */}
             <div className="action-btn-group">
                 <button className="btn-secondary" onClick={resetForm}>נקה</button>
                 <button className="btn-primary" onClick={addItem}>הוסף לסל</button>
+=======
+
+
+            <div className="topButton">
+                <button className="buttonAddItems" onClick={addItem}> שמור  </button>
+                <button className="buttonAddItems" onClick={() => handleOnClickCancel()}> ביטול     </button>
+>>>>>>> whatsapp1
             </div>
         </div>
         <div>

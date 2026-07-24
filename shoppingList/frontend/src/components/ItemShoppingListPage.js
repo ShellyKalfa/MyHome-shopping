@@ -2,6 +2,7 @@ import React from 'react';
 // Styles
 import { RiListCheck3 } from "react-icons/ri";
 import { BsTrash } from "react-icons/bs";
+<<<<<<< HEAD
 import '../style/ItemShoppingListPage.css'; // Ensure you have a separate CSS file for items
 
 export default function ItemShoppingListPage({ shopping, handleSelectedShoppingId, handleDeleteFamily, choose }) {
@@ -30,6 +31,29 @@ export default function ItemShoppingListPage({ shopping, handleSelectedShoppingI
             <button className="delete-action-btn" onClick={handleDelete} title="Delete List">
                 <BsTrash />
             </button>
+=======
+
+// componnet of the side menu that hold the shopping listts 
+export default function ItemShoppingListPage({ shopping, handleSelectedShoppingId, handleDeleteFamily, choose }) {
+
+  // on click on shopping list item open the shoping list 
+  const handleClick = () => {
+    handleSelectedShoppingId(shopping.listId, shopping.listName);
+  };
+
+  // delete shopping list item from family 
+  const handleDelete = () => {
+    handleDeleteFamily(shopping.listId);
+  };
+  return (
+    <>
+      <div className={choose ? 'ItemFamily Chosen' : 'ItemFamily'}  >
+        <div>
+          <div className="iconText" onClick={handleClick} >
+            <RiListCheck3 />
+            {shopping.listName}
+          </div>
+>>>>>>> whatsapp1
         </div>
     );
 };

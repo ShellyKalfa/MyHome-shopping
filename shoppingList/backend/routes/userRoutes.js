@@ -38,6 +38,8 @@ router.post('/login', (req, res) => {
   });
 });
 
+
+// sign up users by email and password and name route 
 router.post('/signup', async (req, res) => {
   const { name, email, password } = req.body;
 

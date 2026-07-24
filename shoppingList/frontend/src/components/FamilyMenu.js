@@ -5,6 +5,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FiChevronDown, FiChevronUp, FiUsers } from "react-icons/fi";
 import '../style/FamilysMenu.css';
 
+<<<<<<< HEAD
+=======
+//drop down Family Menu
+>>>>>>> whatsapp1
 export default function FamilyMenu({ familysApp, selectedFamilyId }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null); // משמש לסגירה כשלוחצים בחוץ
@@ -16,6 +20,7 @@ export default function FamilyMenu({ familysApp, selectedFamilyId }) {
     selectedFamilyId(familyId);
   };
 
+<<<<<<< HEAD
   // סגירת התפריט בלחיצה מחוץ לקומפוננטה (UX בסיסי)
   useEffect(() => {
     function handleClickOutside(event) {
@@ -28,6 +33,16 @@ export default function FamilyMenu({ familysApp, selectedFamilyId }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownRef]);
+=======
+  return (
+    <div className="familysMenu">
+      <div
+        onClick={toggleMenu}
+        className={`menuTrigger ${isOpen ? "active" : ""}`}
+      >
+        מאגר הקניות המשפחתי<AiOutlineMenu />
+      </div>
+>>>>>>> whatsapp1
 
   return (
     <div className="family-menu-container" ref={dropdownRef}>
@@ -46,6 +61,7 @@ export default function FamilyMenu({ familysApp, selectedFamilyId }) {
 
       {/* התפריט הנפתח */}
       {isOpen && (
+<<<<<<< HEAD
         <div className="dropdown-menu">
           {familysApp && familysApp.length > 0 ? (
             familysApp.map((f, index) => (
@@ -60,6 +76,16 @@ export default function FamilyMenu({ familysApp, selectedFamilyId }) {
           ) : (
             <div className="dropdown-item empty">
               אין משפחות זמינות
+=======
+        <div className="dropdownMenu">
+          {familysApp.map((f, index) => (
+            <div
+              key={index}
+              className="dropdownItem"
+              onClick={() => handleFamilyClick(f.familyId)}
+            >
+              {f.familyName}
+>>>>>>> whatsapp1
             </div>
           )}
         </div>

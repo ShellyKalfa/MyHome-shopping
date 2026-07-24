@@ -27,6 +27,7 @@
     overflow: hidden; /* שומר שהתוכן לא יגלוש מהפינות */
 }
 
+<<<<<<< HEAD
 .list-card {
     min-height: 600px; /* גובה מינימלי לרשימה */
     padding: 30px;
@@ -230,6 +231,18 @@
 }
 
 .empty-list {
+=======
+.scrollable {
+    /* height: 300px;  */
+    overflow-y: auto;
+    /* border: 1px solid #ccc; */
+    padding: 10px;
+    direction: rtl;
+}
+
+.grid-title {
+    grid-column: 1 / -1; /* מתפרס על כל העמודות */
+>>>>>>> whatsapp1
     text-align: center;
     color: #a0aec0;
     font-size: 18px;
@@ -237,10 +250,21 @@
 }
 
 .cards-container {
+<<<<<<< HEAD
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
+=======
+    max-height: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* or flex-start */
+    gap: 2rem;
+    margin-top: 2rem;
+    overflow-y: auto;
+>>>>>>> whatsapp1
 }
+
 
 .item-card {
     background: white;

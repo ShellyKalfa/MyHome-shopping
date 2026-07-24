@@ -20,6 +20,7 @@ const App = () => {
   const [familysApp, setFamilysApp] = useState([])
   const [selectedFamilyId, setSelectedFamilyId] = useState('');
   const [selectedShoppingId, setSelectedShoppingId] = useState('');
+  const [listName, setListName] = useState("");
 
 
   const logOut = () => {
@@ -56,14 +57,15 @@ const App = () => {
         <Route path="/Login" element={<Login setUser={setUser} />} />
         <Route path="/Signup" element={<Signup setUser={setUser} />} />
         <Route path="/CreateFamily" element={<CreateFamily User={user} setFamilysApp={setFamilysApp} />} />
-        <Route path="/ShoppingListFile" element={<ShoppingListFile User={user} selectedShoppingId={selectedShoppingId} />} />
+        <Route path="/ShoppingListFile" element={<ShoppingListFile user={user} setUser={setUser} selectedShoppingId={selectedShoppingId} listName={listName} />} />
         <Route path="/onHand" element={<ShoppingListonHand selectedFamilyId={selectedFamilyId} />} />
       </Routes>
       <ShoppingListPage user={user}
         familysApp={familysApp}
         selectedFamilyId={selectedFamilyId}
         selectedShoppingId={selectedShoppingId}
-        setSelectedShoppingId={setSelectedShoppingId} />
+        setSelectedShoppingId={setSelectedShoppingId}
+        setListName={setListName} />
 
     </div>
   );

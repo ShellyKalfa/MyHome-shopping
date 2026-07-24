@@ -15,6 +15,7 @@
   border-radius: 8px; /* פינות עגולות */
   cursor: pointer;
   display: flex;
+<<<<<<< HEAD
   align-items: center;
   justify-content: space-between;
   gap: 10px;
@@ -22,6 +23,9 @@
   font-weight: 500;
   transition: all 0.2s ease;
   min-width: 200px; /* רוחב מינימלי יפה */
+=======
+  font-size: 22px;
+>>>>>>> whatsapp1
 }
 
 /* הופר ואקטיב - הופך לירוק שלנו */
