@@ -11,22 +11,25 @@ import { AiOutlineClose, AiOutlineDoubleLeft } from "react-icons/ai";
 import { FaBoxOpen } from "react-icons/fa"; // אייקון למוצרים בבית
 
 // API
-import { createShoppingFamily, getShoppingFamily, deleteShoppingFamily } from '../api/shopping';
+import {
+    createShoppingList
+} from '../api/family';
 
-export default function ShoppingListPage({ user, familysApp, selectedFamilyId, selectedShoppingId, setSelectedShoppingId }) {
-    const [shoppingFamily, setShoppingFamily] = useState([]);
-    const [newShoppingFamilyName, setNewShoppingFamilyName] = useState('');
-    const [close, setClose] = useState(true);
-    
-    // מציאת שם המשפחה הנבחרת
+// componnet of the side menu that hold the shopping listts 
+export default function ShoppingListPage({ user, familysApp, selectedFamilyId, selectedShoppingId, setSelectedShoppingId, setListName }) {
+    const [shoppingFamily, setShoppingFamily] = useState([])
+    const [newShoppingFamilyName, setNewShoppingFamilyName] = useState('')
+    const [close, setClose] = useState(true)
     const selectedFamily = familysApp.find(family => family.familyId === selectedFamilyId);
     const [selectedFamilyName, setSelectedFamilyName] = useState(selectedFamily ? selectedFamily.familyName : '');
     
     const navigate = useNavigate();
 
-    const handleSelectedShoppingId = (ShoppingId) => {
-        setSelectedShoppingId(ShoppingId);
-        setClose(true); // סוגר את התפריט כשבוחרים רשימה
+    //  Selected Shopping list to update 
+    const handleSelectedShoppingId = (ShoppingId, ShoppingName) => {
+        setSelectedShoppingId(ShoppingId)
+        setListName(ShoppingName)
+        setClose(true)
         navigate('/ShoppingListFile', { replace: true });
     };
 
@@ -49,18 +52,7 @@ export default function ShoppingListPage({ user, familysApp, selectedFamilyId, s
         }
     }, [selectedFamilyId, user, familysApp]);
 
-    const handleDeleteFamily = async (listId) => {
-        try {
-            await deleteShoppingFamily(listId);
-            setShoppingFamily(prev => prev.filter(shopping => shopping.listId !== listId));
-            if (selectedShoppingId === listId) {
-                setSelectedShoppingId(null);
-            }
-        } catch (error) {
-            console.error('Error deleting shopping list:', error);
-        }
-    };
-
+    //CreateShopping list by the Family id 
     const handleCreateShoppingFamily = async () => {
         if (!newShoppingFamilyName.trim()) return;
 
@@ -102,20 +94,24 @@ export default function ShoppingListPage({ user, familysApp, selectedFamilyId, s
                         </div>
                     </div>
 
-                    <div className="lists-container">
-                        {shoppingFamily.map((shopping, index) => (
-                            <ItemShoppingListPage
-                                key={index}
-                                shopping={shopping}
-                                handleSelectedShoppingId={handleSelectedShoppingId}
-                                handleDeleteFamily={handleDeleteFamily}
-                                choose={selectedShoppingId === shopping.listId}
-                            />
-                        ))}
-                    </div>
+                    {!close ? (
+                        <div>
+                            {shoppingFamily.map((shopping, index) => (
+                                < ItemShoppingListPage key={index}
+                                    shopping={shopping}
+                                    handleSelectedShoppingId={handleSelectedShoppingId}
+                                    choose={selectedShoppingId === shopping.listId} />
 
-                    <button className="onHandButton" onClick={() => navigate('/onHand')}>
-                        <FaBoxOpen /> View On Hand
+                            ))}
+                        </div>
+                    ) : (
+                        <div></div>
+                    )
+                    }
+                    <button className="onHandButton" onClick={() => {
+                        navigate('/onHand'); setClose(true);
+                    }}>
+                        View On Hand Item
                     </button>
                 </div>
             )}

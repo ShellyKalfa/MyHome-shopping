@@ -4,7 +4,7 @@ import axios from 'axios';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import '../style/Signup.css'; // וודא שהקובץ הזה קיים עם ה-CSS ששלחתי קודם
-
+// commponet of the Sign up to the web page 
 export default function Signup({ setUser }) {
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
@@ -19,6 +19,7 @@ export default function Signup({ setUser }) {
     // שיניתי מעט את ה-Regex כדי שיקבל גם סיומות אחרות חוץ מ-.com (כמו .co.il)
     const EMAIL_TEMPLATE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
 
+    // check the template and unfiled inputs 
     const validateAndSubmit = (event) => {
         event.preventDefault();
         setError('');
@@ -196,6 +197,92 @@ export default function Signup({ setUser }) {
 
                 </div>
             </div>
+    return (
+        <div className="bordLogin top">
+            <h2>Sign up to</h2>
+            <h2>start shopping</h2>
+            <form onSubmit={validateAndSubmit}>
+                <div className="top">
+                    <h3>Full Name</h3>
+                    <input
+                        className="LogInInput"
+                        value={fullName}
+                        onChange={(e) => {
+                            setFullName(e.target.value);
+                            setError('');
+                        }}
+                    />
+                </div>
+                <div>
+                    <h3>Email address</h3>
+                    <input
+                        className="LogInInput"
+                        value={email}
+                        onChange={(e) => {
+                            setEmail(e.target.value);
+                            setError('');
+                        }}
+                    />
+                </div>
+                <div>
+                    <h3>Password</h3>
+                    <div style={{ position: 'relative', width: '100%' }}>
+                        <input
+                            className="LogInInput"
+                            type="text"
+                            value={showPassword ? password : displayPassword}
+                            onChange={handlePasswordChange}
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            className="hidePasswordBottom"
+                        >
+                            {showPassword ? 'Hide' : 'Show'}
+                        </button>
+                    </div>
+                </div>
+
+                {error && (<p style={{ color: 'red', whiteSpace: 'pre-line', fontSize: '1.2rem' }}>{error}</p>)}
+
+                <button className="LogInbutton" type="submit">
+                    Sign up
+                </button>
+
+                <div className="flexDiv">
+                    <h3>Have an account? </h3>
+                    <Link to="/Login" style={{ color: "Blue" }} className="bolder Link">
+                        Log in
+                    </Link>
+                </div>
+                <div className='separator'>
+                    <div className="line"></div>
+                    <span>or</span>
+                    <div className="line"></div>
+                </div>
+                <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                        axios.post('http://localhost:5000/users/google-login', {
+                            token: credentialResponse.credential
+                        })
+                            .then(res => {
+                                if (res.data.success && res.data.user) {
+                                    setUser(res.data.user);
+                                    navigate('/CreateFamily');
+                                } else {
+                                    setError('Google login failed.');
+                                }
+                            })
+                            .catch(() => {
+                                setError('Server error. Please try again later.');
+                            });
+                    }}
+
+                    onError={() => {
+                        setError("Google login failed.");
+                    }}
+                />
+            </form>
         </div>
     );
 }

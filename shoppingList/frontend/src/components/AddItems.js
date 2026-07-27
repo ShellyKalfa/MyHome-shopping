@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from 'axios';
 
+// API_BASE the server location
 const API_BASE = 'http://localhost:5000/Shopping';
 
+//the componet add items to the shopping list in the shopping 
 function AddItem({ items, setItems, listId }) {
     const [itemNameAPI, setItemNameAPI] = useState("");
     const [itemPriceAPI, setItemPriceAPI] = useState("");

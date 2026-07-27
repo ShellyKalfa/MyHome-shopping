@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import "../style/ShoppingList.css";
 import TempShoppingList from "./TempShoppingList";
 import AddItem from "./AddItems";
+import WhatsAppSend from './WhatsAppSend';
 
 const API_BASE = 'http://localhost:5000';
 
-export default function ShoppingList({ selectedShoppingId }) {
-  const [items, setItems] = useState([]);
+//componnet of the shopping list hold the data of the selected Shopping list
+export default function ShoppingList({ selectedShoppingId, listName, user, setUser }) {
+  // State to hold all items from the backend
+  const [items, setItems] = useState([])
   const [listId, setListId] = useState(selectedShoppingId);
+
 
   useEffect(() => {
     setListId(selectedShoppingId);
@@ -22,32 +26,23 @@ export default function ShoppingList({ selectedShoppingId }) {
   }, [listId]);
 
   return (
-    <div className="shopping-page-container">
-      <div className="shopping-grid-layout">
-        
-        {/* עמודה ימנית גדולה - הרשימה עצמה */}
-        <div className="white-card">
-            <div className="card-header-title">רשימת קניות</div>
-            <TempShoppingList 
-                items={items}
-                setItems={setItems}
-                isTemp={false} 
-            />
-        </div>
-
-        {/* עמודה שמאלית צרה - טופס הוספה */}
-        <div style={{ position: 'sticky', top: '20px' }}>
-            <div className="white-card">
-                <div className="card-header-title">הוספת מוצר</div>
-                <AddItem 
-                    setItems={setItems}
-                    items={items}
-                    listId={listId} 
-                />
-            </div>
-        </div>
-
+    <div className="shoppingListBord">
+      <div className="boardSizeShoppingList">
+        <TempShoppingList items={items}
+          setItems={setItems}
+          isTemp={false}
+          listName={listName}
+          user={user}
+        />
+        <WhatsAppSend isTemp={false}
+          items={items}
+          user={user}
+          setUser={setUser} />
       </div>
+      <AddItem setItems={setItems}
+        items={items}
+        listId={listId} />
+
     </div>
   );
 }

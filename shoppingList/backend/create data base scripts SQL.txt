@@ -1,0 +1,98 @@
+CREATE TABLE users (
+  email VARCHAR(255) NOT NULL,
+  userName VARCHAR(100) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  userId INT(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (email)
+);
+?????????????
+CREATE TABLE users (
+  userId INT(11) NOT NULL AUTO_INCREMENT,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  userName VARCHAR(100) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  PRIMARY KEY (userId)
+);
+//////////////////////////////////////////////////////////////
+
+CREATE TABLE `family` (
+    `familyId` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `familyName` VARCHAR(100) NOT NULL
+);
+
+///////////////////////////////////////////////////
+
+
+CREATE TABLE `memberFamily` (
+    `userId` INT NOT NULL,
+    `familyId` INT NOT NULL,
+    `role` VARCHAR(50),
+
+    PRIMARY KEY (`userId`, `familyId`),
+
+    FOREIGN KEY (`userId`) REFERENCES `users`(`userId`),
+    FOREIGN KEY (`familyId`) REFERENCES `family`(`familyId`)
+);
+//////////////////////////////////////////////////
+
+
+-- Table: shoppingList
+CREATE TABLE `shoppingList` (
+    `listId` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `familyId` INT NOT NULL,
+    `listName` VARCHAR(100),
+    `createdAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`familyId`) REFERENCES `family`(`familyId`)
+        ON DELETE CASCADE
+);
+
+-- Table: item
+CREATE TABLE `item` (
+    `itemId` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `listId` INT NOT NULL,
+    `itemName` VARCHAR(100) NOT NULL,
+    `quantity` INT DEFAULT 1,
+    `price` DECIMAL(10, 2) DEFAULT 0.00,
+    FOREIGN KEY (`listId`) REFERENCES `shoppingList`(`listId`)
+        ON DELETE CASCADE
+);
+////////////////////////////////////////////////////
+-- Table: item
+CREATE TABLE `item` (
+    `itemId` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `listId` INT NOT NULL,
+    `itemName` VARCHAR(100) NOT NULL,
+    `quantity` INT DEFAULT 1,
+    `price` DECIMAL(10, 2) DEFAULT 0.00,
+    `completed` BOOLEAN DEFAULT 0,  -- 0 = FALSE, 1 = TRUE
+    FOREIGN KEY (`listId`) REFERENCES `shoppingList`(`listId`)
+        ON DELETE CASCADE
+////////////////////////////////////////////
+ALTER TABLE users
+ADD COLUMN phone VARCHAR(20);
+///////////////////////////////////////////////
+ALTER TABLE item ADD department VARCHAR(100) NOT NULL DEFAULT 'כללי' AFTER completed;
+///////////////////////
+ALTER TABLE item ADD image VARCHAR(100) ;
+//////////////////////////////////
+ALTER TABLE `item`
+ADD COLUMN `approved` BOOLEAN DEFAULT 0
+//////////////////////////////////////////////////////////////////////
+
+-- Fix typo: "manger" → "admin"
+UPDATE memberFamily SET role = 'admin' WHERE role = 'manger';
+
+-- Convert "user" and any other non-admin role → "member"
+UPDATE memberFamily SET role = 'member' WHERE role NOT IN ('admin', 'member');
+
+
+
+
+/////////////////////////////////////////dont use /////////////
+
+ALTER TABLE `item` ADD COLUMN `addedByUser` BOOLEAN DEFAULT 0; 
+
+
+ALTER TABLE `item`
+DROP COLUMN `addedByUser`;
+///////////////////////////////////

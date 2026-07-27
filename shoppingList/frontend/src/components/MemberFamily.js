@@ -4,10 +4,11 @@ import { BsTrash } from "react-icons/bs";
 import '../style/MemberFamily.css'; 
 
 const Roles = {
-  MANAGER: "admin",
-  CHILD: "user"
+      MANAGER: "admin",
+      CHILD: "user"
 }
 
+// commponts of the fammliy members 
 export default function MemberFamily({ MemberFamily, handleDeleteFamilyMember, handleUpdateFamilyMember, manager }) {
       return (
             <div className="member-row">

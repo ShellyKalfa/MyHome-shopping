@@ -8,6 +8,7 @@ import '../style/Login.css';
 // אפשר להוסיף אייקון אם תרצה
 // import { FiShoppingBag } from "react-icons/fi"; 
 
+// commponet of the log in to the web page 
 export default function Login({ setUser }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,9 +18,11 @@ export default function Login({ setUser }) {
 
     const EMAIL_TEMPLATE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    //Log in with user email and password also check the template and unfiled inputs 
     const handleLogin = (event) => {
         event.preventDefault();
         setError('');
+        console.log("email, password", email, password);
 
         if (!email || !password) {
             setError('Please fill in both fields.');
@@ -31,6 +34,8 @@ export default function Login({ setUser }) {
             return;
         }
         
+        
+        // Send login request
         axios.post('http://localhost:5000/users/login', { email, password })
             .then(res => {
                 if (res.data.success && res.data.user) {

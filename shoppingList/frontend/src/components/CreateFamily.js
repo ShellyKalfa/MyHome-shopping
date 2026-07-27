@@ -21,8 +21,8 @@ import {
 // Styles
 import '../style/CreateFamily.css';
 
+//the componet Family and Create Family 
 export default function CreateFamily({ User, setFamilysApp }) {
-    // ... (כל הלוגיקה נשארת זהה לחלוטין - מעתיק רק את ה-Return) ...
     const [families, setFamilies] = useState([]);
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyId, setSelectedFamilyId] = useState('');
@@ -41,8 +41,13 @@ export default function CreateFamily({ User, setFamilysApp }) {
 
     useEffect(() => {
         setFamilysApp(families)
+        setFamilysApp(families)
     }, [families]);
 
+
+    /*
+    *load Families by user,load Families by the search that user in famliy member
+    */
     const loadUserFamilies = async () => {
         try {
             const res = await getUserFamilies(User.userId);
@@ -54,6 +59,10 @@ export default function CreateFamily({ User, setFamilysApp }) {
         }
     };
 
+
+    /*
+    *Create Family by user
+    */
     const handleCreateFamily = async () => {
         if (!newFamilyName.trim()) return;
         try {
@@ -69,18 +78,27 @@ export default function CreateFamily({ User, setFamilysApp }) {
         }
     };
 
+    /*
+    *handle Select Family - when select family , bring the family member by the famliy id 
+    */
     const handleSelectFamily = async (familyId) => {
         try {
             const res = await getFamilyMembers(familyId);
             if (res.data.success && Array.isArray(res.data.data)) {
                 setFamilyMembers(res.data.data);
+                
                 setSelectedFamilyId(familyId);
             }
         } catch (error) {
             console.error('Error fetching family members:', error);
         }
     };
-
+    /**
+     *Delete Family- admin can delete the Famliy 
+     * user cant
+     * @param {*} familyId 
+     * @returns 
+     */
     const handleDeleteFamily = async (familyId) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this family?');
         if (!confirmDelete) return;
@@ -95,6 +113,11 @@ export default function CreateFamily({ User, setFamilysApp }) {
             console.error('Error deleting family:', error);
         }
     };
+
+    /**
+     * Add Family Member - users and admins can add users to family
+     * 
+     */
 
     const handleAddFamilyMember = async () => {
         if (!newMemberEmail.trim()) return;
@@ -113,7 +136,12 @@ export default function CreateFamily({ User, setFamilysApp }) {
             console.error('Error adding member:', error);
         }
     };
-
+    /**
+     * Delete Family Member  - admin can delete Family Member
+     * that member will not be in the family , but will stil stay 
+     * @param {*} MemberFamilyId 
+     * @returns 
+     */
     const handleDeleteFamilyMember = async (MemberFamilyId) => {
         // ... הלוגיקה שלך נשארת ...
         const confirmDelete = window.confirm('Are you sure you want to delete this family Member?');
@@ -135,7 +163,10 @@ export default function CreateFamily({ User, setFamilysApp }) {
         }
     };
 
-
+    /**
+     * handleUpdateFamilyMember - admin can Update Family Member to be admin also 
+     * @param {*} MemberFamilyId 
+     */
     const handleUpdateFamilyMember = async (MemberFamilyId) => {
         let userId = MemberFamilyId;
         try {

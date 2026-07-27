@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+import WhatsAppSend from './WhatsAppSend';
+import ItemShoppingList from "./ItemShoppingList";
 import GroupedItems from './GroupedItems';
 import Typing from './Typing';
 import '../style/TempShoppingList.css'; // וודא שהשם תואם
 
 const API_BASE = 'http://localhost:5000';
 
-export default function TempShoppingList({ items, isTemp, setItems }) {
+export default function TempShoppingList({ items,isTemp,setItems,listName,user }) {
   const [totalPrice, setTotalPrice] = useState(0);
 
   // חישוב סכומים בכל פעם שהרשימה משתנה
@@ -45,6 +49,12 @@ export default function TempShoppingList({ items, isTemp, setItems }) {
     );
   };
 
+  // Group items by department
+  const groupedItems = items.reduce((groups, item , user) => {
+    const dept = item.department || 'לא מסווג'; 
+    if (!groups[dept]) {
+      groups[dept] = [];
+    }
   // קיבוץ לפי מחלקות
   const groupedItems = items.reduce((groups, item) => {
     const dept = item.department || 'השלמות'; 
@@ -59,12 +69,16 @@ export default function TempShoppingList({ items, isTemp, setItems }) {
         <h2 className='shoppingListTitle'>
           {isTemp
             ? <Typing text={['רשימת קניות', 'ערב פיצה 🍕', 'על האש בשבת 🥩', 'קניות לבית 🏠']} />
-            : 'רשימת קניות'}
+            : listName="" ? ' רשימת קניות ':listName}
         </h2>
       </div>
 
       <div className='board-content scrollable-area'>
         <GroupedItems
+
+        </div>
+        <div className='board-items scrollable'>
+                    <GroupedItems
             groupedItems={groupedItems}
             deleteItem={deleteItem}
             updateItem={updateItem}
@@ -75,6 +89,7 @@ export default function TempShoppingList({ items, isTemp, setItems }) {
         <div className="total-label">סה״כ לתשלום:</div>
         <div className="total-value">{totalPrice.toFixed(2)} ₪</div>
       </div>
-    </div>
+           
+   
   );
 }

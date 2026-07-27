@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FiChevronDown, FiChevronUp, FiUsers } from "react-icons/fi";
 import '../style/FamilysMenu.css';
 
+//drop down Family Menu
 export default function FamilyMenu({ familysApp, selectedFamilyId }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null); // משמש לסגירה כשלוחצים בחוץ
