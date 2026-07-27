@@ -229,9 +229,12 @@ export default function Signup({ setUser }) {
                     <div style={{ position: 'relative', width: '100%' }}>
                         <input
                             className="LogInInput"
-                            type="text"
-                            value={showPassword ? password : displayPassword}
-                            onChange={handlePasswordChange}
+                            type={showPassword ? 'text' : 'password'}
+                            value={password}
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                                setError('');
+                            }}
                         />
                         <button
                             type="button"
@@ -284,5 +287,6 @@ export default function Signup({ setUser }) {
                 />
             </form>
         </div>
+    </div>
     );
 }

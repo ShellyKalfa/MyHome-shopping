@@ -95,7 +95,7 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
     //rename Item
     const renameItem = async () => {
         const newName = newItem?.trim();
-        if (!newName) return onCancelEdit();
+        if (!newName) return setIsEdit(false);
 
         try {
             await fetch(`${API_BASE}/item/${item.itemId}/name`, {
@@ -124,7 +124,7 @@ export default function ItemShoppingList({ item, deleteItem, updateItem }) {
         }
 
         try {
-            await fetch(`${API_BASE}/item/${item.itemId}/quantity`, {
+            const res = await fetch(`${API_BASE}/item/${item.itemId}/quantity`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ quantity }),

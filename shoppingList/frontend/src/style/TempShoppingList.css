@@ -93,6 +93,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
 .total-amount {
     font-family: "Calibri Light", "Calibri", sans-serif;
     margin-right: auto;
@@ -164,6 +165,7 @@
 
 .ItemShoppingList:hover {
   background-color: #fafafa;
+}
 .crossText {
     text-decoration: line-through;
 }

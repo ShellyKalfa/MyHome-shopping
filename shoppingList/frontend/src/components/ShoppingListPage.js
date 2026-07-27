@@ -12,8 +12,9 @@ import { FaBoxOpen } from "react-icons/fa"; // אייקון למוצרים בב�
 
 // API
 import {
-    createShoppingList
-} from '../api/family';
+    getShoppingFamily,
+    createShoppingFamily
+} from '../api/shopping';
 
 // componnet of the side menu that hold the shopping listts 
 export default function ShoppingListPage({ user, familysApp, selectedFamilyId, selectedShoppingId, setSelectedShoppingId, setListName }) {
